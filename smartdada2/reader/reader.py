@@ -3,7 +3,7 @@ from typing import Union
 from typing import Optional
 from dataclasses import dataclass
 import pandas as pd
-import numpy as pd
+import numpy as np
 
 
 @dataclass(slots=True)
