@@ -25,27 +25,21 @@ class FastqReader:
     def __init__(
         self,
         fpath: str,
-        reversed: Optional[bool] = False,
+        reverse_seq: Optional[bool] = False,
         technology: Optional[str] = "illumina",
     ):
 
         # FastqReader accessible parameters
         self.fpath: str = fpath
-        self.reversed: bool = reversed
+        self.reversed: bool = reverse_seq
         self.technology: str = technology
-
-        # parameters that are not set
-        self.reads: Union[None, Iterable[FastqEntry]] = None
-
-        # executing setter function when initializing FastqReader
-        self.__set_reads()
 
     def get_quality_scores(self) -> pd.DataFrame:
         """Returns scores in a per sequence bases"""
 
         # converting to np.array
         all_scores = []
-        for entry in self.reads:
+        for entry in self.__loader():
             phred_scores = list(entry.scores)
             scores = [ord(phred_score) - 33 for phred_score in phred_scores]
             all_scores.append(scores)
@@ -55,75 +49,59 @@ class FastqReader:
 
     def get_average_score(self) -> pd.Series:
         """Returns average score of all sequences. Returns a a pd.Series object"""
-
         # get all scores df and take the average per column basis
         scores_df = self.get_quality_scores()
         average_score = scores_df.mean()
         return average_score
 
-    # setter function
-    def __set_reads(self) -> None:
-        """Reads fastq file and converts each entry into FastqEntry object,
-        which stores the header, sequence
+    def iter_reads(self):
+        """Returns a python generator containing FastqEntries"""
+        return self.__loader()
 
-        Returns
-        -------
-        None
-            Sets FastqReader attributes
-
-
-        Raises
-        ------
-        FileNotFoundError
-            raised if the provided fpath
-        ValueError
-            raised invalid files are passed
+    def to_list(self):
+        """Saves all lists into memory. Warning, large file sizes will use more
+        memory but increase iteration performance.
         """
-        # creating path object
-        fastq_path = Path(self.fpath)
+        return [read for read in self.__loader()]
 
-        # error handling
-        try:
-            if not fastq_path.is_file():
-                raise FileNotFoundError
-            elif not fastq_path.suffix == ".fastq":
-                raise ValueError
-        except FileNotFoundError as e:
-            e_name = f"{e.__class__.__name__}:"
-            e_msg = f"File path provided is invalid"
-            print(e_name, e_msg)
-            sys.exit(1)
-        except ValueError as e:
-            e_name = f"{e.__class__.__name__}:"
-            e_msg = f"Invalid file format provided. requires .fastq files"
-            print(e_name, e_msg)
-            sys.exit(1)
+    # ----------------------------------------
+    # private functions: users do not interact with this
+    # ----------------------------------------
+    def __loader(self):
+        """Creates a generator object that contains sequence read data as
+        FastqEntry object.
 
-        # reading in file
-        contents_chunk = []
-        fastq_entries = []
+        Parameters
+        ----------
+        """
 
-        # reading the fastq file
+        # iterate all row contents in fastq file
         with open(self.fpath, "r") as fastq_file:
-            for idx, line_cont in enumerate(fastq_file):
-                content = line_cont.rstrip("\n")
+
+            contents_chunk = []
+            for idx, row_entry in enumerate(fastq_file):
+
+                # cleaning entries
+                if row_entry == "":
+                    continue
+
+                content = row_entry.rstrip("\n")
                 contents_chunk.append(content)
 
                 # checking if there are 4 elements in the list
                 # -- 4 lines = 1 entry
                 if len(contents_chunk) == 4:
 
-                    # convert into FastqEntry and store it
-                    entry = FastqEntry(
+                    # convert into FastqEntry
+                    fastq_entry = FastqEntry(
                         header=contents_chunk[0],
                         seq=contents_chunk[1],
                         scores=contents_chunk[3],
                         length=len(contents_chunk[1]),
                     )
-                    fastq_entries.append(entry)
 
-                    # empty out list container
-                    contents_chunk.clear()
+                    # clear list
+                    contents_chunk = []
 
-        # setting class attributes
-        self.reads = fastq_entries
+                    # yield entry
+                    yield fastq_entry
