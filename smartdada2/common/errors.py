@@ -1,8 +1,6 @@
 # Base error classes
 class __BaseFormatError(Exception):
-    """ Captures any format related issues
-    """
-
+    """Captures any format related issues"""
 
 
 # Specific Exceptions

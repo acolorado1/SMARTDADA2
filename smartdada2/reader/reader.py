@@ -1,8 +1,7 @@
-import sy
+import sys
 from pathlib import Path
 from typing import Union
 from typing import Optional
-from typing import Iterable
 from dataclasses import dataclass
 
 
@@ -30,7 +29,7 @@ class FastqReader:
     ):
 
         # FastqReader accessible parameters
-        self.fpath: str = fpath
+        self.fpath: Path = Path(fpath)
         self.reversed: bool = reverse_seq
         self.technology: str = technology
 
