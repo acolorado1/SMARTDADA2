@@ -7,11 +7,16 @@ search.py are modules
 import numpy as np
 from typing import Union
 from typing import Optional
+from typing import Sequence
 
 from smartdada2.common.errors import SearchExceededError
 
+
 def binary_search(
-    target: int, arr: Union[list, np.ndarray[int]], max_iter: Optional[int] = 10000
+    target: int,
+    arr: Union[list, np.ndarray[int]],
+    max_iter: Optional[int] = 10000,
+    sorted: Optional[bool] = False,
 ):
     """Applies binary search to find specific value in an array.
 
@@ -24,6 +29,9 @@ def binary_search(
     max_iter : Optional[int], optional
         Max amount of iteration when searching. Raises StopIteration error if
         exceeds number of searches , by default 10000
+    sorted : Optional[bool], optional
+        indicates whether array is sorted. False will automatically sort the list
+        . If set to True, list will not be sorted, default is False
 
     Returns
     -------
@@ -42,17 +50,18 @@ def binary_search(
     """
 
     #  type checking
-    if isinstance(arr, list):
+    if isinstance(arr, Sequence):
         arr = np.array(arr)
-    elif not isinstance(arr, list) or not isinstance(arr, np.ndarray):
+    elif not isinstance(arr, np.ndarray):
         raise TypeError("Requires array to list type object")
 
     # sort array
-    sorted_arr = np.sort(arr)
+    if sorted is False:
+        arr = np.sort(arr)
 
     # set index positions
     low_idx = -1
-    high_idx = len(sorted_arr)
+    high_idx = len(arr)
 
     # start search
     search_count = 0
@@ -69,13 +78,11 @@ def binary_search(
         mid_idx = (high_idx + low_idx) // 2
 
         # if mid idx points to target value, return True
-        print(low_idx, mid_idx, high_idx)
-        print(target, sorted_arr[mid_idx])
-        if target == sorted_arr[mid_idx]:
+        if target == arr[mid_idx]:
             return True
 
         # update mid index position
-        if target < sorted_arr[mid_idx]:
+        if target < arr[mid_idx]:
             high_idx = mid_idx
         else:
             low_idx = mid_idx
