@@ -1,5 +1,5 @@
-import sys
 import warnings
+import itertools
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Iterable
@@ -125,27 +125,22 @@ class FastqReader:
     def sample(
         self,
         frac: Optional[float] = 0.3,
-        sample_type: Optional[str] = "random",
-        prob: Optional[float] = 0.5,
         seed: Optional[int] = None,
     ) -> Iterable[FastqEntry]:
-        """Sub samples
+        """Sub samples sequences randomly selected. If a seed value is provided, the randomness is controlled
+        and always produces the same output order associated with a specific seed value.
 
         Parameters
         ----------
         frac : Optional[float], optional
             subsample size, by default 0.3
-        sample_type : Optional[str], optional
-            Subsample algorithms: random or reservoir, by default "random".
-        prob : Optional[float], optional
-            If sample_type is  reservoir, then a probability rate is required to select entries, by default 0.5
         seed : Optional[int], optional
-            Value that conducts controlled randomness, by default None
+            Value that retains the state randomness, by default None
 
         Yields
         ------
         Iterator[Iterable[FastqEntry]]
-            Generator object that contains FastqEntry 
+            Generator object that contains FastqEntry
 
         Raises
         ------
@@ -155,75 +150,135 @@ class FastqReader:
         # type checks
         if not isinstance(frac, float):
             frac = float(frac)
-        
-        
+
         # selecting sampling type
-        match sample_type:
-            case "random":
 
-                # checking if fraction subsample is larger than the whole dataset
-                if frac > 1.0:
-                    raise ValueError("frac cannot be larger than 1.0")
+        # checking if fraction subsample is larger than the whole dataset
+        if frac > 1.0:
+            raise ValueError("frac cannot be larger than 1.0")
 
-                # checking if reads have been counted
-                # this will update the `self.__n_entries` variable
-                if self.__counted is False:
-                    self.total_reads()
+        # checking if reads have been counted
+        # this will update the `self.__n_entries` variable
+        if self.__counted is False:
+            self.total_reads()
 
-                # initializing random seed if Seed is not None
-                # -- setting the seed will have a controlled randomness
-                # -- good for reproducibility (share seed value)
-                if seed is not None:
-                    np.random.seed(seed)
+        # initializing random seed if Seed is not None
+        # -- setting the seed will have a controlled randomness
+        # -- good for reproducibility (share seed value)
+        if seed is not None:
+            np.random.seed(seed)
 
-                # calculate subsample_suze (how many entries we want)
-                subsample_size = int(np.round(self.__n_entries * frac))
+        # calculate subsample_size (how many entries we want)
+        subsample_size = int(np.round(self.__n_entries * frac))
 
-                # selecting random indices without replacement
-                # range selection is (0, total_n_reads)
-                # -- done without replacement (no repeated indices selected)
-                random_indices = np.sort(
-                    np.random.choice(
-                        np.arange(0, self.__n_entries), 
-                        size=subsample_size, 
-                        replace=False
-                    )
+        # selecting random indices without replacement
+        # range selection is (0, total_n_reads)
+        # -- done without replacement (no repeated indices selected)
+        random_indices = np.sort(
+            np.random.choice(
+                np.arange(0, self.__n_entries), size=subsample_size, replace=False
+            )
+        )
+
+        # to stop further computation once all indices are found
+        stop_idx = np.max(random_indices)
+
+        # loading the selected reads
+        for idx, read_entry in enumerate(self.__loader()):
+
+            # stop if next read idx is larger than stop idx
+            if idx > stop_idx:
+                break
+
+            # if index exists within randomly selected indices, yield read
+            try:
+                binary_search(idx, random_indices, sorted=True)
+                yield read_entry
+
+            # if it does not exists, go to the next
+            except ValueError:
+                continue
+
+    def reservoir_sampling(
+        self, n_samples: int, seed: Optional[bool] = None
+    ) -> list[FastqEntry]:
+        """Generates a uniform random subset sample of FastqEntry.
+
+        Parameters
+        ----------
+        n_samples : int
+            size of sub sample
+        seed : Optional[int], optional
+            Value that retains the state randomness, by default None
+
+        Returns
+        -------
+        list[FastqEntry]
+            subset of FastqEntry objects
+        """
+
+        # type checking
+        if seed is not None and not isinstance(seed, int):
+            raise ValueError(
+                f"seed value must be an integer type, you provided {type(seed)}"
+            )
+
+        # set a results array and have elements inside as place holders
+        # -- seen is equals to n_samples because those elements make up the results array
+        seen = n_samples
+        subset_reads = []
+
+        # populating results array with FastqEntry objects as place holders
+
+        # -- checking if number of entries have counted before
+        # -- -- if yes, set slice of FastqEntries as placeholders
+        if self.__counted is True:
+            if self.__n_entries < n_samples:
+                raise ValueError(
+                    "requested sample size is larger than total number of entries"
                 )
-                
-                # to stop further computation once all indices are found
-                stop_idx = np.max(random_indices)
+            else:
+                subset_reads = list(itertools.islice(self.__loader(), n_samples))
 
-                # loading the selected reads
-                for idx, read_entry in enumerate(self.__loader()):
+        # -- if size is unknown, iterate through loader and populate results with FastqEntry placeholders
+        else:
+            try:
+                entries = self.__loader()
+                for _ in range(n_samples):
+                    subset_reads.append(next(entries))
 
-                    # stop if next read idx is largest than stop idx
-                    if idx > stop_idx:
-                        break
+            # raise an exception if the subsample size is larger than the loader population
+            except StopIteration:
+                raise StopIteration(
+                    "number of requested samples exceeded number of entries"
+                )
 
-                    # if index exists within randomly selected indices, yield read
-                    try:
-                        binary_search(idx, random_indices, sorted=True)
-                        yield read_entry
-                    
-                    # if it does not exists, go to the next
-                    except ValueError:
-                        continue
+        # next is to update the results array
+        # -- checking if seed has been added
+        if seed is not None:
+            np.random.seed(seed)
 
-            case "reservoir":
-                if frac > 1.0 or prob > 1.0:
-                    raise ValueError("frac or prob cannot be greater than 1.0")
-                raise NotImplementedError("Reservoir sampling has not been developed yet")
-            case _:
-                raise ValueError("Invalid sampling choice")
+        # -- now replacing placeholders by randomly selecting values as ind
+        for entry in self.__loader():
+
+            # select random int
+            seen += 1
+            rand_int = np.random.randint(0, seen - 1)
+
+            # replace placeholders via index reassignment
+            if rand_int < n_samples:
+                subset_reads[rand_int] = entry
+
+        return subset_reads
 
     # ----------------------------------------
     # private functions: users do not interact with this
     # ----------------------------------------
     def __loader(self) -> Iterable[FastqEntry]:
-        """Creates a generator object that contains sequence read data as
-        FastqEntry object.
+        """Creates a generator object that streams sequence reads as
+        FastqEntry objects.
 
-        While iterating, a count is also being conducted
+        While iterating, a count is also being conducted.
 
         Returns
         -------
