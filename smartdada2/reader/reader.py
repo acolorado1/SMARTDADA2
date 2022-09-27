@@ -76,8 +76,28 @@ class FastqReader:
 
         # get all scores df and take the average per column basis
         scores_df = self.get_quality_scores()
-        average_score = scores_df.mean()
+        average_score = scores_df.mean().reset_index()
+        average_score.columns = ["Position", "AverageQualityScore"]
         return average_score
+
+    def get_expected_error(self) -> pd.DataFrame:
+        """Calculates average expected error per nucleotide
+
+        Returns
+        -------
+        pd.DataFrame
+            position and expected error in a dataframe
+        """
+        # loading average quality scores
+        scores_df = self.get_average_score()
+
+        # convert quality score to expected errors
+        scores_df["AverageExpectedError"] = scores_df[
+            "AverageQualityScore"
+        ].apply(lambda score: 10 ** (-score / 10))
+        expected_error_df = scores_df.drop(columns="AverageQualityScore")
+
+        return expected_error_df
 
     def iter_reads(self) -> Iterable[FastqEntry]:
         """Returns a python generator containing FastqEntries
@@ -176,7 +196,9 @@ class FastqReader:
         # -- done without replacement (no repeated indices selected)
         random_indices = np.sort(
             np.random.choice(
-                np.arange(0, self.__n_entries), size=subsample_size, replace=False
+                np.arange(0, self.__n_entries),
+                size=subsample_size,
+                replace=False,
             )
         )
 
@@ -238,7 +260,9 @@ class FastqReader:
                     "requested sample size is larger than total number of entries"
                 )
             else:
-                subset_reads = list(itertools.islice(self.__loader(), n_samples))
+                subset_reads = list(
+                    itertools.islice(self.__loader(), n_samples)
+                )
 
         # -- if size is unknown, iterate through loader and populate results with FastqEntry placeholders
         else:
