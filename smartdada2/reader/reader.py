@@ -56,7 +56,7 @@ class FastqReader:
 
         # converting to np.array
         all_scores = []
-        for entry in self.__loader():
+        for entry in self.iter_reads():
             phred_scores = list(entry.scores)
             scores = [ord(phred_score) - 33 for phred_score in phred_scores]
             all_scores.append(scores)
@@ -99,26 +99,31 @@ class FastqReader:
 
         return expected_error_df
 
-    def iter_reads(self) -> Iterable[FastqEntry]:
-        """Returns a python generator containing FastqEntries
+    def sequence_df(self) -> pd.DataFrame:
+        """
+        Returns a Dataframe structure of sequence reads. Row represents a
+        sequence and the columns represents the individual nucleotides
+        """
+        seq_df = pd.DataFrame(
+            data=(list(entry.seq) for entry in self.iter_reads())
+        )
+        return seq_df
+
+    def ambiguous_nucleotide_counts(self) -> pd.DataFrame:
+        """Counts all ambiguous nucleotides in all reads.
 
         Returns
         -------
-        Sequence[FastqEntry]
-            Generator object containing FastqEntries
+        pd.DataFrame
+            DataFrame that contains the nucleotide position and the number
+            of ambiguous nucleotides
         """
-        return self.__loader()
-
-    def to_list(self) -> list[FastqEntry]:
-        """Saves all lists into memory. Warning, large file sizes will use more
-        memory but increase iteration performance.
-
-        Returns
-        -------
-        list[FastqEntry]
-            List of FastqEntries
-        """
-        return [read for read in self.__loader()]
+        seq_df = self.sequence_df()
+        ambi_nuc_counts = (
+            seq_df.apply(search_ambiguous_nucleotide).to_frame().reset_index()
+        )
+        ambi_nuc_counts.columns = ["Position", "AmbiguousCounts"]
+        return ambi_nuc_counts
 
     def total_reads(self) -> int:
         """Returns total number of reads. Changes the value of self.n_entries
@@ -134,21 +139,20 @@ class FastqReader:
         # -- if yes, return stored count
         if self.__n_entries == 0 and self.__counted is False:
             warnings.warn("No reads have been counted. Counting reads now...")
-            self.__n_entries = sum(1 for _ in self.__loader())
+            self.__n_entries = sum(1 for _ in self.iter_reads())
             self.__counted = True
             return self.__n_entries
         else:
             return self.__n_entries
 
-    # TODO: Should this be a class method?
-    # Should this write out temporary file creating a sub_sample read
     def sample(
         self,
         frac: Optional[float] = 0.3,
         seed: Optional[int] = None,
     ) -> Iterable[FastqEntry]:
-        """Sub samples sequences randomly selected. If a seed value is provided, the randomness is controlled
-        and always produces the same output order associated with a specific seed value.
+        """Sub samples sequences randomly selected. If a seed value is provided,
+        the randomness is controlled and always produces the same output order
+        associated with a specific seed value.
 
         Parameters
         ----------
@@ -206,7 +210,7 @@ class FastqReader:
         stop_idx = np.max(random_indices)
 
         # loading the selected reads
-        for idx, read_entry in enumerate(self.__loader()):
+        for idx, read_entry in enumerate(self.iter_reads()):
 
             # stop if next read idx is larger than stop idx
             if idx > stop_idx:
@@ -261,13 +265,13 @@ class FastqReader:
                 )
             else:
                 subset_reads = list(
-                    itertools.islice(self.__loader(), n_samples)
+                    itertools.islice(self.iter_reads(), n_samples)
                 )
 
         # -- if size is unknown, iterate through loader and populate results with FastqEntry placeholders
         else:
             try:
-                entries = self.__loader()
+                entries = self.iter_reads()
                 for _ in range(n_samples):
                     subset_reads.append(next(entries))
 
@@ -283,7 +287,7 @@ class FastqReader:
             np.random.seed(seed)
 
         # -- now replacing placeholders by randomly selecting values as ind
-        for entry in self.__loader():
+        for entry in self.iter_reads():
 
             # select random int
             seen += 1
@@ -294,6 +298,86 @@ class FastqReader:
                 subset_reads[rand_int] = entry
 
         return subset_reads
+
+    def iter_reads(self) -> Iterable[FastqEntry]:
+        """Returns a python generator containing FastqEntries
+
+        Returns
+        -------
+        Sequence[FastqEntry]
+            Generator object containing FastqEntries
+        """
+        return self.__loader()
+
+    def to_list(self) -> list[FastqEntry]:
+        """Saves all lists into memory. Warning, large file sizes will use more
+        memory but increase iteration performance.
+
+        Returns
+        -------
+        list[FastqEntry]
+            List of FastqEntries
+        """
+        return [read for read in self.iter_reads()]
+
+    def slice_reads(
+        self, range_idx: Union[tuple[int, int], list[int, int]], to_list=False
+    ) -> Union[list[FastqEntry], Iterable[FastqEntry]]:
+        """Allows index slicing for reads. If to_list is True, the method will
+        return a list else it will return a generator
+
+        Parameters
+        ----------
+        range_idx : tuple
+            start and ending position (exclusive), to which reads to select.
+        to_list : bool, optional
+            convert to list object, If False, returns a generator.
+            by default False
+
+        Returns
+        -------
+        Union[list[FastqEntry], Iterable[FastqEntry]]
+        return a list or iterator of FastqEntry objects
+
+        Yields
+        ------
+        Iterator[Union[list[FastqEntry], Iterable[FastqEntry]]]
+            if to_list is false, returns a generator of reads, else it will
+            return a list of reads
+
+        Raises
+        ------
+        TypeError
+            Raised when a tuple or list is not provided
+        ValueError
+            Raised if range_idx does not contains 2 values
+        TypeError
+            Raised if values in range_idx are not integers
+        ValueError
+            raised if starting position value is larger than the ending
+            position
+        """
+        if not isinstance(range_idx, tuple) and not isinstance(
+            range_idx, list
+        ):
+            raise TypeError(
+                "Please provide a tuple or lists with starting and ending idx"
+            )
+        elif len(range_idx) != 2:
+            raise ValueError("'range_idx' only takes two value (start, end)")
+        elif not all(isinstance(value, int) for value in range_idx):
+            raise TypeError(
+                "Values must be integers. Not floats, strings or booleans"
+            )
+        elif range_idx[0] > range_idx[1]:
+            raise ValueError(
+                "starting position cannot be larger than ending position"
+            )
+
+        if to_list == True:
+            return [entry for entry in self.__slice(range_idx)]
+        else:
+            return self.__slice(range_idx)
 
     # ----------------------------------------
     # private functions: users do not interact with this
@@ -345,3 +429,64 @@ class FastqReader:
 
         self.__n_entries = entry_count
         self.__counted = True
+
+    def __slice(self, range_idx: tuple[int, int]) -> Iterable[FastqEntry]:
+        """ "Creates a generator of py FastqEntry object by a given range
+
+        Parameters
+        ----------
+        idx_range : tuple
+            start, end range of selecting FastqEntries
+
+        Returns
+        -------
+        Iterable[FastqEntry]
+            Generator with FastqEntry objects
+
+        Yields
+        ------
+        Iterator[Iterable[FastqEntry]]
+            FastqEntry objects
+        """
+
+        # unpacking range
+        start, end = range_idx
+
+        # iterating reads
+        for idx, read in enumerate(self.iter_reads()):
+
+            # break the iteration if the current idx == ending idx
+            if idx == end:
+                break
+
+            # only selecting reads between start and end positions
+            elif idx >= start and idx < end:
+                yield read
+
+
+def search_ambiguous_nucleotide(nucleotides: pd.Series) -> int:
+    """
+    Parameters
+    ----------
+    nucleotides : pd.Series
+        Series of nucleotides characters.
+
+    Returns
+    -------
+    int
+        total number of all ambiguous nucleotides found.
+    """
+
+    # counting all nucleotides
+    ambiguous_nucleotide = list("NRYKMSWBDHV")
+    count_series = nucleotides.value_counts()
+
+    # searching for  nucleotides
+    found_ambiguous_nucleotide = []
+    for ambi_nuc in ambiguous_nucleotide:
+        if ambi_nuc in count_series.index.tolist():
+            found_ambiguous_nucleotide.append(ambi_nuc)
+
+    total_count = count_series[found_ambiguous_nucleotide].sum()
+
+    return total_count
