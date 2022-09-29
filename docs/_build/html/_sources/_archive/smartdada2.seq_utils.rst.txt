@@ -1,0 +1,21 @@
+smartdada2.seq\_utils package
+=============================
+
+Submodules
+----------
+
+smartdada2.seq\_utils.search module
+-----------------------------------
+
+.. automodule:: smartdada2.seq_utils.search
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: smartdada2.seq_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
