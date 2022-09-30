@@ -21,3 +21,8 @@ This library is still under heavy development
 
 tutorial
 ```
+
+## SmartDada2 package
+
+Please look at the {ref}`genindex` to see all the functions ans classes available to use.
+`
