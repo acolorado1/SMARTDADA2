@@ -1,3 +1,4 @@
+from curses.ascii import isdigit
 import warnings
 import itertools
 from pathlib import Path
@@ -10,6 +11,7 @@ import pandas as pd
 import numpy as np
 
 from smartdada2.seq_utils.search import binary_search
+from smartdada2.common.errors import FastqFormatError
 
 
 @dataclass(slots=True)
@@ -22,7 +24,36 @@ class FastqEntry:
     length: int
 
     # set to none unless user declares there is reversed sequences
-    rseq: Union[None, int] = None
+    rseq: Union[None, bool] = None
+
+    def __post_init__(self):
+        # checking header (1 == forward, 2 == rev)
+        self.check_seq_dir()
+
+    def check_seq_dir(self):
+        """Checks if the entry is a forward or reverse sequence"""
+
+        # parse the header
+        header_id = self.header.split()[0]
+        if not header_id.startswith("@"):
+            raise FastqFormatError("Unable to find header id")
+
+        # find the direction of the sequence
+        direction = header_id.split(".")[-1]
+
+        # convert string into integer type
+        if not direction.isdigit():
+            raise FastqFormatError("Unable to find the sequence direction")
+        else:
+            direction = int(direction)
+
+        # setting up sequence direction into FastqEntry
+        if direction == 1:
+            self.rseq = False
+        elif direction == 2:
+            self.rseq = True
+        else:
+            raise FastqFormatError("Unable to find the sequence direction")
 
 
 class FastqReader:
