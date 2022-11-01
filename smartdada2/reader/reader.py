@@ -89,7 +89,7 @@ class FastqReader:
         all_scores = []
         for entry in self.iter_reads():
             phred_scores = list(entry.scores)
-            scores = [ord(phred_score) - 33 for phred_score in phred_scores]
+            scores = np.array(phred_scores).view(np.int32) - 33
             all_scores.append(scores)
 
         all_scores = pd.DataFrame(data=np.array(all_scores))
@@ -127,6 +127,42 @@ class FastqReader:
             "AverageQualityScore"
         ].apply(lambda score: 10 ** (-score / 10))
         expected_error_df = scores_df.drop(columns="AverageQualityScore")
+
+        return expected_error_df
+
+    # NOTE: finish this
+    def get_max_ee(self) -> pd.Series:
+        """Creates a pandas dataframe object that contains the sum of expected
+        error of all sequences. The index will represent the sequence. The two
+        columns "direction" and "total_error"
+
+        Returns
+        -------
+        pd.DataFrame
+            A two column dataframe that contains "direction" and "total_error"
+        """
+
+        # create empty df
+        expected_error_df = pd.DataFrame()
+
+        # quality scores
+        qual_scores_df = self.get_quality_scores()
+        raw_scores = qual_scores_df.apply(
+            lambda row: 10 ** (-row / 10), axis=1
+        )
+
+        # extract read direction
+        _dir = []
+        for read in self.iter_reads():
+            if read.rseq is True:
+                _dir.append("forward")
+            else:
+                _dir.append("reverse")
+
+        expected_error_df["max_ee"] = raw_scores.apply(
+            lambda row: np.sum(row), axis=1
+        )
+        expected_error_df["direction"] = _dir
 
         return expected_error_df
 
