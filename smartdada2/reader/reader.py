@@ -1,4 +1,3 @@
-from curses.ascii import isdigit
 import warnings
 import itertools
 from pathlib import Path
@@ -6,6 +5,7 @@ from dataclasses import dataclass
 from typing import Iterable
 from typing import Optional
 from typing import Union
+from typing import List
 
 import pandas as pd
 import numpy as np
@@ -23,7 +23,7 @@ class FastqEntry:
     scores: str
     length: int
 
-    # set to none unless user declares there is reversed sequences
+    # these 
     rseq: Union[None, bool] = None
 
     def __post_init__(self):
@@ -175,6 +175,44 @@ class FastqReader:
             return self.__n_entries
         else:
             return self.__n_entries
+
+    def get_forward_reads(self) -> Iterable[FastqEntry]:
+        """Obtains all forward reads within fastq files
+
+        Parameters
+        ----------
+        tolist : bool, optional
+            Saves the forward reads in memory (list), by default False
+
+        Returns
+        -------
+        Iterable[FastqEntry]
+            returns a generator if tolist is False. if tolist is True, then the
+            reads will be saved into memory and will return a python list
+            object.
+        """
+
+        # checking if the user wants to load reads in memory
+        for read in self.__loader():
+            if read.rseq is False:
+                yield read
+
+    def get_reverse_reads(self, tolist=False) -> Iterable[FastqEntry]:
+        """Obtains all reverse reads within fastq files
+
+        Parameters
+        ----------
+        tolist : bool, optional
+            Saves the reverse reads in memory (list), by default False
+
+        Returns
+        -------
+        Iterable[FastqEntry]
+
+        """
+        for read in self.__loader():
+            if read.rseq is True:
+                yield read
 
     def sample(
         self,
@@ -329,6 +367,14 @@ class FastqReader:
                 subset_reads[rand_int] = entry
 
         return subset_reads
+
+    @staticmethod
+    def unpack_reads(iterator: Iterable[FastqEntry]) -> List[FastqEntry]:
+        """
+        Takes the iterator object produced from FastqReader and saves them into
+        memory as a python list.
+        """
+        return [read for read in iterator]
 
     def iter_reads(self) -> Iterable[FastqEntry]:
         """Returns a python generator containing FastqEntries
