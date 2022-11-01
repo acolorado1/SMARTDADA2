@@ -14,4 +14,3 @@ class FastqFormatError(__BaseFormatError):
 
 class SearchExceededError(__BaseIterationError):
     """Raised if any searching algorithm exceeds max search iteration"""
-
