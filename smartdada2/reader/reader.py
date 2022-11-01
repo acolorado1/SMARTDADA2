@@ -123,9 +123,9 @@ class FastqReader:
         scores_df = self.get_average_score()
 
         # convert quality score to expected errors
-        scores_df["AverageExpectedError"] = scores_df["AverageQualityScore"].apply(
-            lambda score: 10 ** (-score / 10)
-        )
+        scores_df["AverageExpectedError"] = scores_df[
+            "AverageQualityScore"
+        ].apply(lambda score: 10 ** (-score / 10))
         expected_error_df = scores_df.drop(columns="AverageQualityScore")
 
         return expected_error_df
@@ -135,7 +135,9 @@ class FastqReader:
         Returns a Dataframe structure of sequence reads. Row represents a
         sequence and the columns represents the individual nucleotides
         """
-        seq_df = pd.DataFrame(data=(list(entry.seq) for entry in self.iter_reads()))
+        seq_df = pd.DataFrame(
+            data=(list(entry.seq) for entry in self.iter_reads())
+        )
         return seq_df
 
     def ambiguous_nucleotide_counts(self) -> pd.DataFrame:
@@ -331,7 +333,9 @@ class FastqReader:
                     "requested sample size is larger than total number of entries"
                 )
             else:
-                subset_reads = list(itertools.islice(self.iter_reads(), n_samples))
+                subset_reads = list(
+                    itertools.islice(self.iter_reads(), n_samples)
+                )
 
         # -- if size is unknown, iterate through loader and populate results with FastqEntry placeholders
         else:
@@ -382,17 +386,6 @@ class FastqReader:
         """
         return self.__loader()
 
-    def to_list(self) -> list[FastqEntry]:
-        """Saves all lists into memory. Warning, large file sizes will use more
-        memory but increase iteration performance.
-
-        Returns
-        -------
-        list[FastqEntry]
-            List of FastqEntries
-        """
-        return [read for read in self.iter_reads()]
-
     def slice_reads(
         self, range_idx: Union[tuple[int, int], list[int, int]], to_list=False
     ) -> Union[list[FastqEntry], Iterable[FastqEntry]]:
@@ -430,16 +423,22 @@ class FastqReader:
             raised if starting position value is larger than the ending
             position
         """
-        if not isinstance(range_idx, tuple) and not isinstance(range_idx, list):
+        if not isinstance(range_idx, tuple) and not isinstance(
+            range_idx, list
+        ):
             raise TypeError(
                 "Please provide a tuple or lists with starting and ending idx"
             )
         elif len(range_idx) != 2:
             raise ValueError("'range_idx' only takes two value (start, end)")
         elif not all(isinstance(value, int) for value in range_idx):
-            raise TypeError("Values must be integers. Not floats, strings or booleans")
+            raise TypeError(
+                "Values must be integers. Not floats, strings or booleans"
+            )
         elif range_idx[0] > range_idx[1]:
-            raise ValueError("starting position cannot be larger than ending position")
+            raise ValueError(
+                "starting position cannot be larger than ending position"
+            )
 
         if to_list == True:
             return [entry for entry in self.__slice(range_idx)]
