@@ -23,7 +23,6 @@ class FastqEntry:
     scores: str
     length: int
 
-    # these
     rseq: Union[None, bool] = None
 
     def __post_init__(self):
@@ -57,7 +56,17 @@ class FastqEntry:
 
 
 class FastqReader:
-    """Memory efficient FastqReader"""
+    """
+    FastqReader is an efficient Fastq file reader that  optimizes for memory
+    usage and speed.
+
+    Every entry within the Fastq file is stored within a FastqEntry object,
+    which contains header, sequence, sequence length, score, and direction of
+    each read.
+
+    FastqReader contains methods that are meant for gathering information
+    within fastq files.
+    """
 
     def __init__(
         self,
@@ -566,6 +575,7 @@ class FastqReader:
                 yield read
 
 
+# NOTE: Should this be in the FastqReader class or a separate function?
 def search_ambiguous_nucleotide(nucleotides: pd.Series) -> int:
     """
     Parameters
