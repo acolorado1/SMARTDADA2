@@ -1,4 +1,5 @@
 import unittest
+import warnings
 import GetTrimParameters
 
 
@@ -21,14 +22,14 @@ class MyTestCase(unittest.TestCase):
 
         # check return values for short return sizes
         trim_L_short = [15, 18, 18, 30, 30, 40, 30, 30, 25, 20, 15]
-        Ls_res = GetTrimParameters.trim_ends_less_than_threshold(trim_L_short)
-        self.assertEqual(Ls_res,
-                         'trim left value might be too high: 3')
-
         trim_R_short = [15, 20, 22, 30, 30, 40, 30, 30, 18, 18, 15]
-        Rs_res = GetTrimParameters.trim_ends_less_than_threshold(trim_R_short)
-        self.assertEqual(Rs_res,
-                         'trim right value might be too low: 8')
+
+        with warnings.catch_warnings(record=True) as w:
+            GetTrimParameters.trim_ends_less_than_threshold(trim_L_short)
+            GetTrimParameters.trim_ends_less_than_threshold(trim_R_short)
+            print(w[0].category)
+            assert issubclass(w[0].category, UserWarning)
+            assert issubclass(w[1].category, UserWarning)
 
 
 if __name__ == '__main__':
