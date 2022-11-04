@@ -139,7 +139,7 @@ class FastqReader:
 
         return expected_error_df
 
-    # NOTE: finish this
+    # NOTE: finish documentation
     def get_max_ee(self) -> pd.Series:
         """Creates a pandas dataframe object that contains the sum of expected
         error of all sequences. The index will represent the sequence. The two
@@ -171,9 +171,62 @@ class FastqReader:
         expected_error_df["max_ee"] = raw_scores.apply(
             lambda row: np.sum(row), axis=1
         )
+
+        expected_error_df["length"] = [
+            entry.length for entry in self.iter_reads()
+        ]
         expected_error_df["direction"] = _dir
 
+        # rearranging columns
+        expected_error_df = expected_error_df[
+            ["length", "direction", "max_ee"]
+        ]
+
         return expected_error_df
+
+    # NOTE: DRY practice found here, need to create a function that collects scores
+    def get_avg_ee(self) -> pd.DataFrame:
+        """Get average expected error per sequence. Generates a pandas
+        dataframe that contains sequence length, direction, and average error
+        score
+
+        Returns
+        -------
+        pd.DataFrame
+            average expected error per sequence dataframe
+        """
+        # create empty df
+        avg_expected_error_df = pd.DataFrame()
+
+        # quality scores
+        qual_scores_df = self.get_quality_scores()
+        raw_scores = qual_scores_df.apply(
+            lambda row: 10 ** (-row / 10), axis=1
+        )
+
+        # extract read direction
+        _dir = []
+        for read in self.iter_reads():
+            if read.rseq is True:
+                _dir.append("forward")
+            else:
+                _dir.append("reverse")
+
+        avg_expected_error_df["avg_ee"] = raw_scores.apply(
+            lambda row: np.mean(row), axis=1
+        )
+
+        avg_expected_error_df["length"] = [
+            entry.length for entry in self.iter_reads()
+        ]
+        avg_expected_error_df["direction"] = _dir
+
+        # rearranging columns
+        avg_expected_error_df = avg_expected_error_df[
+            ["length", "direction", "avg_ee"]
+        ]
+
+        return avg_expected_error_df
 
     def sequence_df(self) -> pd.DataFrame:
         """
