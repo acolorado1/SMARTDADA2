@@ -1,6 +1,9 @@
+import warnings
 
 
-def trim_ends_less_than_threshold(avg_qs_list, threshold=20):
+def trim_ends_less_than_threshold(avg_qs_list,
+                                  threshold=20,
+                                  max_trim_per=0.1):
     """Perform obvious trimming: moving from the middle index to the left
     and then to the right, the first index with a value lower than the
     threshold will be the potential trim index
@@ -9,6 +12,8 @@ def trim_ends_less_than_threshold(avg_qs_list, threshold=20):
         list of average quality scores per position
     :param threshold: integer
         quality score between 0 and 42
+    :param max_trim_per: float
+        maximum percentage of trimming performed at either end
     :return: return tuple of two integers
         potential left and right trim values
     """
@@ -16,6 +21,8 @@ def trim_ends_less_than_threshold(avg_qs_list, threshold=20):
         raise TypeError('average list of quality scores must be of type list')
     if not isinstance(threshold, int):
         raise TypeError('threshold must be of type integer')
+    if not isinstance(max_trim_per, float):
+        raise TypeError('max trim percentage must be of type float')
     if threshold < 0 or threshold > 42:
         raise ValueError('threshold must be between 0 and 40')
     for avg_score in avg_qs_list:
@@ -56,17 +63,16 @@ def trim_ends_less_than_threshold(avg_qs_list, threshold=20):
         else:
             current_index += 1
 
-    # if no obvious trimming was performed
+    # if no obvious right trimming was performed
     if trim_right_index == 0:
         trim_right_index = len_list
 
     # exit if trim values create a short amplicon
-    # eliminating more than 10% of the total length on either side
-    perc_10 = round(len_list*0.1)
+    perc_10 = round(len_list*max_trim_per)
     if trim_left_index > perc_10:
-        return 'trim left value might be too high: ' + str(trim_left_index)
+        warnings.warn('trim left value might be too high')
 
     if trim_right_index < len_list-perc_10:
-        return 'trim right value might be too low: ' + str(trim_right_index)
+        warnings.warn('trim right value might be too low')
 
     return trim_left_index, trim_right_index
