@@ -12,7 +12,7 @@ from typing import Optional
 DNA = list("ATCGU")
 AMB_DNA = list("NRYKMSWBDHV")
 ASCII_SCORES = [chr(i) for i in range(33, 70 + 1)]
-NUMERICAL_SCORES = [i for i in range(33, 70 + 1)]
+NUMERICAL_SCORES: list[int] = [i for i in range(33, 70 + 1)]
 
 
 def toy_sequencer(
