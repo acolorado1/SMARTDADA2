@@ -93,20 +93,22 @@ def toy_sequencer(
     # -- scores
 
     # create a generator of collected data
-    header = "test_fastq.test"
+    header = "@test_fastq.test"
     all_seqs = (read for read in all_seqs)
 
     # formatting loop
+    read_count = 0
     collected_read_data = []
     while True:
 
         # formatting forward read as fastq entries
+        read_count += 1
         try:
 
             # get next data and extract
             data = next(all_seqs)
             f_read, f_score = data[0], data[1]
-            f_read_id = f"{header}.1 length={len(f_read)}"
+            f_read_id = f"{header}.1 {read_count} length={len(f_read)}"
 
             # compile and store
             result = [f_read_id, f_read, f_read_id, f_score]
@@ -117,7 +119,7 @@ def toy_sequencer(
                 # get next data and extract
                 data = next(all_seqs)
                 r_read, r_score = data[0], data[1]
-                r_read_id = f"{header}.2 length={len(r_read)}"
+                r_read_id = f"{header}.2 {read_count} length={len(r_read)}"
 
                 # compile and store
                 result = [r_read_id, r_read, r_read_id, r_score]
