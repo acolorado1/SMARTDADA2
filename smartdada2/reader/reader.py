@@ -57,7 +57,7 @@ class FastqEntry:
 
 class FastqReader:
     """
-    FastqReader is an efficient Fastq file reader that  optimizes for memory
+    FastqReader is an efficient Fastq file reader that optimizes for memory
     usage and speed.
 
     Every entry within the Fastq file is stored within a FastqEntry object,
@@ -184,7 +184,7 @@ class FastqReader:
 
         return expected_error_df
 
-    # NOTE: DRY practice found here, need to create a function that collects scores
+    # TODO: DRY practice found here, need to create a function that collects scores
     def get_avg_ee(self) -> pd.DataFrame:
         """Get average expected error per sequence. Generates a pandas
         dataframe that contains sequence length, direction, and average error
