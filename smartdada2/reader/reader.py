@@ -14,6 +14,14 @@ from smartdada2.seq_utils.search import binary_search
 from smartdada2.common.errors import FastqFormatError
 
 
+# constants
+DNA = list("ATCGU")
+AMB_DNA = list("NRYKMSWBDHV")
+ALL_DNA = DNA + AMB_DNA
+ASCII_SCORES = [chr(i) for i in range(33, 70 + 1)]
+NUMERICAL_SCORES = [i for i in range(33, 70 + 1)]
+
+
 @dataclass(slots=True)
 class FastqEntry:
     """Contains the contents of a single read as a FastqEntry"""
@@ -26,6 +34,8 @@ class FastqEntry:
     rseq: Union[None, bool] = None
 
     def __post_init__(self):
+
+
         # checking header (1 == forward, 2 == rev)
         self.check_seq_dir()
 
@@ -80,6 +90,9 @@ class FastqReader:
 
         # FastqReader accessible parameters
         self.fpath: Path = Path(fpath)
+        if not self.fpath.is_file():
+            raise FileNotFoundError(f"{self.fpath} does not exist")
+
         self.reversed: bool = reverse_seq
         self.technology: str = technology
 
@@ -561,7 +574,16 @@ class FastqReader:
             Generator object with FastqEntries
         """
 
-        # iterate all row contents in fastq file
+
+        if self.fpath.suffix.lower() != ".fastq":
+            raise ValueError(
+                "FastqReader only takes files '.fastq' or '.FASTQ' files"
+            )
+        elif self.fpath.stat().st_size == 0:
+            raise FastqFormatError("Fastq file contains no contents")
+
+
+        # iterate all row contents in fastq file and collect entries
         entry_count = 0
         with open(self.fpath, "r") as fastq_file:
 
@@ -578,6 +600,20 @@ class FastqReader:
                 # checking if there are 4 elements in the list
                 # -- 4 lines = 1 entry
                 if len(contents_chunk) == 4:
+
+                    # check for valid sequences
+                    seq_check =  set(contents_chunk[1]) - set(ALL_DNA)
+                    if len(seq_check) > 0:
+                        raise FastqFormatError(
+                            "File contains invalid sequence characters"
+                        )
+
+                    # check for valid ascii scores
+                    score_check = set(contents_chunk[3]) - set(ASCII_SCORES)
+                    if len(score_check) > 0:
+                        raise FastqFormatError(
+                            "File contains invalid score characters"
+                        )
 
                     # convert into FastqEntry
                     entry_count += 1
