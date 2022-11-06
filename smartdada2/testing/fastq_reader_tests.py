@@ -8,6 +8,7 @@ import unittest
 # smartdada2 imports
 from smartdada2.testing.help_test_funcs import toy_sequencer
 from smartdada2.reader.reader import FastqReader, FastqEntry
+from smartdada2.common.errors import FastqFormatError
 
 
 class TestFastqEntry(unittest.TestCase):
@@ -41,21 +42,69 @@ class TestFastqEntry(unittest.TestCase):
         """Tests a positive case of entry"""
 
         # set entries
-        entries = [
+        raw_entries = [
             [
-                "test_fastq.test.1 1 length=50",
+                "@test_fastq.test.1 1 length=50",
                 "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
-                "test_fastq.test.1 1 length=50",
+                "@test_fastq.test.1 1 length=50",
                 "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
             ],
             [
-                "test_fastq.test.2 1 length=50",
+                "@test_fastq.test.2 1 length=50",
                 "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
-                "test_fastq.test.2 1 length=50",
+                "@test_fastq.test.2 1 length=50",
                 "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
             ],
         ]
-        pass
+
+        # create entry classes
+        raw_reads_1 = raw_entries[0]
+        test_entry_1 = FastqEntry(
+            header=raw_reads_1[0],
+            seq=raw_reads_1[1],
+            scores=raw_reads_1[3],
+            length=len(raw_reads_1[1]),
+        )
+
+        raw_reads_2 = raw_entries[1]
+        test_entry_2 = FastqEntry(
+            header=raw_reads_2[0],
+            seq=raw_reads_2[1],
+            scores=raw_reads_2[3],
+            length=len(raw_reads_2[1]),
+        )
+
+        # setting expected variables
+        expected_header_1 = "@test_fastq.test.1 1 length=50"
+        expected_seq_1 = "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG"
+        expected_score_1 = (
+            "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
+        )
+        expected_length_1 = 50
+        expected_r_seq_1 = False
+
+        expected_header_2 = "@test_fastq.test.2 1 length=50"
+        expected_seq_2 = "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK"
+        expected_score_2 = (
+            "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
+        )
+        expected_length_2 = 50
+        expected_r_seq_2 = True
+
+        # setting tests
+        # -- testing first entry
+        self.assertEqual(expected_header_1, test_entry_1.header)
+        self.assertEqual(expected_seq_1, test_entry_1.seq)
+        self.assertEqual(expected_score_1, test_entry_1.scores)
+        self.assertEqual(expected_length_1, test_entry_1.length)
+        self.assertEqual(expected_r_seq_1, test_entry_1.rseq)
+
+        # -- testing second entry
+        self.assertEqual(expected_header_2, test_entry_2.header)
+        self.assertEqual(expected_seq_2, test_entry_2.seq)
+        self.assertEqual(expected_score_2, test_entry_2.scores)
+        self.assertEqual(expected_length_2, test_entry_2.length)
+        self.assertEqual(expected_r_seq_2, test_entry_2.rseq)
 
     def test_entry_lowercases(self):
         """Tests if fastq files contains lower case sequences"""
@@ -96,14 +145,18 @@ class TestFastqEntry(unittest.TestCase):
         # setting expected variables
         expected_header_1 = "@test_fastq.test.1 1 length=50"
         expected_seq_1 = "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG"
-        expected_score_1 = "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
+        expected_score_1 = (
+            "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
+        )
         expected_length_1 = 50
         expected_r_seq_1 = False
 
         expected_header_2 = "@test_fastq.test.2 1 length=50"
         expected_seq_2 = "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK"
-        expected_score_2 = "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
-        expected_length_2= 50
+        expected_score_2 = (
+            "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
+        )
+        expected_length_2 = 50
         expected_r_seq_2 = True
 
         # setting tests
@@ -121,10 +174,186 @@ class TestFastqEntry(unittest.TestCase):
         self.assertEqual(expected_length_2, test_entry_2.length)
         self.assertEqual(expected_r_seq_2, test_entry_2.rseq)
 
+    def test_invalid_header(self):
+        """Negative case test to check if invalid headers are captured
+        header id's require `@` in front of it"""
 
-    def test_amplicon_direction(self):
-        """Tests if can detect amplicon direction"""
-        pass
+        # test entry
+        raw_entries = [
+            "test_fastq.test.1 1 length=50",
+            "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
+            "test_fastq.test.1 1 length=50",
+            "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
+        ]
+
+        header = raw_entries[0]
+        seq = raw_entries[1]
+        scores = raw_entries[2]
+        length = len(seq)
+
+        self.assertRaises(
+            FastqFormatError, FastqEntry, header, seq, scores, length
+        )
+
+    def test_only_forward_reads(self) -> None:
+        """Checks if FastqEntry can detect only forward reads"""
+
+        # set entries
+        raw_entries = [
+            [
+                "@test_fastq.test.1 1 length=50",
+                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
+                "@test_fastq.test.1 1 length=50",
+                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
+            ],
+            [
+                "@test_fastq.test.1 1 length=50",
+                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
+                "@test_fastq.test.1 1 length=50",
+                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
+            ],
+        ]
+
+        # create entry classes
+        raw_reads_1 = raw_entries[0]
+        test_entry_1 = FastqEntry(
+            header=raw_reads_1[0],
+            seq=raw_reads_1[1],
+            scores=raw_reads_1[3],
+            length=len(raw_reads_1[1]),
+        )
+
+        raw_reads_2 = raw_entries[1]
+        test_entry_2 = FastqEntry(
+            header=raw_reads_2[0],
+            seq=raw_reads_2[1],
+            scores=raw_reads_2[3],
+            length=len(raw_reads_2[1]),
+        )
+
+        # testing
+        self.assertEqual(test_entry_1.rseq, False)
+        self.assertEqual(test_entry_2.rseq, False)
+
+    def test_only_reverse_reads(self) -> None:
+        """Checks if FastqEntry can detect only reverse reads"""
+
+        # set entries
+        raw_entries = [
+            [
+                "@test_fastq.test.2 1 length=50",
+                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
+                "@test_fastq.test.2 1 length=50",
+                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
+            ],
+            [
+                "@test_fastq.test.2 2 length=50",
+                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
+                "@test_fastq.test.2 2 length=50",
+                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
+            ],
+        ]
+
+        # create entry classes
+        raw_reads_1 = raw_entries[0]
+        test_entry_1 = FastqEntry(
+            header=raw_reads_1[0],
+            seq=raw_reads_1[1],
+            scores=raw_reads_1[3],
+            length=len(raw_reads_1[1]),
+        )
+
+        raw_reads_2 = raw_entries[1]
+        test_entry_2 = FastqEntry(
+            header=raw_reads_2[0],
+            seq=raw_reads_2[1],
+            scores=raw_reads_2[3],
+            length=len(raw_reads_2[1]),
+        )
+
+        # testing
+        self.assertEqual(test_entry_1.rseq, True)
+        self.assertEqual(test_entry_2.rseq, True)
+
+    def test_forward_and_reverse_reads(self) -> None:
+        """Checks if FastqEntry can detect forward and reverse reads"""
+
+        # set entries
+        raw_entries = [
+            [
+                "@test_fastq.test.1 1 length=50",
+                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
+                "@test_fastq.test.1 1 length=50",
+                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
+            ],
+            [
+                "@test_fastq.test.2 1 length=50",
+                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
+                "@test_fastq.test.2 1 length=50",
+                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
+            ],
+        ]
+
+        # create entry classes
+        raw_reads_1 = raw_entries[0]
+        test_entry_1 = FastqEntry(
+            header=raw_reads_1[0],
+            seq=raw_reads_1[1],
+            scores=raw_reads_1[3],
+            length=len(raw_reads_1[1]),
+        )
+
+        raw_reads_2 = raw_entries[1]
+        test_entry_2 = FastqEntry(
+            header=raw_reads_2[0],
+            seq=raw_reads_2[1],
+            scores=raw_reads_2[3],
+            length=len(raw_reads_2[1]),
+        )
+
+        # testing
+        self.assertEqual(test_entry_1.rseq, False)
+        self.assertEqual(test_entry_2.rseq, True)
+
+    def test_invalid_direction(self) -> None:
+        """Negative case of unable identifying the direction of"""
+
+        # set entries
+        raw_entries = [
+            [
+                "@test_fastq.test.noid 1 length=50",
+                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
+                "@test_fastq.test.1 1 length=50",
+                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
+            ],
+            [
+                "@test_fastq.test.3 1 length=50",
+                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
+                "@test_fastq.test.2 1 length=50",
+                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
+            ],
+        ]
+
+        # create entry classes
+        raw_reads_1 = raw_entries[0]
+        header_1 = raw_reads_1[0]
+        seq_1 = raw_reads_1[1]
+        scores_1 = raw_reads_1[3]
+        length_1 = len(raw_reads_1[1])
+
+        raw_reads_2 = raw_entries[1]
+        header_2 = raw_reads_2[0]
+        seq_2 = raw_reads_2[1]
+        scores_2 = raw_reads_2[3]
+        length_2 = len(raw_reads_2[1])
+
+        # testing
+        self.assertRaises(
+            FastqFormatError, FastqEntry, header_1, seq_1, scores_1, length_1
+        )
+        self.assertRaises(
+            FastqFormatError, FastqEntry, header_2, seq_2, scores_2, length_2
+        )
 
 
 class TestFastqReader(unittest.TestCase):
