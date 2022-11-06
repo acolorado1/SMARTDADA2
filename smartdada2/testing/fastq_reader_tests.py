@@ -361,12 +361,64 @@ class TestFastqReader(unittest.TestCase):
     information from fastq sequences."""
 
     # ------------------------------
+    # Unit testing
+    # ------------------------------
+    def test_reader_instance_1(self) -> None:
+        """Positive case of a successful entry"""
+        test_reader = FastqReader("./upper_seq.fastq")
+        self.assertIsInstance(test_reader, FastqReader)
+
+    def test_reader_instance_2(self) -> None:
+        """Tests if can create fastq files with lower case sequences"""
+        test_reader = FastqReader("./lower_seq.fastq")
+        self.assertIsInstance(test_reader, FastqReader)
+
+    def test_reader_invalid_seqs(self) -> None:
+        """Tests if Fastq files contains unwanted types. For example, if digits
+        or booleans or unknown characters are captured within the sequence"""
+        test_reader = FastqReader("./invalid_seq.fastq")
+        reads_iterator = test_reader.iter_reads()
+        try:
+            next(reads_iterator)
+        except FastqFormatError as e:
+            self.assertIsInstance(e, FastqFormatError)
+        except Exception as e:
+            self.fail(f"{e.__class__.__name__} captured, not FastqFormatError")
+
+    def test_reader_invalid_scores(self) -> None:
+        """Tests FastqReader for invalid scores"""
+        test_reader = FastqReader("./invalid_scores.fastq")
+        reads_iterator = test_reader.iter_reads()
+        try:
+            next(reads_iterator)
+        except FastqFormatError as e:
+            self.assertIsInstance(e, FastqFormatError)
+        except Exception as e:
+            self.fail(f"{e.__class__.__name__} captured, not FastqFormatError")
+
+    def test_reader_file_not_exist(self) -> None:
+        """Tests if exception is raised if the file is not found"""
+        self.assertRaises(
+            FileNotFoundError, FastqReader, "./does_not_exist.fastq"
+        )
+
+    def test_reader_via_extension(self) -> None:
+        """Positive test of using .fastq or .FASTQ as extensions"""
+        # creating reader object with ".fastq" , ".FASTQ" ext
+        test_reader_1 = FastqReader("./capital_ext_seq.FASTQ")
+        test_reader_2 = FastqReader("./capital_ext_seq.fastq")
+
+        # testing
+        self.assertIsInstance(test_reader_1, FastqReader)
+        self.assertIsInstance(test_reader_2, FastqReader)
+
+    # ------------------------------
     # Setup class methods
     # -- setups up files
     # -- removes files
     # ------------------------------
     @classmethod
-    def set_up(cls) -> None:
+    def setUp(cls) -> None:
         """Sets up files positive, negative, and random"""
 
         # setting vars
@@ -376,6 +428,7 @@ class TestFastqReader(unittest.TestCase):
         cls.invalid_scores = "invalid_scores.fastq"
         cls.capital_ext = "capital_ext_seq.FASTQ"
         cls.invalid_ext = "invalid_ext_seq.fasta"
+        cls.empty_file = "empty.fastq"
 
         # generating regular fastq fille
         with open(cls.upper_fastq, "w") as f:
@@ -394,15 +447,24 @@ class TestFastqReader(unittest.TestCase):
 
         # generating sequence with invalid seq values
         with open(cls.invalid_seq, "w") as f:
-            read_entries = (
-                [
-                    "@test_fastq.test.3 1 length=50",
-                    "KWTBBNN1AVHWMYR23ZCRDSNGMDYYNSKTKNBV@DZUSHNRZSWDHK",
-                    "@test_fastq.test.2 1 length=50",
-                    "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
-                ],
-            )
-            for entries in read_entries:
+            read_entries = [
+                "@test_fastq.test.3 1 length=50",
+                "KWTBBNN1AVHWMYR23ZCRDSNGMDYYNSKTKNBV@DZUSHNRZSWDHK",
+                "@test_fastq.test.2 1 length=50",
+                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
+            ]
+            for read in read_entries:
+                f.write(f"{read}\n")
+
+        # generating invalid scores
+        with open(cls.invalid_scores, "w") as f:
+            read_entries = [
+                "@test_fastq.test.3 1 length=50",
+                "KWTBBNN1AVHWMYR23ZCRDSNGMDYYNSKTKNBV@DZUSHNRZSWDHK",
+                "@test_fastq.test.2 1 length=50",
+                "&\"@*%3\"&D((Z'*!2#2D%%'#<&Z2.,2ZA)0,')+&<.'1+*--!+1",
+            ]
+            for read in read_entries:
                 f.write(f"{read}\n")
 
         # creating fastq file with capital extension
@@ -414,50 +476,24 @@ class TestFastqReader(unittest.TestCase):
 
         # creating blank file with invalid ext
         with open(cls.invalid_ext, "w") as f:
+            f.write("invalid ext")
+
+        # creating empty fastqfile
+        with open(cls.empty_file, "w") as f:
             f.write("")
 
     @classmethod
-    def tear_down(cls) -> None:
+    def tearDown(cls) -> None:
         """removes all files"""
-        os.remove(cls.upper_fastq)
-        os.remove(cls.lower_fastq)
-        os.remove(cls.invalid_seq)
-        os.remove(cls.invalid_fastq)
-        os.remove(cls.invalid_ext)
-        os.remove(cls.capital_ext)
+        # os.remove(cls.upper_fastq)
+        # os.remove(cls.lower_fastq)
+        # os.remove(cls.invalid_seq)
+        # os.remove(cls.invalid_scores)
+        # os.remove(cls.invalid_ext)
+        # os.remove(cls.capital_ext)
+        # os.remove(cls.empty_file)
 
-    # ------------------------------
-    # Unit testing
-    # ------------------------------
-    def test_reader_instance_1(self) -> None:
-        """Positive case of a successful entry"""
-        test_reader = FastqReader("./upper_seq.fastq")
-        self.assertIsInstance(test_reader, FastqReader)
 
-    def test_reader_instance_2(self) -> None:
-        """Tests if can create fastq files with lower case sequences"""
-        test_reader = FastqReader("./lower_seq.fastq")
-        self.assertIsInstance(test_reader, FastqReader)
+if __name__ == "__main__":
 
-    def test_reader_invalid_seqs(self) -> None:
-        """Tests if Fastq files contains unwanted types. For example, if digits
-        or booleans or unknown characters are captured within the sequence"""
-        self.assertRaises(
-            FastqFormatError, FastqReader, "./invalid_scores.fastq"
-        )
-
-    def test_reader_invalid_scores(self) -> None:
-        """Tests FastqReader for invalid scores"""
-        self.assertRaises(
-            FastqFormatError, FastqReader, "./invalid_scores.fastq"
-        )
-
-    def test_reader_via_extension(self) -> None:
-        """Positive test of using .fastq or .FASTQ as extensions"""
-        # creating reader object with ".fastq" , ".FASTQ" ext
-        test_reader_1 = FastqReader("./capital_ext_seq.FASTQ")
-        test_reader_2 = FastqReader("./capital_ext_seq.fastq")
-
-        # testing
-        self.assertIsInstance(test_reader_1, FastqReader)
-        self.assertIsInstance(test_reader_2, FastqReader)
+    unittest.main()
