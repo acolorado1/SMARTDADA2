@@ -54,6 +54,9 @@ class FastqEntry:
         else:
             raise FastqFormatError("Unable to find the sequence direction")
 
+        # making sequences to be capital letters
+        self.seq = self.seq.upper()
+
 
 class FastqReader:
     """
