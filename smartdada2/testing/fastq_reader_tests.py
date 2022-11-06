@@ -485,13 +485,13 @@ class TestFastqReader(unittest.TestCase):
     @classmethod
     def tearDown(cls) -> None:
         """removes all files"""
-        # os.remove(cls.upper_fastq)
-        # os.remove(cls.lower_fastq)
-        # os.remove(cls.invalid_seq)
-        # os.remove(cls.invalid_scores)
-        # os.remove(cls.invalid_ext)
-        # os.remove(cls.capital_ext)
-        # os.remove(cls.empty_file)
+        os.remove(cls.upper_fastq)
+        os.remove(cls.lower_fastq)
+        os.remove(cls.invalid_seq)
+        os.remove(cls.invalid_scores)
+        os.remove(cls.invalid_ext)
+        os.remove(cls.capital_ext)
+        os.remove(cls.empty_file)
 
 
 if __name__ == "__main__":
