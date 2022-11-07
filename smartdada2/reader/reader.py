@@ -14,6 +14,14 @@ from smartdada2.seq_utils.search import binary_search
 from smartdada2.common.errors import FastqFormatError
 
 
+# constants
+DNA = list("ATCGU")
+AMB_DNA = list("NRYKMSWBDHV")
+ALL_DNA = DNA + AMB_DNA
+ASCII_SCORES = [chr(i) for i in range(33, 70 + 1)]
+NUMERICAL_SCORES = [i for i in range(33, 70 + 1)]
+
+
 @dataclass(slots=True)
 class FastqEntry:
     """Contains the contents of a single read as a FastqEntry"""
@@ -26,6 +34,7 @@ class FastqEntry:
     rseq: Union[None, bool] = None
 
     def __post_init__(self):
+
         # checking header (1 == forward, 2 == rev)
         self.check_seq_dir()
 
@@ -54,10 +63,13 @@ class FastqEntry:
         else:
             raise FastqFormatError("Unable to find the sequence direction")
 
+        # making sequences to be capital letters
+        self.seq = self.seq.upper()
+
 
 class FastqReader:
     """
-    FastqReader is an efficient Fastq file reader that  optimizes for memory
+    FastqReader is an efficient Fastq file reader that optimizes for memory
     usage and speed.
 
     Every entry within the Fastq file is stored within a FastqEntry object,
@@ -77,6 +89,9 @@ class FastqReader:
 
         # FastqReader accessible parameters
         self.fpath: Path = Path(fpath)
+        if not self.fpath.is_file():
+            raise FileNotFoundError(f"{self.fpath} does not exist")
+
         self.reversed: bool = reverse_seq
         self.technology: str = technology
 
@@ -91,7 +106,6 @@ class FastqReader:
         -------
         pd.DataFrame
             DataFrame containing quality scores per sequence
-
         """
 
         # converting to np.array
@@ -131,7 +145,7 @@ class FastqReader:
         # loading average quality scores
         scores_df = self.get_average_score()
 
-        # convert quality score to expected errors
+        # convert quality score values into expected errors values
         scores_df["AverageExpectedError"] = scores_df[
             "AverageQualityScore"
         ].apply(lambda score: 10 ** (-score / 10))
@@ -139,7 +153,7 @@ class FastqReader:
 
         return expected_error_df
 
-    # NOTE: finish documentation
+    # TODO: finish documentation
     def get_max_ee(self) -> pd.Series:
         """Creates a pandas dataframe object that contains the sum of expected
         error of all sequences. The index will represent the sequence. The two
@@ -184,7 +198,7 @@ class FastqReader:
 
         return expected_error_df
 
-    # NOTE: DRY practice found here, need to create a function that collects scores
+    # TODO: DRY practice found here, need to create a function that collects scores
     def get_avg_ee(self) -> pd.DataFrame:
         """Get average expected error per sequence. Generates a pandas
         dataframe that contains sequence length, direction, and average error
@@ -435,7 +449,8 @@ class FastqReader:
                     itertools.islice(self.iter_reads(), n_samples)
                 )
 
-        # -- if size is unknown, iterate through loader and populate results with FastqEntry placeholders
+        # -- if size is unknown, iterate through loader and populate results
+        # with FastqEntry placeholders
         else:
             try:
                 entries = self.iter_reads()
@@ -558,7 +573,14 @@ class FastqReader:
             Generator object with FastqEntries
         """
 
-        # iterate all row contents in fastq file
+        if self.fpath.suffix.lower() != ".fastq":
+            raise ValueError(
+                "FastqReader only takes files '.fastq' or '.FASTQ' files"
+            )
+        elif self.fpath.stat().st_size == 0:
+            raise FastqFormatError("Fastq file contains no contents")
+
+        # iterate all row contents in fastq file and collect entries
         entry_count = 0
         with open(self.fpath, "r") as fastq_file:
 
@@ -575,6 +597,20 @@ class FastqReader:
                 # checking if there are 4 elements in the list
                 # -- 4 lines = 1 entry
                 if len(contents_chunk) == 4:
+
+                    # check for valid sequences
+                    seq_check = set(contents_chunk[1]) - set(ALL_DNA)
+                    if len(seq_check) > 0:
+                        raise FastqFormatError(
+                            "File contains invalid sequence characters"
+                        )
+
+                    # check for valid ascii scores
+                    score_check = set(contents_chunk[3]) - set(ASCII_SCORES)
+                    if len(score_check) > 0:
+                        raise FastqFormatError(
+                            "File contains invalid score characters"
+                        )
 
                     # convert into FastqEntry
                     entry_count += 1
