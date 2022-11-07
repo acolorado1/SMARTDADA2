@@ -106,7 +106,6 @@ class FastqReader:
         -------
         pd.DataFrame
             DataFrame containing quality scores per sequence
-
         """
 
         # converting to np.array
