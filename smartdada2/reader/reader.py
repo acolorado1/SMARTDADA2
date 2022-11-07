@@ -35,7 +35,6 @@ class FastqEntry:
 
     def __post_init__(self):
 
-
         # checking header (1 == forward, 2 == rev)
         self.check_seq_dir()
 
@@ -147,7 +146,7 @@ class FastqReader:
         # loading average quality scores
         scores_df = self.get_average_score()
 
-        # convert quality score to expected errors
+        # convert quality score values into expected errors values
         scores_df["AverageExpectedError"] = scores_df[
             "AverageQualityScore"
         ].apply(lambda score: 10 ** (-score / 10))
@@ -155,7 +154,7 @@ class FastqReader:
 
         return expected_error_df
 
-    # NOTE: finish documentation
+    # TODO: finish documentation
     def get_max_ee(self) -> pd.Series:
         """Creates a pandas dataframe object that contains the sum of expected
         error of all sequences. The index will represent the sequence. The two
@@ -451,7 +450,8 @@ class FastqReader:
                     itertools.islice(self.iter_reads(), n_samples)
                 )
 
-        # -- if size is unknown, iterate through loader and populate results with FastqEntry placeholders
+        # -- if size is unknown, iterate through loader and populate results
+        # with FastqEntry placeholders
         else:
             try:
                 entries = self.iter_reads()
@@ -574,14 +574,12 @@ class FastqReader:
             Generator object with FastqEntries
         """
 
-
         if self.fpath.suffix.lower() != ".fastq":
             raise ValueError(
                 "FastqReader only takes files '.fastq' or '.FASTQ' files"
             )
         elif self.fpath.stat().st_size == 0:
             raise FastqFormatError("Fastq file contains no contents")
-
 
         # iterate all row contents in fastq file and collect entries
         entry_count = 0
@@ -602,7 +600,7 @@ class FastqReader:
                 if len(contents_chunk) == 4:
 
                     # check for valid sequences
-                    seq_check =  set(contents_chunk[1]) - set(ALL_DNA)
+                    seq_check = set(contents_chunk[1]) - set(ALL_DNA)
                     if len(seq_check) > 0:
                         raise FastqFormatError(
                             "File contains invalid sequence characters"
