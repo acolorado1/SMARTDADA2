@@ -5,6 +5,8 @@ may encounter
 import os
 import unittest
 
+from pandas import DataFrame
+
 # smartdada2 imports
 from smartdada2.testing.help_test_funcs import toy_sequencer
 from smartdada2.reader.reader import FastqReader, FastqEntry
@@ -363,6 +365,8 @@ class TestFastqReader(unittest.TestCase):
     # ------------------------------
     # Unit testing
     # ------------------------------
+
+    # -- Testing reader instantiation
     def test_reader_instance_1(self) -> None:
         """Positive case of a successful entry"""
         test_reader = FastqReader("./upper_seq.fastq")
@@ -412,6 +416,166 @@ class TestFastqReader(unittest.TestCase):
         self.assertIsInstance(test_reader_1, FastqReader)
         self.assertIsInstance(test_reader_2, FastqReader)
 
+    # -- Testing quality scores
+    def test_quality_score_type(self) -> None:
+        """Checks if the correct type is returned is a DataFrame"""
+
+        # setting up
+        test_reader = FastqReader("./small.fastq")
+        test_quality_score_test = test_reader.get_quality_scores()
+
+        # test
+        self.assertIsInstance(test_quality_score_test, DataFrame)
+
+    def test_quality_score_values(self) -> None:
+        """Tests if all values are equal. Using control randomized fastq files
+        ./small.fastq"""
+        expected_scores = [
+            [7, 2, 32, 0, 13, 5, 10, 11, 17, 31, 1, 3, 5, 2, 5],
+            [17, 7, 6, 12, 17, 18, 16, 4, 12, 0, 10, 0, 3, 11, 0],
+            [11, 26, 21, 4, 8, 6, 11, 7, 29, 2, 26, 29, 17, 15, 25],
+            [1, 3, 4, 2, 36, 5, 1, 31, 9, 4, 18, 1, 5, 35, 7],
+            [7, 18, 6, 9, 0, 17, 2, 17, 35, 4, 4, 6, 2, 27, 5],
+        ]
+
+        # instantiating reader
+        test_reader = FastqReader("./small.fastq")
+        test_quality_score_test = (
+            test_reader.get_quality_scores().values.tolist()
+        )
+
+        # testing
+        self.assertEqual(expected_scores, test_quality_score_test)
+
+    # -- Testing average quality score method
+    def test_average_quality_score_type(self) -> None:
+        """Checks if correct type is returned"""
+        # setting up reader
+        test_reader = FastqReader("./small.fastq")
+        test_avg_scores = test_reader.get_average_score()
+
+        # Testing
+        self.assertIsInstance(test_avg_scores, DataFrame)
+
+    def test_average_quality_scores_cols(self) -> None:
+        """Checks if the correct column names are generated"""
+        # expected answers
+        expected_list = ["Position", "AverageQualityScore"]
+
+        # setting up reader
+        test_reader = FastqReader("./small.fastq")
+        test_avg_scores = test_reader.get_average_score()
+        test_colnames = test_avg_scores.columns.tolist()
+
+        # test
+        self.assertEqual(expected_list, test_colnames)
+
+    def test_average_quality_score_values(self) -> None:
+
+        # expected avg scores
+        expected_avg_scores = [
+            [0.0, 8.6],
+            [1.0, 11.2],
+            [2.0, 13.8],
+            [3.0, 5.4],
+            [4.0, 14.8],
+            [5.0, 10.2],
+            [6.0, 8.0],
+            [7.0, 14.0],
+            [8.0, 20.4],
+            [9.0, 8.2],
+            [10.0, 11.8],
+            [11.0, 7.8],
+            [12.0, 6.4],
+            [13.0, 18.0],
+            [14.0, 8.4],
+        ]
+
+        # setting up test
+        test_reader = FastqReader("./small.fastq")
+        test_avg_scores = test_reader.get_average_score().values.tolist()
+
+        self.assertEqual(expected_avg_scores, test_avg_scores)
+
+    # -- Testing Max expected error function
+    def test_max_ee_type(self) -> None:
+        """checks values produced"""
+        # setting up reader
+        test_reader = FastqReader("./small.fastq")
+        test_avg_scores = test_reader.get_max_ee()
+
+        # Testing
+        self.assertIsInstance(test_avg_scores, DataFrame)
+
+    def test_max_ee_colnames(self) -> None:
+        """Checks if the correct column names are generated"""
+        # expected answers
+        expected_list = ["length", "direction", "max_ee"]
+
+        # setting up reader
+        test_reader = FastqReader("./small.fastq")
+        test_max_scores = test_reader.get_max_ee()
+        test_colnames = test_max_scores.columns.tolist()
+
+        # test
+        self.assertEqual(expected_list, test_colnames)
+
+    def test_max_ee_values(self) -> None:
+        """checks values produced"""
+
+        # expected
+        expected_values = [
+            [15, "reverse", 4.95656914242339],
+            [15, "forward", 4.736506613736166],
+            [15, "reverse", 1.867356939317895],
+            [15, "forward", 5.2864286046657885],
+            [15, "reverse", 4.2602185233674135],
+        ]
+
+        # setup test
+        test_reader = FastqReader("./small.fastq")
+        test_max_ee = test_reader.get_max_ee().values.tolist()
+
+        # self
+        self.assertEqual(expected_values, test_max_ee)
+
+    # -- Testing Max average expected error
+    def test_avg_ee_scores(self) -> None:
+        """checking types"""
+        # setting up reader
+        test_reader = FastqReader("./small.fastq")
+        test_avg_scores = test_reader.get_avg_ee()
+
+        # Testing
+        self.assertIsInstance(test_avg_scores, DataFrame)
+
+    def test_avg_ee_scores(self) -> None:
+        """check values of average scores"""
+
+        # expected values
+        expected_values = [
+            [15, "reverse", 0.33043794282822603],
+            [15, "forward", 0.31576710758241106],
+            [15, "reverse", 0.124490462621193],
+            [15, "forward", 0.3524285736443859],
+            [15, "reverse", 0.2840145682244942],
+        ]
+
+        # testing
+        test_reader = FastqReader("./small.fastq")
+        test_max_ee = test_reader.get_avg_ee().values.tolist()
+
+        self.assertEqual(expected_values, test_max_ee)
+
+    def test_avg_ee_type(self) -> None:
+        """checks values produced"""
+        # setting up reader
+        test_reader = FastqReader("./small.fastq")
+        test_avg_scores = test_reader.get_average_score()
+
+        # Testing
+        self.assertIsInstance(test_avg_scores, DataFrame)
+
     # ------------------------------
     # Setup class methods
     # -- setups up files
@@ -422,6 +586,7 @@ class TestFastqReader(unittest.TestCase):
         """Sets up files positive, negative, and random"""
 
         # setting vars
+        cls.small_fastq = "small.fastq"
         cls.upper_fastq = "upper_seq.fastq"
         cls.lower_fastq = "lower_seq.fastq"
         cls.invalid_seq = "invalid_seq.fastq"
@@ -429,6 +594,13 @@ class TestFastqReader(unittest.TestCase):
         cls.capital_ext = "capital_ext_seq.FASTQ"
         cls.invalid_ext = "invalid_ext_seq.fasta"
         cls.empty_file = "empty.fastq"
+
+        # generating small fastq file
+        with open(cls.small_fastq, "w") as f:
+            reads = toy_sequencer(15, 5, rev_seq=True, seed=42)
+            for read in reads:
+                for read_data in read:
+                    f.write(f"{read_data}\n")
 
         # generating regular fastq fille
         with open(cls.upper_fastq, "w") as f:
