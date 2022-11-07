@@ -1,6 +1,6 @@
 import unittest
 import warnings
-import GetTrimParameters
+import smartdada2.testing.GetTrimParameters as GetTrimParameters
 
 
 class MyTestCase(unittest.TestCase):
