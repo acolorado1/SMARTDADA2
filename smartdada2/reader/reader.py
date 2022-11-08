@@ -6,6 +6,7 @@ from typing import Iterable
 from typing import Optional
 from typing import Union
 from typing import List
+from typing import Any
 
 import pandas as pd
 import numpy as np
@@ -481,13 +482,61 @@ class FastqReader:
 
         return subset_reads
 
-    @staticmethod
-    def unpack_reads(iterator: Iterable[FastqEntry]) -> List[FastqEntry]:
+    def unpack_entries(
+        self, full: Optional[bool] = False
+    ) -> List[Union[FastqEntry, List[Any]]]:
+        """Takes the iterator object produced from FastqReader and saves them
+        into memory as a python list.
+
+        Parameters
+        ----------
+        full : bool, optional
+            indicates if the user wants a full unpacking of the dataset. If
+            False, the returning object will be python list of FastqEntries. If
+            set to True, the return object is a list of list containing
+            entry information. by default False
+
+        Returns
+        -------
+        List[FastqEntry]
+            list of FastqEntry object will be returned if full is set to False.
+            If full is set to True, then the FastqEntry object will be fully
+            unpacked and returns unstructured entry.
+
+            The unstructured dataset is a python list that contains
+            [header id, sequence, scores, sequence length and direction]
         """
-        Takes the iterator object produced from FastqReader and saves them into
-        memory as a python list.
-        """
-        return [read for read in iterator]
+
+        # checking if user want list of FastqEntries or Raw Python data types
+        # -- returning list of FastqEntry objects
+        if full is False:
+            return [read for read in self.iter_reads()]
+
+        # -- returning unstructured dataset
+        elif full is True:
+
+            all_unpacked_entries = []
+            for entry in self.iter_reads():
+
+                # unpack all reads
+                # -- unpacking
+                unpacked_entries = [
+                    entry.header,
+                    entry.seq,
+                    entry.scores,
+                    int(entry.length),
+                ]
+
+                # -- converting sequence direction to string types
+                if entry.rseq is True:
+                    unpacked_entries.append("reverse")
+                else:
+                    unpacked_entries.append("forward")
+
+                # storing
+                all_unpacked_entries.append(unpacked_entries)
+
+            return all_unpacked_entries
 
     def iter_reads(self) -> Iterable[FastqEntry]:
         """Returns a python generator containing FastqEntries
@@ -679,12 +728,11 @@ def search_ambiguous_nucleotide(nucleotides: pd.Series) -> int:
     """
 
     # counting all nucleotides
-    ambiguous_nucleotide = list("NRYKMSWBDHV")
     count_series = nucleotides.value_counts()
 
     # searching for  nucleotides
     found_ambiguous_nucleotide = []
-    for ambi_nuc in ambiguous_nucleotide:
+    for ambi_nuc in AMB_DNA:
         if ambi_nuc in count_series.index.tolist():
             found_ambiguous_nucleotide.append(ambi_nuc)
 

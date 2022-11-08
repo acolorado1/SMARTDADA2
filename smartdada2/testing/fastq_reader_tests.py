@@ -576,6 +576,75 @@ class TestFastqReader(unittest.TestCase):
         # Testing
         self.assertIsInstance(test_avg_scores, DataFrame)
 
+    # -- testing unpacking of sequence entries
+    def test_unpack_entries(self):
+        """Takes in FastqReader object and extract. Checks if the generated
+        list is an instance of FastqEntry
+        """
+
+        # init reader
+        test_reader = FastqReader("./small.fastq")
+
+        # unpack entries
+        unpack_reads = test_reader.unpack_entries()
+
+        # check
+        for entry in unpack_reads:
+            self.assertIsInstance(entry, FastqEntry)
+
+    def test_unpack_full_entries(self):
+        """Unpacks reads and returns a python object. This is considered as a
+        full unpacking due to the destructuring of the FastqEntry and only
+        returning python objects."""
+
+        # expected output
+        expected_arr = [
+            [
+                "@test_fastq.test.1 1 length=15",
+                "KDUHDNKSBARKSMK",
+                '(#A!.&+,2@"$&#&',
+                15,
+                "forward",
+            ],
+            [
+                "@test_fastq.test.2 1 length=15",
+                "VNRBKWYRWDVBDYD",
+                "2('-231%-!+!$,!",
+                15,
+                "reverse",
+            ],
+            [
+                "@test_fastq.test.1 2 length=15",
+                "RCUDYDVKANAAKKG",
+                ",;6%)',(>#;>20:",
+                15,
+                "forward",
+            ],
+            [
+                "@test_fastq.test.2 2 length=15",
+                "BSBKGKWTBBNNDAV",
+                '"$%#E&"@*%3"&D(',
+                15,
+                "reverse",
+            ],
+            [
+                "@test_fastq.test.1 3 length=15",
+                "HWMYRRSBCRDSNGM",
+                "(3'*!2#2D%%'#<&",
+                15,
+                "forward",
+            ],
+        ]
+
+        # init reader
+        test_reader = FastqReader("./small.fastq")
+
+        # unpack entries
+        fully_unpacked_reads = test_reader.unpack_entries(full=True)
+
+        # testing if all the values inside array are the same
+        self.assertEqual(expected_arr, fully_unpacked_reads)
+
     # ------------------------------
     # Setup class methods
     # -- setups up files
