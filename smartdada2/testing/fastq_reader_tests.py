@@ -576,6 +576,21 @@ class TestFastqReader(unittest.TestCase):
         # Testing
         self.assertIsInstance(test_avg_scores, DataFrame)
 
+
+    # -- testing unpacking of sequence entries
+    def test_unpack_entries(self):
+        """Takes in FastqReader object and extract 
+        """
+        pass
+
+    def test_unpack_full_entries(self):
+        """Unpacks reads and returns a python object. FastqEntry"""
+        pass
+
+    def test_unpack_reads_types(self):
+        """Tests the type checking mechanism of unpack_entries()"""
+        pass
+
     # ------------------------------
     # Setup class methods
     # -- setups up files
