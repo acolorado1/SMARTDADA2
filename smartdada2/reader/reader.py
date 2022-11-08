@@ -517,10 +517,9 @@ class FastqReader:
 
             all_unpacked_entries = []
             for entry in self.iter_reads():
-                full_unpacked_entries = []
-                
+
                 # unpack all reads
-                # -- unpacking 
+                # -- unpacking
                 unpacked_entries = [
                     entry.header,
                     entry.seq,
@@ -534,8 +533,8 @@ class FastqReader:
                 else:
                     unpacked_entries.append("forward")
 
-                # storing 
-                full_unpacked_entries.append(all_unpacked_entries)
+                # storing
+                all_unpacked_entries.append(unpacked_entries)
 
             return all_unpacked_entries
 
