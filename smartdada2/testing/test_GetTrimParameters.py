@@ -1,28 +1,28 @@
 import unittest
 import warnings
-import smartdada2.testing.GetTrimParameters as GetTrimParameters
+import smartdada2.GetTrimParameters as GetTrimParameters
+from smartdada2.reader import reader
 
 
 class MyTestCase(unittest.TestCase):
     def test_trim_ends_less_than_threshold(self):
-        known_list = [15, 20, 22, 30, 30, 40, 30, 30, 25, 20, 15]
+        known_list = [15.0, 20.0, 22.0, 30.0, 30.0, 40.0, 30.0, 30.0, 25.0, 20.0, 15.0]
         result = GetTrimParameters.trim_ends_less_than_threshold(known_list)
-        self.assertEqual(result, (1, 10))
+        self.assertEqual(result, (3, 8))
 
         # check raised errors
         string_list = ['30', '35', '36']
         self.assertRaises(TypeError,
-                          GetTrimParameters.trim_ends_less_than_threshold,
-                          string_list)
+                          GetTrimParameters.trim_ends_less_than_threshold, string_list)
 
-        impossible_values = [20, 50, 2]
+        impossible_values = [20.0, 50.0, 2.0]
         self.assertRaises(ValueError,
                           GetTrimParameters.trim_ends_less_than_threshold,
                           impossible_values)
 
         # check return values for short return sizes
-        trim_L_short = [15, 18, 18, 30, 30, 40, 30, 30, 25, 20, 15]
-        trim_R_short = [15, 20, 22, 30, 30, 40, 30, 30, 18, 18, 15]
+        trim_L_short = [15.0, 18.0, 18.0, 30.0, 30.0, 40.0, 30.0, 30.0, 25.0, 20.0, 15.0]
+        trim_R_short = [15.0, 20.0, 22.0, 30.0, 30.0, 40.0, 30.0, 30.0, 18.0, 18.0, 15.0]
 
         with warnings.catch_warnings(record=True) as w:
             GetTrimParameters.trim_ends_less_than_threshold(trim_L_short)
@@ -31,6 +31,35 @@ class MyTestCase(unittest.TestCase):
             assert issubclass(w[0].category, UserWarning)
             assert issubclass(w[1].category, UserWarning)
 
+        # check for no trimming 
+        perfect_list = [30.0, 30.0, 30.0, 30.0, 30.0, 40.0, 30.0, 30.0, 30.0, 30.0, 30.0]
+        with warnings.catch_warnings(record=True) as w:
+            result = GetTrimParameters.trim_ends_less_than_threshold(perfect_list)
+            self.assertEqual(result, (0, 11))
+            assert issubclass(w[0].category, UserWarning)
 
+    def test_get_trim_length_avgEE(self):
+        # raise errors 
+        wrong_type = ['1', 2, 3]
+        self.assertRaises(TypeError, GetTrimParameters.get_trim_length_avgEE, 
+                          wrong_type, 1, 2)
+        
+        # calculate average 
+        test_EE_list = [2.0,3.0]
+        manual_calc = (2+3)/2 
+        results = GetTrimParameters.get_trim_length_avgEE(test_EE_list, 0, 2)
+        self.assertEqual(results[2], manual_calc)
+
+    def test_read_size_by_avg_EE(self):
+        # raise errors 
+        not_fastq = ['atcg']
+        self.assertRaises(TypeError, GetTrimParameters.read_size_by_avg_EE, not_fastq, 0, 2)
+
+        '''# test df output 
+        # THIS DOES NOT WORK BECAUSE OF FILE PATHS 
+        test_data_fp = reader.FastqReader('./DADA2ParameterExploration/data/SRR1591840_tunc.fastq')
+        df = GetTrimParameters.read_size_by_avg_EE(test_data_fp, 0, 150)
+        self.assertEqual(len(df), 77)'''
+        
 if __name__ == '__main__':
     unittest.main()
