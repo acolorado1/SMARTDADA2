@@ -8,7 +8,7 @@ def trim_ends_less_than_threshold(avg_qs_list, threshold=30, max_trim_per=0.1):
     and then to the right, the first index with a value lower than the
     threshold will be the potential trim index
 
-    :param avg_qs_list: list of floats 
+    :param avg_qs_list: list of floats
         list of average quality scores per position
     :param threshold: integer
         quality score between 0 and 42
@@ -67,14 +67,14 @@ def trim_ends_less_than_threshold(avg_qs_list, threshold=30, max_trim_per=0.1):
         else:
             current_index += 1
 
-    # if not obvious trimming was performed at all 
+    # if not obvious trimming was performed at all
     if trim_left_index == 0 and trim_right_index == 0:
         warnings.warn("No obvious trimming performed")
 
     # if no obvious right trimming was performed
     if trim_right_index == 0:
         # right index is last index
-        trim_right_index = len_list 
+        trim_right_index = len_list
 
     # warn if trim values create a short read
     perc_10 = round(len_list * max_trim_per)
@@ -88,18 +88,19 @@ def trim_ends_less_than_threshold(avg_qs_list, threshold=30, max_trim_per=0.1):
 
 
 def get_trim_length_avgEE(avgEE_list, left, right):
-    """This function takes a list of average expected error per position and indexing 
-    sites to return a list of trim sites, read length, and average EE 
+    """This function takes a list of average expected error
+    per position and indexing sites to return a list of trim
+    sites, read length, and average EE
 
     Args:
         avgEE_list (list): average expected error per position
         left (int): left index
-        right (int): right index 
+        right (int): right index
 
     Returns:
         list: string of indexes, length of read, average EE per position
     """
-    if not isinstance(avgEE_list, list): 
+    if not isinstance(avgEE_list, list):
         raise TypeError('average EE must be of type list')
     if not isinstance(left, int):
         raise TypeError('left index must be of type int')
@@ -109,34 +110,33 @@ def get_trim_length_avgEE(avgEE_list, left, right):
         if not isinstance(EE, float):
             raise TypeError('all values in avgEE must be of type float')
 
-    # to get average EE per position of read 
+    # to get average EE per position of read
     current_read_len = len(avgEE_list[left:right])
     current_sumEE = sum(avgEE_list[left:right])
 
-    # get indexes, read length, and avgEE 
+    # get indexes, read length, and avgEE
     trim_indexes = str(left) + ":" + str(right)
     read_len = current_read_len
     avgEE_position = current_sumEE / current_read_len
 
-    return [trim_indexes, read_len , avgEE_position]
+    return [trim_indexes, read_len, avgEE_position]
 
 
-
-def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc = 0.20): 
-    """Creates a dataframe containing average expected error per position for each 
-    length of read calculated within certain ranges of positions (e.g., not taking 
-    out more than 20% off of either end)
+def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
+    """Creates a dataframe containing average expected error per position
+    for each length of read calculated within certain ranges of positions
+    (e.g., not taking out more than 20% off of either end)
 
     Args:
-        FastqEntries (FastqEntry): reads taken from fastq files 
-        left (integer): left index 
+        FastqEntries (FastqEntry): reads taken from fastq files
+        left (integer): left index
         right (integer): right index
-        max_trim_perc (float, optional): max percentage of the read trimmed on 
+        max_trim_perc (float, optional): max percentage of the read trimmed on
         either end. Defaults to 0.2.
 
     Returns:
-        pandas dataframe: dataframe containing 3 columns: trim positions, read 
-        length, and average EE per position 
+        pandas dataframe: dataframe containing 3 columns: trim positions, read
+        length, and average EE per position
     """
     if not isinstance(FastqEntries, reader.FastqReader):
         raise TypeError('must be of FastqEntry type')
@@ -163,28 +163,34 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc = 0.20):
     read_len_list = []
     avgEE_position = []
 
+    trim_bound = read_len * max_trim_perc
+
     # start trimming from the left
-    current_left = left 
-    while current_left < read_len * max_trim_perc:
-        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list, current_left, right)
+    current_left = left
+    while current_left < trim_bound:
+        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list,
+                                                   current_left,
+                                                   right)
         trim_indexes.append(trim_readLen_avgEE[0])
         read_len_list.append(trim_readLen_avgEE[1])
         avgEE_position.append(trim_readLen_avgEE[2])
 
         current_left += 1
 
-    # start trimming from the right 
+    # start trimming from the right
     current_right = right
-    while current_right > read_len - read_len*max_trim_perc:
-        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list, left, current_right)
+    while current_right > read_len - trim_bound:
+        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list,
+                                                   left,
+                                                   current_right)
         trim_indexes.append(trim_readLen_avgEE[0])
         read_len_list.append(trim_readLen_avgEE[1])
         avgEE_position.append(trim_readLen_avgEE[2])
 
         current_right -= 1
 
-    # start trimming on either end 
-    while left < read_len*max_trim_perc and right > read_len - read_len*max_trim_perc: 
+    # start trimming on either end
+    while left < trim_bound and right > read_len - trim_bound:
         trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list, left, right)
         trim_indexes.append(trim_readLen_avgEE[0])
         read_len_list.append(trim_readLen_avgEE[1])
@@ -195,9 +201,5 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc = 0.20):
 
     # create three column pandas data frame
     df = pd.DataFrame(list(zip(trim_indexes, read_len_list, avgEE_position)),
-                    columns=['Indexes', 'ReadLength', 'AvgEEPerPosition'])
-    return df 
-
-
-    # TODO 
-    # CREATE FINAL FUNCTION FOR CALCULATION OF TRIM PARAMS 
+                      columns=['Indexes', 'ReadLength', 'AvgEEPerPosition'])
+    return df
