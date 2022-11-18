@@ -178,7 +178,7 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
         current_left += 1
 
     # start trimming from the right
-    current_right = right
+    current_right = right - 1
     while current_right > read_len - trim_bound:
         trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list,
                                                    left,
@@ -190,6 +190,9 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
         current_right -= 1
 
     # start trimming on either end
+    left = left + 1
+    right = right - 1
+    
     while left < trim_bound and right > read_len - trim_bound:
         trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list, left, right)
         trim_indexes.append(trim_readLen_avgEE[0])

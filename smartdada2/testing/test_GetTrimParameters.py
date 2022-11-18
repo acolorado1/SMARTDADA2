@@ -55,11 +55,10 @@ class MyTestCase(unittest.TestCase):
         not_fastq = ['atcg']
         self.assertRaises(TypeError, GetTrimParameters.read_size_by_avg_EE, not_fastq, 0, 2)
 
-        '''# test df output 
-        # THIS DOES NOT WORK BECAUSE OF FILE PATHS 
-        test_data_fp = reader.FastqReader('./DADA2ParameterExploration/data/SRR1591840_tunc.fastq')
+        # test df output 
+        test_data_fp = reader.FastqReader("./test_data/SRR1591840_tunc.fastq")
         df = GetTrimParameters.read_size_by_avg_EE(test_data_fp, 0, 150)
-        self.assertEqual(len(df), 77)'''
+        self.assertEqual(len(df), 89)
         
 if __name__ == '__main__':
     unittest.main()

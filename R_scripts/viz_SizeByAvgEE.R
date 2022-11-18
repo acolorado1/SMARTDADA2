@@ -27,8 +27,11 @@ ggplot(parameter_info, aes(x = ReadLength, y = AvgEEPerPosition)) +
   ylab('Average Expected Error Per Position') + 
   xlab('Read Length (bp)') 
 
-ggsave("ReadLengthByAvgEE.png")
+ggsave("plots/ReadLengthByAvgEE.png",
+       width = 10,
+       height = 10)
 
+dev.off()
 
 # line plot of read counts over and under the maxEE
 melt_param_info <- melt(parameter_info, id.vars = 'ReadLength')
@@ -43,4 +46,8 @@ ggplot(melt_param_info, aes(x = ReadLength, y = value)) +
   ylab('Number of reads') + 
   guides(color=guide_legend(title=" "))
 
-ggsave("ReadCountOverMaxEE.png")
+ggsave("plots/ReadCountOverMaxEE.png",
+       width = 20,
+       height = 10)
+
+dev.off()
