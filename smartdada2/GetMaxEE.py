@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import GetTrimParameters as GTP
+import smartdada2.GetTrimParameters as GTP
 from smartdada2.reader import reader
 
 
@@ -21,6 +21,7 @@ def read_size_by_maxEE(FastqEntries, TrimInfo: pd.DataFrame, maxEE=2.0):
     if not isinstance(maxEE, float):
         raise TypeError("maxEE must be of type float")
 
+    # ensure input TSV is of the correct format 
     expected_cols = ["Indexes", "ReadLength", "AvgEEPerPosition"]
     if (TrimInfo.columns != expected_cols).all():
         raise ValueError("dataframe does not contain the right column names")
@@ -34,12 +35,9 @@ def read_size_by_maxEE(FastqEntries, TrimInfo: pd.DataFrame, maxEE=2.0):
 
         # convert scores to numeric format to integer 0-42
         scores = np.array(phred_scores).view(np.int32) - 33
-        EE_entry = []
 
-        # for each score
-        for score in scores:
-            # calculate expected error
-            EE_entry.append(10 ** (-score / 10))
+        # converts phred scores to expected error 
+        EE_entry = [10 ** (-score / 10) for score in scores]
 
         # create list of lists of expected error
         raw_EE.append(EE_entry)
