@@ -35,7 +35,7 @@ distribution_boxplox <- function(dataframe,
     theme_bw()+ 
     theme(plot.title = element_text(hjust = 0.5))
   
-  ggsave("boxplot.png")
+  ggsave("plots/boxplot.png")
 }
 
 
@@ -60,7 +60,7 @@ average_error_lineplot <- function(df){
     theme_bw()+ 
     theme(plot.title = element_text(hjust = 0.5))
   
-  ggsave('LinePlotAvgEE.png')
+  ggsave('plots/LinePlotAvgEE.png')
 }
 
 

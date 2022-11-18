@@ -9,7 +9,7 @@ require(dplyr)
 require(reshape2)
 require(ggplot2)
 
-parameter_info <- read_delim("DADA2ParameterExploration/data/parameter_info.tsv",
+parameter_info <- read_delim("~/RProjs/DADA2Proj/DADA2ParameterExploration/data/parameter_info.tsv",
                              delim = "\t", escape_double = FALSE,
                              col_types = cols(...1 = col_integer(),
                                               Indexes = col_character(),
