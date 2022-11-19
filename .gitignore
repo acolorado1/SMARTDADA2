@@ -1,0 +1,8 @@
+.vscode/settings.json
+SmartDada2.egg-info/
+*.pyc
+*.ipynb
+docs/_build/.DS_Store
+docs/.DS_Store
+docs/build/.DS_Store
+*.ipynb

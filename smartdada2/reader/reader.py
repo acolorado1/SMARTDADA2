@@ -20,7 +20,7 @@ DNA = list("ATCGU")
 AMB_DNA = list("NRYKMSWBDHV")
 ALL_DNA = DNA + AMB_DNA
 ASCII_SCORES = [chr(i) for i in range(33, 70 + 1)]
-NUMERICAL_SCORES = [i for i in range(33, 70 + 1)]
+NUMERICAL_SCORES = list(range(33, 70 + 1))
 
 
 @dataclass(slots=True)
@@ -150,12 +150,24 @@ class FastqReader:
         scores_df["AverageExpectedError"] = scores_df[
             "AverageQualityScore"
         ].apply(lambda score: 10 ** (-score / 10))
-        expected_error_df = scores_df.drop(columns="AverageQualityScore")
+        return scores_df.drop(columns="AverageQualityScore")
 
-        return expected_error_df
+    def get_seq_ee_errors(self) -> pd.DataFrame:
+        """Calculates expected error in all sequences
 
-    # TODO: finish documentation
-    def get_max_ee(self) -> pd.Series:
+        Returns
+        -------
+        pd.DataFrame
+            A dataframe that each row contains the expected error per nucleotide
+            in each sequence. This is different from `get_expected_error()`
+            as it does not take the average of all scores in within each
+            sequence.
+        """
+        # quality scores
+        qual_scores_df = self.get_quality_scores()
+        return qual_scores_df.apply(lambda row: 10 ** (-row / 10), axis=1)
+
+    def get_max_seq_ee(self) -> pd.Series:
         """Creates a pandas dataframe object that contains the sum of expected
         error of all sequences. The index will represent the sequence. The two
         columns "direction" and "total_error"
@@ -166,31 +178,14 @@ class FastqReader:
             A two column dataframe that contains "direction" and "total_error"
         """
 
-        # create empty df
-        expected_error_df = pd.DataFrame()
+        # creates a base dataframe for calculating expected errors
+        expected_error_df = self.__base_max_ee_df()
 
-        # quality scores
-        qual_scores_df = self.get_quality_scores()
-        raw_scores = qual_scores_df.apply(
-            lambda row: 10 ** (-row / 10), axis=1
-        )
-
-        # extract read direction
-        _dir = []
-        for read in self.iter_reads():
-            if read.rseq is True:
-                _dir.append("forward")
-            else:
-                _dir.append("reverse")
-
+        # get raw
+        raw_scores = self.get_seq_ee_errors()
         expected_error_df["max_ee"] = raw_scores.apply(
             lambda row: np.sum(row), axis=1
         )
-
-        expected_error_df["length"] = [
-            entry.length for entry in self.iter_reads()
-        ]
-        expected_error_df["direction"] = _dir
 
         # rearranging columns
         expected_error_df = expected_error_df[
@@ -199,8 +194,7 @@ class FastqReader:
 
         return expected_error_df
 
-    # TODO: DRY practice found here, need to create a function that collects scores
-    def get_avg_ee(self) -> pd.DataFrame:
+    def get_avg_seq_ee(self) -> pd.DataFrame:
         """Get average expected error per sequence. Generates a pandas
         dataframe that contains sequence length, direction, and average error
         score
@@ -211,30 +205,13 @@ class FastqReader:
             average expected error per sequence dataframe
         """
         # create empty df
-        avg_expected_error_df = pd.DataFrame()
+        expected_error_df = self.__base_max_ee_df()
 
-        # quality scores
-        qual_scores_df = self.get_quality_scores()
-        raw_scores = qual_scores_df.apply(
-            lambda row: 10 ** (-row / 10), axis=1
-        )
-
-        # extract read direction
-        _dir = []
-        for read in self.iter_reads():
-            if read.rseq is True:
-                _dir.append("forward")
-            else:
-                _dir.append("reverse")
-
-        avg_expected_error_df["avg_ee"] = raw_scores.apply(
+        # get raw ee scores
+        raw_scores = self.get_average_score_scores()
+        expected_error_df["avg_ee"] = raw_scores.apply(
             lambda row: np.mean(row), axis=1
         )
-
-        avg_expected_error_df["length"] = [
-            entry.length for entry in self.iter_reads()
-        ]
-        avg_expected_error_df["direction"] = _dir
 
         # rearranging columns
         avg_expected_error_df = avg_expected_error_df[
@@ -248,10 +225,9 @@ class FastqReader:
         Returns a Dataframe structure of sequence reads. Row represents a
         sequence and the columns represents the individual nucleotides
         """
-        seq_df = pd.DataFrame(
+        return pd.DataFrame(
             data=(list(entry.seq) for entry in self.iter_reads())
         )
-        return seq_df
 
     def ambiguous_nucleotide_counts(self) -> pd.DataFrame:
         """Counts all ambiguous nucleotides in all reads.
@@ -285,9 +261,7 @@ class FastqReader:
             warnings.warn("No reads have been counted. Counting reads now...")
             self.__n_entries = sum(1 for _ in self.iter_reads())
             self.__counted = True
-            return self.__n_entries
-        else:
-            return self.__n_entries
+        return self.__n_entries
 
     def get_forward_reads(self) -> Iterable[FastqEntry]:
         """Obtains all forward reads within fastq files
@@ -450,15 +424,10 @@ class FastqReader:
                     itertools.islice(self.iter_reads(), n_samples)
                 )
 
-        # -- if size is unknown, iterate through loader and populate results
-        # with FastqEntry placeholders
         else:
             try:
                 entries = self.iter_reads()
-                for _ in range(n_samples):
-                    subset_reads.append(next(entries))
-
-            # raise an exception if the subsample size is larger than the loader population
+                subset_reads.extend(next(entries) for _ in range(n_samples))
             except StopIteration:
                 raise StopIteration(
                     "number of requested samples exceeded number of entries"
@@ -510,9 +479,8 @@ class FastqReader:
         # checking if user want list of FastqEntries or Raw Python data types
         # -- returning list of FastqEntry objects
         if full is False:
-            return [read for read in self.iter_reads()]
+            return list(self.iter_reads())
 
-        # -- returning unstructured dataset
         elif full is True:
 
             all_unpacked_entries = []
@@ -603,7 +571,7 @@ class FastqReader:
             )
 
         if to_list == True:
-            return [entry for entry in self.__slice(range_idx)]
+            return list(self.__slice(range_idx))
         else:
             return self.__slice(range_idx)
 
@@ -712,6 +680,27 @@ class FastqReader:
             elif idx >= start and idx < end:
                 yield read
 
+    def __base_max_ee_df(self) -> pd.DataFrame:
+        """Creates a base dataframe for expected errors calculations"""
+        # create empty df
+        base_ee_df = pd.DataFrame()
+
+        # extract read direction
+        _dir = []
+        for read in self.iter_reads():
+            if read.rseq is True:
+                _dir.append("forward")
+            else:
+                _dir.append("reverse")
+
+        # add sequence direction
+        base_ee_df["direction"] = _dir
+
+        # add sequence length informatoin
+        base_ee_df["length"] = [entry.length for entry in self.iter_reads()]
+
+        return base_ee_df
+
 
 # NOTE: Should this be in the FastqReader class or a separate function?
 def search_ambiguous_nucleotide(nucleotides: pd.Series) -> int:
@@ -731,11 +720,10 @@ def search_ambiguous_nucleotide(nucleotides: pd.Series) -> int:
     count_series = nucleotides.value_counts()
 
     # searching for  nucleotides
-    found_ambiguous_nucleotide = []
-    for ambi_nuc in AMB_DNA:
-        if ambi_nuc in count_series.index.tolist():
-            found_ambiguous_nucleotide.append(ambi_nuc)
+    found_ambiguous_nucleotide = [
+        ambi_nuc
+        for ambi_nuc in AMB_DNA
+        if ambi_nuc in count_series.index.tolist()
+    ]
 
-    total_count = count_series[found_ambiguous_nucleotide].sum()
-
-    return total_count
+    return count_series[found_ambiguous_nucleotide].sum()
