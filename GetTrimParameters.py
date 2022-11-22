@@ -1,9 +1,7 @@
 import warnings
 
 
-def trim_ends_less_than_threshold(avg_qs_list,
-                                  threshold=20,
-                                  max_trim_per=0.1):
+def trim_ends_less_than_threshold(avg_qs_list, threshold=20, max_trim_per=0.1):
     """Perform obvious trimming: moving from the middle index to the left
     and then to the right, the first index with a value lower than the
     threshold will be the potential trim index
@@ -18,18 +16,18 @@ def trim_ends_less_than_threshold(avg_qs_list,
         potential left and right trim values
     """
     if not isinstance(avg_qs_list, list):
-        raise TypeError('average list of quality scores must be of type list')
+        raise TypeError("average list of quality scores must be of type list")
     if not isinstance(threshold, int):
-        raise TypeError('threshold must be of type integer')
+        raise TypeError("threshold must be of type integer")
     if not isinstance(max_trim_per, float):
-        raise TypeError('max trim percentage must be of type float')
+        raise TypeError("max trim percentage must be of type float")
     if threshold < 0 or threshold > 42:
-        raise ValueError('threshold must be between 0 and 40')
+        raise ValueError("threshold must be between 0 and 40")
     for avg_score in avg_qs_list:
         if not isinstance(avg_score, int):
-            raise TypeError('quality scores must be of type int')
+            raise TypeError("quality scores must be of type int")
         if avg_score < 0 or avg_score > 42:
-            raise ValueError('average scores must be between 0 and 40')
+            raise ValueError("average scores must be between 0 and 40")
 
     # find the middle index
     len_list = len(avg_qs_list)
@@ -68,11 +66,11 @@ def trim_ends_less_than_threshold(avg_qs_list,
         trim_right_index = len_list
 
     # exit if trim values create a short amplicon
-    perc_10 = round(len_list*max_trim_per)
+    perc_10 = round(len_list * max_trim_per)
     if trim_left_index > perc_10:
-        warnings.warn('trim left value might be too high')
+        warnings.warn("trim left value might be too high")
 
-    if trim_right_index < len_list-perc_10:
-        warnings.warn('trim right value might be too low')
+    if trim_right_index < len_list - perc_10:
+        warnings.warn("trim right value might be too low")
 
     return trim_left_index, trim_right_index

@@ -6,13 +6,27 @@ from smartdada2.reader import reader
 
 class MyTestCase(unittest.TestCase):
     def test_trim_ends_less_than_threshold(self):
-        known_list = [15.0, 20.0, 22.0, 30.0, 30.0, 40.0, 30.0, 30.0, 25.0, 20.0, 15.0]
+        known_list = [
+            15.0,
+            20.0,
+            22.0,
+            30.0,
+            30.0,
+            40.0,
+            30.0,
+            30.0,
+            25.0,
+            20.0,
+            15.0,
+        ]
         result = GTP.trim_ends_less_than_threshold(known_list)
         self.assertEqual(result, (3, 8))
 
         # check raised errors
         string_list = ["30", "35", "36"]
-        self.assertRaises(TypeError, GTP.trim_ends_less_than_threshold, string_list)
+        self.assertRaises(
+            TypeError, GTP.trim_ends_less_than_threshold, string_list
+        )
 
         impossible_values = [20.0, 50.0, 2.0]
         self.assertRaises(
@@ -76,7 +90,9 @@ class MyTestCase(unittest.TestCase):
     def test_get_trim_length_avgEE(self):
         # raise errors
         wrong_type = ["1", 2, 3]
-        self.assertRaises(TypeError, GTP.get_trim_length_avgEE, wrong_type, 1, 2)
+        self.assertRaises(
+            TypeError, GTP.get_trim_length_avgEE, wrong_type, 1, 2
+        )
 
         # calculate average
         test_EE_list = [2.0, 3.0]

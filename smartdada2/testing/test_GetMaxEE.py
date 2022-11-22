@@ -9,7 +9,10 @@ from smartdada2.reader import reader
 class MyTestCase(unittest.TestCase):
     def test_read_size_by_maxEE(self):
         self.assertRaises(
-            TypeError, GME.read_size_by_maxEE, self.fastqentry, self.EE_by_size_df
+            TypeError,
+            GME.read_size_by_maxEE,
+            self.fastqentry,
+            self.EE_by_size_df,
         )
         self.assertRaises(
             ValueError, GME.read_size_by_maxEE, self.fastqentry, self.rand_df

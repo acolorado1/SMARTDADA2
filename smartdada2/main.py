@@ -14,7 +14,11 @@ def main():
     )
 
     parser.add_argument(
-        "--fq", "-fastq", type=str, required=True, help="file path to fastq files"
+        "--fq",
+        "-fastq",
+        type=str,
+        required=True,
+        help="file path to fastq files",
     )
     parser.add_argument(
         "--of",
