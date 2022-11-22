@@ -147,9 +147,9 @@ class FastqReader:
         scores_df = self.get_average_score()
 
         # convert quality score values into expected errors values
-        scores_df["AverageExpectedError"] = scores_df["AverageQualityScore"].apply(
-            lambda score: 10 ** (-score / 10)
-        )
+        scores_df["AverageExpectedError"] = scores_df[
+            "AverageQualityScore"
+        ].apply(lambda score: 10 ** (-score / 10))
         return scores_df.drop(columns="AverageQualityScore")
 
     def get_seq_ee_errors(self) -> pd.DataFrame:
@@ -183,10 +183,14 @@ class FastqReader:
 
         # get raw
         raw_scores = self.get_seq_ee_errors()
-        expected_error_df["max_ee"] = raw_scores.apply(lambda row: np.sum(row), axis=1)
+        expected_error_df["max_ee"] = raw_scores.apply(
+            lambda row: np.sum(row), axis=1
+        )
 
         # rearranging columns
-        expected_error_df = expected_error_df[["length", "direction", "max_ee"]]
+        expected_error_df = expected_error_df[
+            ["length", "direction", "max_ee"]
+        ]
 
         return expected_error_df
 
@@ -205,10 +209,14 @@ class FastqReader:
 
         # get raw ee scores
         raw_scores = self.get_average_score_scores()
-        expected_error_df["avg_ee"] = raw_scores.apply(lambda row: np.mean(row), axis=1)
+        expected_error_df["avg_ee"] = raw_scores.apply(
+            lambda row: np.mean(row), axis=1
+        )
 
         # rearranging columns
-        avg_expected_error_df = avg_expected_error_df[["length", "direction", "avg_ee"]]
+        avg_expected_error_df = avg_expected_error_df[
+            ["length", "direction", "avg_ee"]
+        ]
 
         return avg_expected_error_df
 
@@ -217,7 +225,9 @@ class FastqReader:
         Returns a Dataframe structure of sequence reads. Row represents a
         sequence and the columns represents the individual nucleotides
         """
-        return pd.DataFrame(data=(list(entry.seq) for entry in self.iter_reads()))
+        return pd.DataFrame(
+            data=(list(entry.seq) for entry in self.iter_reads())
+        )
 
     def ambiguous_nucleotide_counts(self) -> pd.DataFrame:
         """Counts all ambiguous nucleotides in all reads.
@@ -410,7 +420,9 @@ class FastqReader:
                     "requested sample size is larger than total number of entries"
                 )
             else:
-                subset_reads = list(itertools.islice(self.iter_reads(), n_samples))
+                subset_reads = list(
+                    itertools.islice(self.iter_reads(), n_samples)
+                )
 
         else:
             try:
@@ -541,16 +553,22 @@ class FastqReader:
             raised if starting position value is larger than the ending
             position
         """
-        if not isinstance(range_idx, tuple) and not isinstance(range_idx, list):
+        if not isinstance(range_idx, tuple) and not isinstance(
+            range_idx, list
+        ):
             raise TypeError(
                 "Please provide a tuple or lists with starting and ending idx"
             )
         elif len(range_idx) != 2:
             raise ValueError("'range_idx' only takes two value (start, end)")
         elif not all(isinstance(value, int) for value in range_idx):
-            raise TypeError("Values must be integers. Not floats, strings or booleans")
+            raise TypeError(
+                "Values must be integers. Not floats, strings or booleans"
+            )
         elif range_idx[0] > range_idx[1]:
-            raise ValueError("starting position cannot be larger than ending position")
+            raise ValueError(
+                "starting position cannot be larger than ending position"
+            )
 
         if to_list == True:
             return list(self.__slice(range_idx))
@@ -573,7 +591,9 @@ class FastqReader:
         """
 
         if self.fpath.suffix.lower() != ".fastq":
-            raise ValueError("FastqReader only takes files '.fastq' or '.FASTQ' files")
+            raise ValueError(
+                "FastqReader only takes files '.fastq' or '.FASTQ' files"
+            )
         elif self.fpath.stat().st_size == 0:
             raise FastqFormatError("Fastq file contains no contents")
 
@@ -605,7 +625,9 @@ class FastqReader:
                     # check for valid ascii scores
                     score_check = set(contents_chunk[3]) - set(ASCII_SCORES)
                     if len(score_check) > 0:
-                        raise FastqFormatError("File contains invalid score characters")
+                        raise FastqFormatError(
+                            "File contains invalid score characters"
+                        )
 
                     # convert into FastqEntry
                     entry_count += 1
@@ -699,7 +721,9 @@ def search_ambiguous_nucleotide(nucleotides: pd.Series) -> int:
 
     # searching for  nucleotides
     found_ambiguous_nucleotide = [
-        ambi_nuc for ambi_nuc in AMB_DNA if ambi_nuc in count_series.index.tolist()
+        ambi_nuc
+        for ambi_nuc in AMB_DNA
+        if ambi_nuc in count_series.index.tolist()
     ]
 
     return count_series[found_ambiguous_nucleotide].sum()
