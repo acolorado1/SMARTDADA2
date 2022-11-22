@@ -11,7 +11,7 @@ from rpy2.robjects import pandas2ri
 # import all R modules
 _path = Path(__file__)
 r_scripts_folder = _path.parent
-r_script_path = r_scripts_folder/ "R_scripts"
+r_script_path = r_scripts_folder / "R_scripts"
 r_modules: list[str] = glob.glob(f"{r_script_path}/*.R")
 r_source = robjects.r["source"]
 for r_module in r_modules:

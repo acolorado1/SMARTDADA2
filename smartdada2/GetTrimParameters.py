@@ -96,14 +96,14 @@ def get_trim_length_avgEE(avgEE_list, left, right):
         list: string of indexes, length of read, average EE per position
     """
     if not isinstance(avgEE_list, list):
-        raise TypeError('average EE must be of type list')
+        raise TypeError("average EE must be of type list")
     if not isinstance(left, int):
-        raise TypeError('left index must be of type int')
+        raise TypeError("left index must be of type int")
     if not isinstance(right, int):
-        raise TypeError('right index must be of type index')
+        raise TypeError("right index must be of type index")
     for EE in avgEE_list:
         if not isinstance(EE, float):
-            raise TypeError('all values in avgEE must be of type float')
+            raise TypeError("all values in avgEE must be of type float")
 
     # to get average EE per position of read
     current_read_len = len(avgEE_list[left:right])
@@ -132,13 +132,13 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
         length, and average EE per position
     """
     if not isinstance(FastqEntries, reader.FastqReader):
-        raise TypeError('must be of FastqEntry type')
+        raise TypeError("must be of FastqEntry type")
     if not isinstance(left, int):
-        raise TypeError('left must be of type int')
+        raise TypeError("left must be of type int")
     if not isinstance(right, int):
-        raise TypeError('right must be of type int')
+        raise TypeError("right must be of type int")
     if not isinstance(max_trim_perc, float):
-        raise TypeError('max trim percentage must be of type float')
+        raise TypeError("max trim percentage must be of type float")
 
     # get average expected error per position
     avg_EE_df = FastqEntries.get_expected_error()
@@ -146,7 +146,7 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
 
     for avgEE in avg_EE_list:
         if not isinstance(avgEE, float):
-            raise TypeError('avg EEs must be of type float')
+            raise TypeError("avg EEs must be of type float")
 
     # get length of reads
     read_len = len(avg_EE_list)
@@ -161,9 +161,7 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
     # start trimming from the left
     current_left = left
     while current_left < trim_bound:
-        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list,
-                                                   current_left,
-                                                   right)
+        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list, current_left, right)
         trim_indexes.append(trim_readLen_avgEE[0])
         read_len_list.append(trim_readLen_avgEE[1])
         avgEE_position.append(trim_readLen_avgEE[2])
@@ -173,9 +171,7 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
     # start trimming from the right
     current_right = right - 1
     while current_right > read_len - trim_bound:
-        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list,
-                                                   left,
-                                                   current_right)
+        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list, left, current_right)
         trim_indexes.append(trim_readLen_avgEE[0])
         read_len_list.append(trim_readLen_avgEE[1])
         avgEE_position.append(trim_readLen_avgEE[2])
@@ -195,4 +191,7 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
         left += 1
         right -= 1
 
-    return pd.DataFrame(list(zip(trim_indexes, read_len_list, avgEE_position)), columns=['Indexes', 'ReadLength', 'AvgEEPerPosition'])
+    return pd.DataFrame(
+        list(zip(trim_indexes, read_len_list, avgEE_position)),
+        columns=["Indexes", "ReadLength", "AvgEEPerPosition"],
+    )

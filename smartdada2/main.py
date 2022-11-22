@@ -8,25 +8,21 @@ import GetMaxEE as GME
 def main():
 
     parser = arg.ArgumentParser(
-        description="This script will output a dataframe containing" +
-        "trimming information read length, average expected error by" +
-        "position and the number of reads below and over a threshold"
+        description="This script will output a dataframe containing"
+        + "trimming information read length, average expected error by"
+        + "position and the number of reads below and over a threshold"
     )
 
     parser.add_argument(
-        "--fq",
-        "-fastq",
-        type=str,
-        required=True,
-        help="file path to fastq files"
+        "--fq", "-fastq", type=str, required=True, help="file path to fastq files"
     )
     parser.add_argument(
-        '--of',
-        '-output_file', 
-        type=str, 
-        required=False, 
-        help='name of the output file',
-        default='parameter_info.tsv'
+        "--of",
+        "-output_file",
+        type=str,
+        required=False,
+        help="name of the output file",
+        default="parameter_info.tsv",
     )
     parser.add_argument(
         "--th",
@@ -41,8 +37,8 @@ def main():
         "-obvs_max_trim_percentage",
         type=float,
         required=False,
-        help="max percent of the length of the original trim to be" +
-        "trimmed on either end of the read in obvious trimming",
+        help="max percent of the length of the original trim to be"
+        + "trimmed on either end of the read in obvious trimming",
         default=0.1,
     )
     parser.add_argument(
@@ -50,8 +46,8 @@ def main():
         "-additional_max_trim_percentage",
         type=float,
         required=False,
-        help="when performing further trimming the max percentage of" +
-        "the read to be trimmed at either end",
+        help="when performing further trimming the max percentage of"
+        + "the read to be trimmed at either end",
         default=0.2,
     )
     parser.add_argument(
@@ -59,8 +55,8 @@ def main():
         "-maxEE",
         type=float,
         required=False,
-        help="max expected error default is set to same value" +
-        "as default DADA2 parameters",
+        help="max expected error default is set to same value"
+        + "as default DADA2 parameters",
         default=2.0,
     )
 
@@ -69,8 +65,8 @@ def main():
     # ensure o_mtp is less than a_mtp
     if args.o_mtp > args.a_mtp:
         warnings.warn(
-            "max percentage of trimming done in obvious trimming is larger" +
-            "than the max in following steps which is not recommended"
+            "max percentage of trimming done in obvious trimming is larger"
+            + "than the max in following steps which is not recommended"
         )
 
     # read in data

@@ -78,17 +78,13 @@ class TestFastqEntry(unittest.TestCase):
         # setting expected variables
         expected_header_1 = "@test_fastq.test.1 1 length=50"
         expected_seq_1 = "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG"
-        expected_score_1 = (
-            "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
-        )
+        expected_score_1 = "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
         expected_length_1 = 50
         expected_r_seq_1 = False
 
         expected_header_2 = "@test_fastq.test.2 1 length=50"
         expected_seq_2 = "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK"
-        expected_score_2 = (
-            "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
-        )
+        expected_score_2 = "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
         expected_length_2 = 50
         expected_r_seq_2 = True
 
@@ -146,17 +142,13 @@ class TestFastqEntry(unittest.TestCase):
         # setting expected variables
         expected_header_1 = "@test_fastq.test.1 1 length=50"
         expected_seq_1 = "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG"
-        expected_score_1 = (
-            "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
-        )
+        expected_score_1 = "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
         expected_length_1 = 50
         expected_r_seq_1 = False
 
         expected_header_2 = "@test_fastq.test.2 1 length=50"
         expected_seq_2 = "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK"
-        expected_score_2 = (
-            "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
-        )
+        expected_score_2 = "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
         expected_length_2 = 50
         expected_r_seq_2 = True
 
@@ -192,9 +184,7 @@ class TestFastqEntry(unittest.TestCase):
         scores = raw_entries[2]
         length = len(seq)
 
-        self.assertRaises(
-            FastqFormatError, FastqEntry, header, seq, scores, length
-        )
+        self.assertRaises(FastqFormatError, FastqEntry, header, seq, scores, length)
 
     def test_only_forward_reads(self) -> None:
         """Checks if FastqEntry can detect only forward reads"""
@@ -401,9 +391,7 @@ class TestFastqReader(unittest.TestCase):
 
     def test_reader_file_not_exist(self) -> None:
         """Tests if exception is raised if the file is not found"""
-        self.assertRaises(
-            FileNotFoundError, FastqReader, "./does_not_exist.fastq"
-        )
+        self.assertRaises(FileNotFoundError, FastqReader, "./does_not_exist.fastq")
 
     def test_reader_via_extension(self) -> None:
         """Positive test of using .fastq or .FASTQ as extensions"""
@@ -439,9 +427,7 @@ class TestFastqReader(unittest.TestCase):
 
         # instantiating reader
         test_reader = FastqReader("./small.fastq")
-        test_quality_score_test = (
-            test_reader.get_quality_scores().values.tolist()
-        )
+        test_quality_score_test = test_reader.get_quality_scores().values.tolist()
 
         # testing
         self.assertEqual(expected_scores, test_quality_score_test)
