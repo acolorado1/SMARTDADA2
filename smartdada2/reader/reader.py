@@ -158,10 +158,10 @@ class FastqReader:
         Returns
         -------
         pd.DataFrame
-            A dataframe that each row contains the expected error per nucleotide
-            in each sequence. This is different from `get_expected_error()`
-            as it does not take the average of all scores in within each
-            sequence.
+            A dataframe that each row contains the expected error per
+            nucleotide in each sequence. This is different from
+            `get_expected_error()` as it does not take the average of all
+            scores in within each sequence.
         """
         # quality scores
         qual_scores_df = self.get_quality_scores()
@@ -306,9 +306,9 @@ class FastqReader:
         frac: Optional[float] = 0.3,
         seed: Optional[int] = None,
     ) -> Iterable[FastqEntry]:
-        """Sub samples sequences randomly selected. If a seed value is provided,
-        the randomness is controlled and always produces the same output order
-        associated with a specific seed value.
+        """Sub samples sequences randomly selected. If a seed value is
+        provided, the randomness is controlled and always produces the same
+        output order associated with a specific seed value.
 
         Parameters
         ----------
@@ -402,11 +402,12 @@ class FastqReader:
         # type checking
         if seed is not None and not isinstance(seed, int):
             raise ValueError(
-                f"seed value must be an integer type, you provided {type(seed)}"
+                f"seed value must be an integer type, provided: {type(seed)}"
             )
 
         # set a results array and have elements inside as place holders
-        # -- seen is equals to n_samples because those elements make up the results array
+        # -- seen is equals to n_samples because those elements make up the
+        # -- results array
         seen = n_samples
         subset_reads = []
 
@@ -417,7 +418,7 @@ class FastqReader:
         if self.__counted is True:
             if self.__n_entries < n_samples:
                 raise ValueError(
-                    "requested sample size is larger than total number of entries"
+                    "requested sample size is larger than number of entries"
                 )
             else:
                 subset_reads = list(
@@ -570,7 +571,7 @@ class FastqReader:
                 "starting position cannot be larger than ending position"
             )
 
-        if to_list == True:
+        if to_list is True:
             return list(self.__slice(range_idx))
         else:
             return self.__slice(range_idx)

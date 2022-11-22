@@ -2,6 +2,8 @@
 Modules contains exception errors specific to fastq data.
 """
 # Base error classes
+
+
 class __BaseFormatError(Exception):
     """Captures any format related issues"""
 

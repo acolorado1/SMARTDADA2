@@ -1,8 +1,8 @@
 """
-search.py are modules  
+search.py are modules
 
 * binary_search() - searches if a specific integer value exists in an array
-* key_binary_search() - searches if a specific key (string value) exists 
+* key_binary_search() - searches if a specific key (string value) exists
 """
 import numpy as np
 from typing import Union
@@ -30,8 +30,8 @@ def binary_search(
         Max amount of iteration when searching. Raises StopIteration error if
         exceeds number of searches , by default 10000
     sorted : Optional[bool], optional
-        indicates whether array is sorted. False will automatically sort the list
-        . If set to True, list will not be sorted, default is False
+        indicates whether array is sorted. False will automatically sort the
+        list. If set to True, list will not be sorted, default is False
 
     Returns
     -------
