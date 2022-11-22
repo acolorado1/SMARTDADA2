@@ -428,10 +428,9 @@ class FastqReader:
             try:
                 entries = self.iter_reads()
                 subset_reads.extend(next(entries) for _ in range(n_samples))
-            except StopIteration:
-                raise StopIteration(
-                    "number of requested samples exceeded number of entries"
-                )
+            except StopIteration as e:
+                raise StopIteration("number of requested samples exceeded number of entries") from e
+
 
         # next is to update the results array
         # -- checking if seed has been added

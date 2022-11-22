@@ -3,6 +3,7 @@ Module that contains helper functions for testing
 
 - toy_sequencer: Generates fastq data if it came from a sequencer
 """
+
 import random
 from typing import List
 from typing import Union
@@ -12,7 +13,7 @@ from typing import Optional
 DNA = list("ATCGU")
 AMB_DNA = list("NRYKMSWBDHV")
 ASCII_SCORES = [chr(i) for i in range(33, 70 + 1)]
-NUMERICAL_SCORES: list[int] = [i for i in range(33, 70 + 1)]
+NUMERICAL_SCORES: list[int] = list(range(33, 70 + 1))
 
 
 def toy_sequencer(
@@ -94,7 +95,7 @@ def toy_sequencer(
 
     # create a generator of collected data
     header = "@test_fastq.test"
-    all_seqs = (read for read in all_seqs)
+    all_seqs = iter(all_seqs)
 
     # formatting loop
     read_count = 0

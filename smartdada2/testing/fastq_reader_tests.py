@@ -35,7 +35,6 @@ class TestFastqEntry(unittest.TestCase):
         """removes all files"""
         os.remove(cls.upper_fastq)
         os.remove(cls.lower_fastq)
-        pass
 
     # ------------------------------
     # Unit Testing

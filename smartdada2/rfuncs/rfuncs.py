@@ -68,5 +68,4 @@ def __convert_pandas_to_R_df(df) -> robjects.DataFrame:
         R dataframe object
     """
 
-    r_dataframe = pandas2ri.py2rpy(df)
-    return r_dataframe
+    return pandas2ri.py2rpy(df)
