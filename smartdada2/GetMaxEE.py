@@ -21,7 +21,7 @@ def read_size_by_maxEE(FastqEntries, TrimInfo: pd.DataFrame, maxEE=2.0):
     if not isinstance(maxEE, float):
         raise TypeError("maxEE must be of type float")
 
-    # ensure input TSV is of the correct format 
+    # ensure input TSV is of the correct format
     expected_cols = ["Indexes", "ReadLength", "AvgEEPerPosition"]
     if (TrimInfo.columns != expected_cols).all():
         raise ValueError("dataframe does not contain the right column names")
@@ -36,7 +36,7 @@ def read_size_by_maxEE(FastqEntries, TrimInfo: pd.DataFrame, maxEE=2.0):
         # convert scores to numeric format to integer 0-42
         scores = np.array(phred_scores).view(np.int32) - 33
 
-        # converts phred scores to expected error 
+        # converts phred scores to expected error
         EE_entry = [10 ** (-score / 10) for score in scores]
 
         # create list of lists of expected error
@@ -57,7 +57,7 @@ def read_size_by_maxEE(FastqEntries, TrimInfo: pd.DataFrame, maxEE=2.0):
 
         # get the sum of EE
         for EE_list in raw_EE:
-            indexed_EE = EE_list[int(index[0]):int(index[1])]
+            indexed_EE = EE_list[int(index[0]) : int(index[1])]
             sum_EE = sum(indexed_EE)
 
             # if under threshold
