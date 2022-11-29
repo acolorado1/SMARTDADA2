@@ -87,20 +87,13 @@ quantiles <- quantile(parameter_info$ReadsOverMaxEE)
 
 summary_table <- parameter_info %>% 
   filter(ReadsOverMaxEE <= quantiles[[4]]) %>% 
-  arrange(-ReadLength, AvgEEPerPosition) %>% 
+  arrange(-ReadLength, -ReadsOverMaxEE) %>% 
   distinct()
 
 gt_summary <- summary_table %>% 
   gt() %>% 
   tab_style(
     style = cell_fill(color = "gray65"),
-    locations = cells_body(rows = ReadLength == max_readlen)
-  )%>% 
-  tab_style(
-    style = cell_fill(color = "gray65"), 
-    locations = cells_body(rows = AvgEEPerPosition == min_avgEE)
+    locations = cells_body(rows = ReadsOverMaxEE == max(parameter_info$ReadsOverMaxEE))
   ) %>% 
   gtsave(filename = "plots/t_len_by_ReadsOverMaxEE.png")
-
-
-
