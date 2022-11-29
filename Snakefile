@@ -4,9 +4,9 @@ rule all:
 
 rule create_tsv:
     input: 
-        "data/SRR1591840.fastq"
+        "smartdada2/testing/test_data/SRR1591840_tunc.fastq"
     output: 
-        "data/parameter_info.tsv"
+        "data/parameter_info_trunc.tsv"
     params: 
         threshold = 30, 
         o_mtp = 0.1, 
@@ -20,9 +20,11 @@ rule get_plots:
         "data/parameter_info.tsv"
     output:
         "plots/ReadLengthByAvgEE.png",
-        "plots/ReadCountOverMaxEE.png"
+        "plots/ReadCountOverMaxEE.png",
+        "plots/t_len_by_AvgEE.png",
+        "plots/t_len_by_ReadsOverMaxEE.png"
     shell:
-        "Rscript " + "R_scripts/viz_SizeByAvgEE.R --tsv_file {input}"
+        "Rscript " + "R_scripts/vizualize.R --tsv_file {input}"
 
 rule update_report: 
     input: 

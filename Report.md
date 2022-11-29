@@ -26,6 +26,15 @@ different trimming values. For example, a read can be 100 bp long if trimmed fro
 
 ![](./plots/ReadLengthByAvgEE.png)
 
+In this table we filtered for: 
+
+1. Rows containing the max read length 
+2. All rows who were within the 25% quantile of the average expected error per position
+
+Note: Highlighted in grey are the rows containing the highest read length and the lowest average expected error per position.
+
+![](./plots/t_len_by_AvgEE.png)
+
 ### Read Length by Maximum Expected Error 
 
 DADA2 has a parameter called maxEE which is the max number the sum of the 
@@ -37,3 +46,11 @@ by different read sizes. This is in an effort to show whether increasing the max
 expected error might yield significantly more reads for downstream analyses. 
 
 ![](./plots/ReadCountOverMaxEE.png)
+
+In this table we filtered for:
+
+1. All rows within the 75% quantile of the number of reads over max expected error 
+
+Note: Highlighted in grey are the rows containing the max number of reads over the max expected error.
+
+![](./plots/t_len_by_ReadsOverMaxEE.png)
