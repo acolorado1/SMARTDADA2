@@ -79,7 +79,7 @@ gt_summary <- summary_table %>%
     style = cell_fill(color = "gray65"), 
     locations = cells_body(rows = AvgEEPerPosition == min_avgEE)
     ) %>% 
-  gtsave(filename = "plots/ReadLength_by_AvgEE.png")
+  gtsave(filename = "plots/t_len_by_AvgEE.png")
 
 
 # creating a table of Read length and 75% quantile of ReadsOverMaxEE
@@ -100,7 +100,7 @@ gt_summary <- summary_table %>%
     style = cell_fill(color = "gray65"), 
     locations = cells_body(rows = AvgEEPerPosition == min_avgEE)
   ) %>% 
-  gtsave(filename = "plots/ReadLength_by_ReadsOverMaxEE.png")
+  gtsave(filename = "plots/t_len_by_ReadsOverMaxEE.png")
 
 
 
