@@ -23,7 +23,8 @@ ASCII_SCORES = [chr(i) for i in range(33, 70 + 1)]
 NUMERICAL_SCORES = list(range(33, 70 + 1))
 
 
-@dataclass(slots=True)
+# @dataclass(slots=True)
+@dataclass
 class FastqEntry:
     """Contains the contents of a single read as a FastqEntry"""
 
@@ -51,18 +52,18 @@ class FastqEntry:
         direction = header_id.split(".")[-1]
 
         # convert string into integer type
-        if not direction.isdigit():
-            raise FastqFormatError("Unable to find the sequence direction")
-        else:
-            direction = int(direction)
+        # if not direction.isdigit():
+        #     raise FastqFormatError("Unable to find the sequence direction")
+        # else:
+        #     direction = int(direction)
 
         # setting up sequence direction into FastqEntry
-        if direction == 1:
-            self.rseq = False
-        elif direction == 2:
-            self.rseq = True
-        else:
-            raise FastqFormatError("Unable to find the sequence direction")
+        # if direction == 1:
+        #     self.rseq = False
+        # elif direction == 2:
+        #     self.rseq = True
+        # else:
+        #     raise FastqFormatError("Unable to find the sequence direction")
 
         # making sequences to be capital letters
         self.seq = self.seq.upper()
@@ -86,6 +87,7 @@ class FastqReader:
         fpath: str,
         reverse_seq: Optional[bool] = False,
         technology: Optional[str] = "illumina",
+        scale: Optional[str | None] = None,
     ):
 
         # FastqReader accessible parameters
@@ -95,6 +97,11 @@ class FastqReader:
 
         self.reversed: bool = reverse_seq
         self.technology: str = technology
+        
+        self.scale = None
+        if scale is not None:
+            print(f"scaling reads to {scale}")
+            self.scale = scale
 
         # states
         self.__n_entries: Optional[int] = 0
@@ -515,7 +522,16 @@ class FastqReader:
         Sequence[FastqEntry]
             Generator object containing FastqEntries
         """
-        return self.__loader()
+        for entry in self.__loader():
+            
+            # scaling information
+            if self.scale is not None:
+                entry.seq = entry.seq[:self.scale]
+                entry.scores = entry.scores[:self.scale]
+                entry.length = self.scale
+
+            yield entry 
+
 
     def slice_reads(
         self, range_idx: Union[tuple[int, int], list[int, int]], to_list=False
@@ -624,19 +640,25 @@ class FastqReader:
                         )
 
                     # check for valid ascii scores
-                    score_check = set(contents_chunk[3]) - set(ASCII_SCORES)
-                    if len(score_check) > 0:
-                        raise FastqFormatError(
-                            "File contains invalid score characters"
-                        )
+                    # score_check = set(contents_chunk[3]) - set(ASCII_SCORES)
+                    # if len(score_check) > 0:
+                    #     raise FastqFormatError(
+                    #         "File contains invalid score characters"
+                    #     )
 
                     # convert into FastqEntry
                     entry_count += 1
+
+                    # scaling sequence length
+                    seq_length = len(contents_chunk[1][:self.scale]) 
+                    if self.scale is not None:
+                        seq_length = len(contents_chunk[1]) 
+                        
                     fastq_entry = FastqEntry(
                         header=contents_chunk[0],
-                        seq=contents_chunk[1],
-                        scores=contents_chunk[3],
-                        length=len(contents_chunk[1]),
+                        seq=contents_chunk[1][:self.scale],
+                        scores=contents_chunk[3][:self.scale],
+                        length=seq_length,
                     )
 
                     # clear list
@@ -645,6 +667,7 @@ class FastqReader:
                     # yield entry
                     yield fastq_entry
 
+            
         self.__n_entries = entry_count
         self.__counted = True
 
