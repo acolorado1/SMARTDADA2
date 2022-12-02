@@ -74,7 +74,7 @@ def main():
         )
 
     # read in data
-    fqe = reader.FastqReader(args.fq)
+    fqe = reader.FastqReader(args.fq, scale=239)
 
     # get average scores per position
     avg_scores_df = fqe.get_average_score()
