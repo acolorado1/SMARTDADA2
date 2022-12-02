@@ -42,7 +42,7 @@ melt_param_info <- melt_param_info %>%
 melt_param_info$value <- as.integer(melt_param_info$value)
 
 ggplot(melt_param_info, aes(x = ReadLength, y = value, group = variable)) + 
-  geom_line(aes(color = variable)) +
+  geom_point(aes(color = variable)) +
   scale_colour_manual(values=c(ReadsUnderMaxEE="#00FF00",ReadsOverMaxEE="#FF0000"))+
   theme_bw() + 
   theme(text = element_text(size = 20)) + 
@@ -61,7 +61,7 @@ melt_param_info <- melt_param_info %>%
   filter(variable == "ReadsOverMaxEE")
 
 ggplot(melt_param_info, aes(x = ReadLength, y = value, group = variable)) + 
-  geom_line(aes(color = variable)) +
+  geom_point(aes(color = variable)) +
   scale_colour_manual(values=c(ReadsUnderMaxEE="#00FF00",ReadsOverMaxEE="#FF0000"))+
   theme_bw() + 
   theme(text = element_text(size = 20)) + 
