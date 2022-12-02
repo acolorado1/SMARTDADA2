@@ -105,7 +105,7 @@ gt_summary <- summary_table %>%
 quantiles <- quantile(parameter_info$ReadsOverMaxEE)
 
 summary_table <- parameter_info %>% 
-  filter(ReadsOverMaxEE <= quantiles[[4]]) %>% 
+  filter(ReadsOverMaxEE >= quantiles[[4]]) %>% 
   arrange(-ReadLength, -ReadsOverMaxEE) %>% 
   distinct()
 

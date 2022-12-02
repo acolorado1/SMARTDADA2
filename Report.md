@@ -45,6 +45,8 @@ This plot is designed to show how many reads are above and below this threshold
 by different read sizes. This is in an effort to show whether increasing the max
 expected error might yield significantly more reads for downstream analyses. 
 
+![](./plots/ReadCountOverAndUnderMaxEE.png)
+
 ![](./plots/ReadCountOverMaxEE.png)
 
 In this table we filtered for:
