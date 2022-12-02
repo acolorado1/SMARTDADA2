@@ -39,8 +39,28 @@ dev.off()
 melt_param_info <- melt(parameter_info, id.vars = 'ReadLength')
 melt_param_info <- melt_param_info %>% 
   filter(variable == "ReadsUnderMaxEE" | variable == "ReadsOverMaxEE")
+melt_param_info$value <- as.integer(melt_param_info$value)
 
-ggplot(melt_param_info, aes(x = ReadLength, y = value)) + 
+ggplot(melt_param_info, aes(x = ReadLength, y = value, group = variable)) + 
+  geom_line(aes(color = variable)) +
+  scale_colour_manual(values=c(ReadsUnderMaxEE="#00FF00",ReadsOverMaxEE="#FF0000"))+
+  theme_bw() + 
+  theme(text = element_text(size = 20)) + 
+  xlab('Read Length (bp)') + 
+  ylab('Number of reads') + 
+  guides(color=guide_legend(title=" "))
+
+ggsave("plots/ReadCountOverAndUnderMaxEE.png",
+       width = 10,
+       height = 10)
+
+dev.off()
+
+
+melt_param_info <- melt_param_info %>% 
+  filter(variable == "ReadsOverMaxEE")
+
+ggplot(melt_param_info, aes(x = ReadLength, y = value, group = variable)) + 
   geom_line(aes(color = variable)) +
   scale_colour_manual(values=c(ReadsUnderMaxEE="#00FF00",ReadsOverMaxEE="#FF0000"))+
   theme_bw() + 
@@ -62,7 +82,6 @@ quantiles <- quantile(parameter_info$AvgEEPerPosition)
 summary_table <- parameter_info %>% 
   filter(ReadLength == max(ReadLength) | AvgEEPerPosition <= quantiles[[2]]) %>%
   arrange(-ReadLength, AvgEEPerPosition) %>% 
-  select(Indexes, ReadLength, AvgEEPerPosition) %>%
   distinct()
 
 
