@@ -1,36 +1,28 @@
 rule all: 
     input: 
-        "Report.pdf"
+        "output/parameter_info_LOZ_nano_fixed.tsv",
+        "output/sumEEInfo_LOZ_nano.tsv"
 
-rule create_tsv:
+rule create_tsvs:
     input: 
-        "smartdada2/testing/test_data/SRR1591840_tunc.fastq"
+        "LOZ-CSU-Nano_S1_L001_R1_001.fastq"
     output: 
-        "data/parameter_info_trunc.tsv"
+        TrimInfo = "output/parameter_info_LOZ_nano_fixed.tsv",
+        SumEEInfo = "output/sumEEInfo_LOZ_nano.tsv"
     params: 
         threshold = 30, 
         o_mtp = 0.1, 
-        a_mtp = 0.2, 
-        maxEE = 2.0
+        a_mtp = 0.2
     shell: 
-        "python " + "smartdada2/main.py --fq {input} --of {output} --th {params.threshold} --o_mtp {params.o_mtp} --a_mtp {params.a_mtp} --mEE {params.maxEE}"
+        "python " + "smartdada2/main.py --fq {input} --t_of {output.TrimInfo} --th {params.threshold} --o_mtp {params.o_mtp} --a_mtp {params.a_mtp} --EE_of {output.SumEEInfo}"
 
-rule get_plots: 
+'''rule get_plots: 
     input: 
-        "data/parameter_info.tsv"
+        "data/parameter_info_LOZ_nano_fixed.tsv"
     output:
-        "plots/ReadLengthByAvgEE.png",
-        "plots/ReadCountOverMaxEE.png",
-        "plots/t_len_by_AvgEE.png",
-        "plots/t_len_by_ReadsOverMaxEE.png"
+        "output/ReadLengthByAvgEE.png",
+        "output/ReadCountOverMaxEE.png",
+        "output/t_len_by_AvgEE.png",
+        "output/t_len_by_ReadsOverMaxEE.png"
     shell:
-        "Rscript " + "R_scripts/vizualize.R --tsv_file {input}"
-
-rule update_report: 
-    input: 
-        "plots/ReadLengthByAvgEE.png",
-        "plots/ReadCountOverMaxEE.png"
-    output: 
-        "Report.pdf"
-    shell:
-        "pandoc " + "Report.md -o {output}"
+        "Rscript " + "R_scripts/vizualize.R --tsv_file {input}"'''

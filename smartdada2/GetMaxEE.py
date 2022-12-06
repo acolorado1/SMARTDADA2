@@ -4,28 +4,20 @@ import smartdada2.GetTrimParameters as GTP
 from smartdada2.reader import reader
 
 
-def read_size_by_maxEE(FastqEntries, TrimInfo: pd.DataFrame, maxEE=2.0):
-    """Take FastqEntries and table output from the read_size_by_avg_EE
-    and count number of reads that are above and below the maxEE threshold.
+def read_size_by_maxEE(FastqEntries, left:int, right:int):
+    """Takes reads and calculates the sum of the expected
+    error for each read before any trimming and after 
+    obvious trimming.
 
     Args:
-        FastqEntries (FastEntry): reads taken from Fastq files
-        TrimInfo (pd.DataFrame): dataframe containing 3 columns
-        maxEE (float, optional): Max sum of the expected errors a read
-                                contains. Defaults to 2.0 because
-                                DADA2 uses this as a default.
+        FastqEntries (FastqEntry): reads taken from fastq files
+        left (int): trim value output from trim_ends_less_than_threshold
+        right (int): trunc value output from trim_ends_less_than_threshold
 
     Returns:
-        pd.DataFrame: dataframe containing 5 columns
+        pd.dataframe: dataframe containing two columns
     """
-    if not isinstance(maxEE, float):
-        raise TypeError("maxEE must be of type float")
-
-    # ensure input TSV is of the correct format
-    expected_cols = ["Indexes", "ReadLength", "AvgEEPerPosition"]
-    if (TrimInfo.columns != expected_cols).all():
-        raise ValueError("dataframe does not contain the right column names")
-
+    
     # get list of expected errors per read
     raw_EE = []
 
@@ -42,46 +34,27 @@ def read_size_by_maxEE(FastqEntries, TrimInfo: pd.DataFrame, maxEE=2.0):
         # create list of lists of expected error
         raw_EE.append(EE_entry)
 
-    # get list of posible indexes
-    indexes = TrimInfo["Indexes"].values.tolist()
+    # get sum of EE for no trimming and obvious trimming
+    no_trimming = []
+    obv_trimming = []
 
-    # for trim values get sum of EE for read count if under or over threshold
-    under_maxEE = []
-    over_maxEE = []
+    # get the sum of EE
+    for EE_list in raw_EE:
+        obv_trim = EE_list[left: right]
+        sum_no_trim = sum(EE_list)
+        sum_obv_trim = sum(obv_trim)
 
-    # for each trim values
-    for index in indexes:
-        index = index.split(":")
-        under_count = 0
-        over_count = 0
+        # append to lists 
+        no_trimming.append(sum_no_trim)
+        obv_trimming.append(sum_obv_trim)
 
-        # get the sum of EE
-        for EE_list in raw_EE:
-            indexed_EE = EE_list[int(index[0]) : int(index[1])]
-            sum_EE = sum(indexed_EE)
 
-            # if under threshold
-            if sum_EE < maxEE:
-                under_count += 1
-            # if over threshold
-            else:
-                over_count += 1
+    # create two column dataframe 
+    sumEE = pd.DataFrame(
+        list(zip(no_trimming, obv_trimming)),
+        columns=["NoTrimming", 'ObviousTrimming']
+        )
 
-        under_maxEE.append(under_count)
-        over_maxEE.append(over_count)
+    sumEE = sumEE.reset_index(drop=True)
 
-    # add lists as columns to dataframe
-    TrimInfo["ReadsUnderMaxEE"] = under_maxEE
-    TrimInfo["ReadsOverMaxEE"] = over_maxEE
-
-    expected_colnames = [
-        "Indexes",
-        "ReadLength",
-        "AvgEEPerPosition",
-        "ReadsUnderMaxEE",
-        "ReadsOverMaxEE",
-    ]
-    if (TrimInfo.columns != expected_colnames).all():
-        raise ValueError("output dataframe not as expected")
-
-    return TrimInfo
+    return sumEE
