@@ -30,11 +30,23 @@ ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
   ylab('Average Expected Error Per Position') + 
   xlab('Read Length (bp)')
 
+ggsave("output/ScatterReadLengthByAvgEE.png",
+       width = 10,
+       height = 10)
+
+dev.off()
+
 ggplot(trim_info, aes(LeftIndex, RightIndex, fill= AvgEEPerPosition)) + 
   geom_tile() + 
-  scale_y_continuous(trans = "reverse", breaks = unique(parameter_info_LOZ_nano$RightIndex)) +
+  scale_y_continuous(trans = "reverse", breaks = unique(trim_info$RightIndex)) +
   scale_fill_gradient(low="white", high="blue") +
-  theme_bw()
+  theme_bw() 
+
+ggsave("output/HeatmapIndexValueByAvgEE.png",
+       width = 10,
+       height = 10)
+
+dev.off()
 
 # read quality by retained reads
 melt_sumEEInfo <- melt(sumEE_info)
@@ -44,4 +56,11 @@ ggplot(melt_sumEEInfo, aes(x = value, fill = variable)) +
   theme_bw() + 
   theme(text = element_text(size = 20)) +
   scale_x_continuous(limits = c(0,4)) + 
-  guides(fill=guide_legend(title=" "))
+  guides(fill=guide_legend(title=" "))+ 
+  xlab('Sum of Expected Error')
+
+ggsave("output/HistogramRetainedReadCount.png",
+      width = 10,
+      height = 10)
+
+dev.off()
