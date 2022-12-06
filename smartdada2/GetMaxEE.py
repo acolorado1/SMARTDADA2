@@ -4,9 +4,9 @@ import smartdada2.GetTrimParameters as GTP
 from smartdada2.reader import reader
 
 
-def read_size_by_maxEE(FastqEntries, left:int, right:int):
+def read_size_by_maxEE(FastqEntries, left: int, right: int):
     """Takes reads and calculates the sum of the expected
-    error for each read before any trimming and after 
+    error for each read before any trimming and after
     obvious trimming.
 
     Args:
@@ -17,7 +17,10 @@ def read_size_by_maxEE(FastqEntries, left:int, right:int):
     Returns:
         pd.dataframe: dataframe containing two columns
     """
-    
+    # raise errors for wronog data types 
+    if not isinstance(FastqEntries, reader.FastqReader):
+        raise TypeError("must be of FastqEntry type")
+        
     # get list of expected errors per read
     raw_EE = []
 
@@ -40,20 +43,19 @@ def read_size_by_maxEE(FastqEntries, left:int, right:int):
 
     # get the sum of EE
     for EE_list in raw_EE:
-        obv_trim = EE_list[left: right]
+        obv_trim = EE_list[left:right]
         sum_no_trim = sum(EE_list)
         sum_obv_trim = sum(obv_trim)
 
-        # append to lists 
+        # append to lists
         no_trimming.append(sum_no_trim)
         obv_trimming.append(sum_obv_trim)
 
-
-    # create two column dataframe 
+    # create two column dataframe
     sumEE = pd.DataFrame(
         list(zip(no_trimming, obv_trimming)),
-        columns=["NoTrimming", 'ObviousTrimming']
-        )
+        columns=["NoTrimming", "ObviousTrimming"]
+    )
 
     sumEE = sumEE.reset_index(drop=True)
 

@@ -1,6 +1,6 @@
 rule all: 
     input: 
-        "output/parameter_info_LOZ_nano_fixed.tsv",
+        "output/TrimInfo_LOZ_nano_fixed.tsv",
         "output/sumEEInfo_LOZ_nano.tsv",
         "output/ScatterReadLengthByAvgEE.png",
         "output/HeatmapIndexValueByAvgEE.png",
@@ -10,7 +10,7 @@ rule create_tsvs:
     input: 
         "LOZ-CSU-Nano_S1_L001_R1_001.fastq"
     output: 
-        TrimInfo = "output/parameter_info_LOZ_nano_fixed.tsv",
+        TrimInfo = "output/TrimInfo_LOZ_nano_fixed.tsv",
         SumEEInfo = "output/sumEEInfo_LOZ_nano.tsv"
     params: 
         threshold = 30, 
@@ -21,7 +21,7 @@ rule create_tsvs:
 
 rule get_plots: 
     input: 
-        TrimInfo = "output/parameter_info_LOZ_nano_fixed.tsv", 
+        TrimInfo = "output/TrimInfo_LOZ_nano_fixed.tsv", 
         sumEEInfo = "output/sumEEInfo_LOZ_nano.tsv"
     output:
         "output/ScatterReadLengthByAvgEE.png",
