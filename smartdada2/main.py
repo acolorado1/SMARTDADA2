@@ -83,11 +83,11 @@ def main():
     left, right = GTP.trim_ends_less_than_threshold(
         avg_scores_list, args.th, args.o_mtp
     )
-    
+
     # get average EE by position for different read sizes
     EE_by_size_df = GTP.read_size_by_avg_EE(fqe, left, right, args.a_mtp)
 
-    # get dataframe containing the sum of the expected error per sequence 
+    # get dataframe containing the sum of the expected error per sequence
     sumEE = GME.read_size_by_maxEE(fqe, left, right)
 
     # convert final dataframes to TSV

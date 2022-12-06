@@ -114,7 +114,7 @@ def get_trim_length_avgEE(avgEE_list, left, right):
     return [left, right, read_len, current_sumEE / read_len]
 
 
-def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
+def read_size_by_avg_EE(FastqEntries, left: int, right: int, max_trim_perc=0.20):
     """Creates a dataframe containing average expected error per position
     for each length of read calculated within certain ranges of positions
     (e.g., not taking out more than 20% off of either end)
@@ -161,19 +161,17 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
     for current_left in range(left, trim_bound):
         for current_right in range(read_len - trim_bound, right):
             trim_readLen_avgEE = get_trim_length_avgEE(
-                                avg_EE_list, current_left, current_right)
+                avg_EE_list, current_left, current_right
+            )
             left_trim.append(trim_readLen_avgEE[0])
             right_trunc.append(trim_readLen_avgEE[1])
             read_len_list.append(trim_readLen_avgEE[2])
             avgEE_position.append(trim_readLen_avgEE[3])
-            
+
     TrimInfo = pd.DataFrame(
         list(zip(left_trim, right_trunc, read_len_list, avgEE_position)),
-        columns=["LeftIndex", 
-                 "RightIndex", 
-                 "ReadLength", 
-                 "AvgEEPerPosition"]
-        )
+        columns=["LeftIndex", "RightIndex", "ReadLength", "AvgEEPerPosition"],
+    )
 
     TrimInfo = TrimInfo.reset_index(drop=True)
 
