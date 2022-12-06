@@ -110,9 +110,8 @@ def get_trim_length_avgEE(avgEE_list, left, right):
     current_sumEE = sum(avgEE_list[left:right])
 
     # get indexes, read length, and avgEE
-    trim_indexes = f"{str(left)}:{str(right)}"
     read_len = current_read_len
-    return [trim_indexes, read_len, current_sumEE / read_len]
+    return [left, right, read_len, current_sumEE / read_len]
 
 
 def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
@@ -152,50 +151,30 @@ def read_size_by_avg_EE(FastqEntries, left, right, max_trim_perc=0.20):
     read_len = len(avg_EE_list)
 
     # create lists with trim sites, read length, avg EE per position
-    trim_indexes = []
+    left_trim = []
+    right_trunc = []
     read_len_list = []
     avgEE_position = []
 
-    trim_bound = read_len * max_trim_perc
+    trim_bound = round(read_len * max_trim_perc)
 
-    # start trimming from the left
-    current_left = left
-    while current_left < trim_bound:
-        trim_readLen_avgEE = get_trim_length_avgEE(
-            avg_EE_list, current_left, right
+    for current_left in range(left, trim_bound):
+        for current_right in range(read_len - trim_bound, right):
+            trim_readLen_avgEE = get_trim_length_avgEE(
+                                avg_EE_list, current_left, current_right)
+            left_trim.append(trim_readLen_avgEE[0])
+            right_trunc.append(trim_readLen_avgEE[1])
+            read_len_list.append(trim_readLen_avgEE[2])
+            avgEE_position.append(trim_readLen_avgEE[3])
+            
+    TrimInfo = pd.DataFrame(
+        list(zip(left_trim, right_trunc, read_len_list, avgEE_position)),
+        columns=["LeftIndex", 
+                 "RightIndex", 
+                 "ReadLength", 
+                 "AvgEEPerPosition"]
         )
-        trim_indexes.append(trim_readLen_avgEE[0])
-        read_len_list.append(trim_readLen_avgEE[1])
-        avgEE_position.append(trim_readLen_avgEE[2])
 
-        current_left += 1
+    TrimInfo = TrimInfo.reset_index(drop=True)
 
-    # start trimming from the right
-    current_right = right - 1
-    while current_right > read_len - trim_bound:
-        trim_readLen_avgEE = get_trim_length_avgEE(
-            avg_EE_list, left, current_right
-        )
-        trim_indexes.append(trim_readLen_avgEE[0])
-        read_len_list.append(trim_readLen_avgEE[1])
-        avgEE_position.append(trim_readLen_avgEE[2])
-
-        current_right -= 1
-
-    # start trimming on either end
-    left = left + 1
-    right = right - 1
-
-    while left < trim_bound and right > read_len - trim_bound:
-        trim_readLen_avgEE = get_trim_length_avgEE(avg_EE_list, left, right)
-        trim_indexes.append(trim_readLen_avgEE[0])
-        read_len_list.append(trim_readLen_avgEE[1])
-        avgEE_position.append(trim_readLen_avgEE[2])
-
-        left += 1
-        right -= 1
-
-    return pd.DataFrame(
-        list(zip(trim_indexes, read_len_list, avgEE_position)),
-        columns=["Indexes", "ReadLength", "AvgEEPerPosition"],
-    )
+    return TrimInfo

@@ -21,11 +21,11 @@ def main():
         help="file path to fastq files",
     )
     parser.add_argument(
-        "--of",
-        "-output_file",
+        "--t_of",
+        "-trim_output_file",
         type=str,
         required=False,
-        help="name of the output file",
+        help="name of the output file containing trim information",
         default="parameter_info.tsv",
     )
     parser.add_argument(
@@ -55,13 +55,12 @@ def main():
         default=0.2,
     )
     parser.add_argument(
-        "--mEE",
-        "-maxEE",
-        type=float,
+        "--EE_of",
+        "-EE_output_file",
+        type=str,
         required=False,
-        help="max expected error default is set to same value"
-        + "as default DADA2 parameters",
-        default=2.0,
+        help="name of output file containing sum of EE information",
+        default="SumEEInfo.tsv",
     )
 
     args = parser.parse_args()
@@ -84,15 +83,16 @@ def main():
     left, right = GTP.trim_ends_less_than_threshold(
         avg_scores_list, args.th, args.o_mtp
     )
-
+    
     # get average EE by position for different read sizes
     EE_by_size_df = GTP.read_size_by_avg_EE(fqe, left, right, args.a_mtp)
 
-    # add number of reads over and below the threshold to the dataframe
-    reads_over_under = GME.read_size_by_maxEE(fqe, EE_by_size_df, args.mEE)
+    # get dataframe containing the sum of the expected error per sequence 
+    sumEE = GME.read_size_by_maxEE(fqe, left, right)
 
-    # convert final dataframe to TSV
-    reads_over_under.to_csv(args.of, sep="\t", index=False)
+    # convert final dataframes to TSV
+    EE_by_size_df.to_csv(args.t_of, sep="\t", index=False)
+    sumEE.to_csv(args.EE_of, sep="\t", index=False)
 
     exit()
 
