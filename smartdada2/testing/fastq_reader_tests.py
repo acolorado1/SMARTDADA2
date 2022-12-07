@@ -98,14 +98,14 @@ class TestFastqEntry(unittest.TestCase):
         self.assertEqual(expected_seq_1, test_entry_1.seq)
         self.assertEqual(expected_score_1, test_entry_1.scores)
         self.assertEqual(expected_length_1, test_entry_1.length)
-        self.assertEqual(expected_r_seq_1, test_entry_1.rseq)
+        # self.assertEqual(expected_r_seq_1, test_entry_1.rseq)
 
         # -- testing second entry
         self.assertEqual(expected_header_2, test_entry_2.header)
         self.assertEqual(expected_seq_2, test_entry_2.seq)
         self.assertEqual(expected_score_2, test_entry_2.scores)
         self.assertEqual(expected_length_2, test_entry_2.length)
-        self.assertEqual(expected_r_seq_2, test_entry_2.rseq)
+        # self.assertEqual(expected_r_seq_2, test_entry_2.rseq)
 
     def test_entry_lowercases(self):
         """Tests if fastq files contains lower case sequences"""
@@ -166,14 +166,14 @@ class TestFastqEntry(unittest.TestCase):
         self.assertEqual(expected_seq_1, test_entry_1.seq)
         self.assertEqual(expected_score_1, test_entry_1.scores)
         self.assertEqual(expected_length_1, test_entry_1.length)
-        self.assertEqual(expected_r_seq_1, test_entry_1.rseq)
+        # self.assertEqual(expected_r_seq_1, test_entry_1.rseq)
 
         # -- testing second entry
         self.assertEqual(expected_header_2, test_entry_2.header)
         self.assertEqual(expected_seq_2, test_entry_2.seq)
         self.assertEqual(expected_score_2, test_entry_2.scores)
         self.assertEqual(expected_length_2, test_entry_2.length)
-        self.assertEqual(expected_r_seq_2, test_entry_2.rseq)
+        # self.assertEqual(expected_r_seq_2, test_entry_2.rseq)
 
     def test_invalid_header(self):
         """Negative case test to check if invalid headers are captured
@@ -194,166 +194,6 @@ class TestFastqEntry(unittest.TestCase):
 
         self.assertRaises(
             FastqFormatError, FastqEntry, header, seq, scores, length
-        )
-
-    def test_only_forward_reads(self) -> None:
-        """Checks if FastqEntry can detect only forward reads"""
-
-        # set entries
-        raw_entries = [
-            [
-                "@test_fastq.test.1 1 length=50",
-                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
-                "@test_fastq.test.1 1 length=50",
-                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
-            ],
-            [
-                "@test_fastq.test.1 1 length=50",
-                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
-                "@test_fastq.test.1 1 length=50",
-                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
-            ],
-        ]
-
-        # create entry classes
-        raw_reads_1 = raw_entries[0]
-        test_entry_1 = FastqEntry(
-            header=raw_reads_1[0],
-            seq=raw_reads_1[1],
-            scores=raw_reads_1[3],
-            length=len(raw_reads_1[1]),
-        )
-
-        raw_reads_2 = raw_entries[1]
-        test_entry_2 = FastqEntry(
-            header=raw_reads_2[0],
-            seq=raw_reads_2[1],
-            scores=raw_reads_2[3],
-            length=len(raw_reads_2[1]),
-        )
-
-        # testing
-        self.assertEqual(test_entry_1.rseq, False)
-        self.assertEqual(test_entry_2.rseq, False)
-
-    def test_only_reverse_reads(self) -> None:
-        """Checks if FastqEntry can detect only reverse reads"""
-
-        # set entries
-        raw_entries = [
-            [
-                "@test_fastq.test.2 1 length=50",
-                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
-                "@test_fastq.test.2 1 length=50",
-                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
-            ],
-            [
-                "@test_fastq.test.2 2 length=50",
-                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
-                "@test_fastq.test.2 2 length=50",
-                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
-            ],
-        ]
-
-        # create entry classes
-        raw_reads_1 = raw_entries[0]
-        test_entry_1 = FastqEntry(
-            header=raw_reads_1[0],
-            seq=raw_reads_1[1],
-            scores=raw_reads_1[3],
-            length=len(raw_reads_1[1]),
-        )
-
-        raw_reads_2 = raw_entries[1]
-        test_entry_2 = FastqEntry(
-            header=raw_reads_2[0],
-            seq=raw_reads_2[1],
-            scores=raw_reads_2[3],
-            length=len(raw_reads_2[1]),
-        )
-
-        # testing
-        self.assertEqual(test_entry_1.rseq, True)
-        self.assertEqual(test_entry_2.rseq, True)
-
-    def test_forward_and_reverse_reads(self) -> None:
-        """Checks if FastqEntry can detect forward and reverse reads"""
-
-        # set entries
-        raw_entries = [
-            [
-                "@test_fastq.test.1 1 length=50",
-                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
-                "@test_fastq.test.1 1 length=50",
-                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
-            ],
-            [
-                "@test_fastq.test.2 1 length=50",
-                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
-                "@test_fastq.test.2 1 length=50",
-                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
-            ],
-        ]
-
-        # create entry classes
-        raw_reads_1 = raw_entries[0]
-        test_entry_1 = FastqEntry(
-            header=raw_reads_1[0],
-            seq=raw_reads_1[1],
-            scores=raw_reads_1[3],
-            length=len(raw_reads_1[1]),
-        )
-
-        raw_reads_2 = raw_entries[1]
-        test_entry_2 = FastqEntry(
-            header=raw_reads_2[0],
-            seq=raw_reads_2[1],
-            scores=raw_reads_2[3],
-            length=len(raw_reads_2[1]),
-        )
-
-        # testing
-        self.assertEqual(test_entry_1.rseq, False)
-        self.assertEqual(test_entry_2.rseq, True)
-
-    def test_invalid_direction(self) -> None:
-        """Negative case of unable identifying the direction of"""
-
-        # set entries
-        raw_entries = [
-            [
-                "@test_fastq.test.noid 1 length=50",
-                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
-                "@test_fastq.test.1 1 length=50",
-                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
-            ],
-            [
-                "@test_fastq.test.3 1 length=50",
-                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
-                "@test_fastq.test.2 1 length=50",
-                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
-            ],
-        ]
-
-        # create entry classes
-        raw_reads_1 = raw_entries[0]
-        header_1 = raw_reads_1[0]
-        seq_1 = raw_reads_1[1]
-        scores_1 = raw_reads_1[3]
-        length_1 = len(raw_reads_1[1])
-
-        raw_reads_2 = raw_entries[1]
-        header_2 = raw_reads_2[0]
-        seq_2 = raw_reads_2[1]
-        scores_2 = raw_reads_2[3]
-        length_2 = len(raw_reads_2[1])
-
-        # testing
-        self.assertRaises(
-            FastqFormatError, FastqEntry, header_1, seq_1, scores_1, length_1
-        )
-        self.assertRaises(
-            FastqFormatError, FastqEntry, header_2, seq_2, scores_2, length_2
         )
 
 
@@ -501,7 +341,7 @@ class TestFastqReader(unittest.TestCase):
         """checks values produced"""
         # setting up reader
         test_reader = FastqReader("./small.fastq")
-        test_avg_scores = test_reader.get_max_ee()
+        test_avg_scores = test_reader.get_max_seq_ee()
 
         # Testing
         self.assertIsInstance(test_avg_scores, DataFrame)
@@ -509,11 +349,11 @@ class TestFastqReader(unittest.TestCase):
     def test_max_ee_colnames(self) -> None:
         """Checks if the correct column names are generated"""
         # expected answers
-        expected_list = ["length", "direction", "max_ee"]
+        expected_list = ["length", "max_ee"]
 
         # setting up reader
         test_reader = FastqReader("./small.fastq")
-        test_max_scores = test_reader.get_max_ee()
+        test_max_scores = test_reader.get_max_seq_ee()
         test_colnames = test_max_scores.columns.tolist()
 
         # test
@@ -524,26 +364,26 @@ class TestFastqReader(unittest.TestCase):
 
         # expected
         expected_values = [
-            [15, "reverse", 4.95656914242339],
-            [15, "forward", 4.736506613736166],
-            [15, "reverse", 1.867356939317895],
-            [15, "forward", 5.2864286046657885],
-            [15, "reverse", 4.2602185233674135],
+            [15.0, 4.96],
+            [15.0, 4.74],
+            [15.0, 1.87],
+            [15.0, 5.29],
+            [15.0, 4.26],
         ]
 
         # setup test
         test_reader = FastqReader("./small.fastq")
-        test_max_ee = test_reader.get_max_ee().values.tolist()
+        test_max_ee = test_reader.get_max_seq_ee().values.tolist()
 
         # self
         self.assertEqual(expected_values, test_max_ee)
 
     # -- Testing Max average expected error
-    def test_avg_ee_scores(self) -> None:
+    def test_avg_ee_scores_type(self) -> None:
         """checking types"""
         # setting up reader
         test_reader = FastqReader("./small.fastq")
-        test_avg_scores = test_reader.get_avg_ee()
+        test_avg_scores = test_reader.get_avg_seq_ee()
 
         # Testing
         self.assertIsInstance(test_avg_scores, DataFrame)
@@ -553,16 +393,16 @@ class TestFastqReader(unittest.TestCase):
 
         # expected values
         expected_values = [
-            [15, "reverse", 0.33043794282822603],
-            [15, "forward", 0.31576710758241106],
-            [15, "reverse", 0.124490462621193],
-            [15, "forward", 0.3524285736443859],
-            [15, "reverse", 0.2840145682244942],
+            [15.0, 4.3],
+            [15.0, 6.1],
+            [15.0, 7.9],
+            [15.0, 4.2],
+            [15.0, 9.4],
         ]
 
         # testing
         test_reader = FastqReader("./small.fastq")
-        test_max_ee = test_reader.get_avg_ee().values.tolist()
+        test_max_ee = test_reader.get_avg_seq_ee().values.tolist()
 
         self.assertEqual(expected_values, test_max_ee)
 
@@ -610,7 +450,7 @@ class TestFastqReader(unittest.TestCase):
                 "VNRBKWYRWDVBDYD",
                 "2('-231%-!+!$,!",
                 15,
-                "reverse",
+                "forward",
             ],
             [
                 "@test_fastq.test.1 2 length=15",
@@ -624,7 +464,7 @@ class TestFastqReader(unittest.TestCase):
                 "BSBKGKWTBBNNDAV",
                 '"$%#E&"@*%3"&D(',
                 15,
-                "reverse",
+                "forward",
             ],
             [
                 "@test_fastq.test.1 3 length=15",
@@ -634,7 +474,6 @@ class TestFastqReader(unittest.TestCase):
                 "forward",
             ],
         ]
-
         # init reader
         test_reader = FastqReader("./small.fastq")
 
@@ -643,6 +482,25 @@ class TestFastqReader(unittest.TestCase):
 
         # testing if all the values inside array are the same
         self.assertEqual(expected_arr, fully_unpacked_reads)
+
+    def test_sequence_df(self) -> None:
+        """Builds a pandas dataframe containing a sequence"""
+
+        # building expected output
+        expected_seqs = []
+        with open("./small.fastq", "r") as f:
+            contents = f.readlines()
+            for i in range(1, len(contents), 4):
+                seq = list(contents[i].rstrip())
+                expected_seqs.append(seq)
+
+        # test reader
+        test_reader = FastqReader("./small.fastq")
+
+        # build sequence df
+        test_seq_df = test_reader.sequence_df().values.tolist()
+
+        self.assertEqual(test_seq_df, expected_seqs)
 
     # ------------------------------
     # Setup class methods

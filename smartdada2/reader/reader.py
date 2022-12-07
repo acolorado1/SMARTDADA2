@@ -97,7 +97,7 @@ class FastqReader:
 
         self.reversed: bool = reverse_seq
         self.technology: str = technology
-        
+
         self.scale = None
         if scale is not None:
             print(f"scaling reads to {scale}")
@@ -106,6 +106,25 @@ class FastqReader:
         # states
         self.__n_entries: Optional[int] = 0
         self.__counted: bool = False
+
+    def get_quality_scores(self) -> pd.DataFrame:
+        """Returns scores in a per sequence bases
+
+        Returns
+        -------
+        pd.DataFrame
+            DataFrame containing quality scores per sequence
+        """
+
+        # converting to np.array
+        all_scores = []
+        for entry in self.iter_reads():
+            phred_scores = list(entry.scores)
+            scores = np.array(phred_scores).view(np.int32) - 33
+            all_scores.append(scores)
+
+        all_scores = pd.DataFrame(data=np.array(all_scores))
+        return all_scores
 
     def get_quality_scores(self) -> pd.DataFrame:
         """Returns scores in a per sequence bases
@@ -191,12 +210,13 @@ class FastqReader:
         # get raw
         raw_scores = self.get_seq_ee_errors()
         expected_error_df["max_ee"] = raw_scores.apply(
-            lambda row: np.sum(row), axis=1
+            lambda row: np.round(np.sum(row), 2), axis=1
         )
 
         # rearranging columns
         expected_error_df = expected_error_df[
-            ["length", "direction", "max_ee"]
+            # ["length", "direction", "max_ee"]
+            ["length", "max_ee"]
         ]
 
         return expected_error_df
@@ -215,17 +235,13 @@ class FastqReader:
         expected_error_df = self.__base_max_ee_df()
 
         # get raw ee scores
-        raw_scores = self.get_average_score_scores()
+        raw_scores = self.get_average_score()
         expected_error_df["avg_ee"] = raw_scores.apply(
             lambda row: np.mean(row), axis=1
         )
 
-        # rearranging columns
-        avg_expected_error_df = avg_expected_error_df[
-            ["length", "direction", "avg_ee"]
-        ]
-
-        return avg_expected_error_df
+        # return expected_error_df[["length", "direction", "avg_ee"]]
+        return expected_error_df[["length", "avg_ee"]]
 
     def sequence_df(self) -> pd.DataFrame:
         """
@@ -523,15 +539,14 @@ class FastqReader:
             Generator object containing FastqEntries
         """
         for entry in self.__loader():
-            
+
             # scaling information
             if self.scale is not None:
-                entry.seq = entry.seq[:self.scale]
-                entry.scores = entry.scores[:self.scale]
+                entry.seq = entry.seq[: self.scale]
+                entry.scores = entry.scores[: self.scale]
                 entry.length = self.scale
 
-            yield entry 
-
+            yield entry
 
     def slice_reads(
         self, range_idx: Union[tuple[int, int], list[int, int]], to_list=False
@@ -650,14 +665,14 @@ class FastqReader:
                     entry_count += 1
 
                     # scaling sequence length
-                    seq_length = len(contents_chunk[1][:self.scale]) 
+                    seq_length = len(contents_chunk[1][: self.scale])
                     if self.scale is not None:
-                        seq_length = len(contents_chunk[1]) 
-                        
+                        seq_length = len(contents_chunk[1])
+
                     fastq_entry = FastqEntry(
                         header=contents_chunk[0],
-                        seq=contents_chunk[1][:self.scale],
-                        scores=contents_chunk[3][:self.scale],
+                        seq=contents_chunk[1][: self.scale],
+                        scores=contents_chunk[3][: self.scale],
                         length=seq_length,
                     )
 
@@ -667,7 +682,6 @@ class FastqReader:
                     # yield entry
                     yield fastq_entry
 
-            
         self.__n_entries = entry_count
         self.__counted = True
 
@@ -710,15 +724,15 @@ class FastqReader:
         base_ee_df = pd.DataFrame()
 
         # extract read direction
-        _dir = []
-        for read in self.iter_reads():
-            if read.rseq is True:
-                _dir.append("forward")
-            else:
-                _dir.append("reverse")
+        # _dir = []
+        # for read in self.iter_reads():
+        #     if read.rseq is True:
+        #         _dir.append("forward")
+        #     else:
+        #         _dir.append("reverse")
 
         # add sequence direction
-        base_ee_df["direction"] = _dir
+        # base_ee_df["direction"] = _dir
 
         # add sequence length informatoin
         base_ee_df["length"] = [entry.length for entry in self.iter_reads()]
