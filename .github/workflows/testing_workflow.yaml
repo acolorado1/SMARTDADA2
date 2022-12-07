@@ -29,7 +29,7 @@ jobs:
           environment-file: smartdada2.yaml
       - run: |
           pip install -e .
-          cd smartdada2/tests/unit
+          cd smartdada2/testing
           python -m unittest fastq_reader_tests
 
   test_max_expected_error: # NOT DONE YET
@@ -42,7 +42,7 @@ jobs:
           environment-file: smartdada2.yaml
       - run: |
           pip install -e .
-          cd smartdada2/tests/unit
+          cd smartdada2/testing
           python -m unittest test_GetMaxEE
 
   test_trim_parameters: # NOT DONE YET
@@ -55,5 +55,5 @@ jobs:
           environment-file: smartdada2.yaml
       - run: |
           pip install -e .
-          cd smartdada2/tests/unit
+          cd smartdada2/testing
           python -m unittest test_GetTrimParameters
