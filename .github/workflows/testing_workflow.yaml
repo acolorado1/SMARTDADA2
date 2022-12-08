@@ -16,8 +16,9 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: smartdada2
-          environment-file: smartdada2.yaml
+          environment-file: smartdada2_env.yaml
       - run: pycodestyle $(git ls-files "*.py")
+  
   fastqreader_tests:
     runs-on: ubuntu-latest
     steps:
