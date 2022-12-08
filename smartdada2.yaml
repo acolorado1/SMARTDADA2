@@ -7,11 +7,11 @@ dependencies:
   - python=3.10.*
   - pip
   - pip:
-      - pandas>=1.5.0
-      - numpy>=1.23.0
-      - scipy>=1.9
-      - rpy2
-      - myst-parser
-      - sphinx-rtd-theme
-      - sphinx-autobuild
+    - pandas>=1.5.0
+    - numpy>=1.23.0
+    - scipy>=1.9
+    - rpy2
+    - myst-parser
+    - sphinx-rtd-theme
+    - sphinx-autobuild
 
