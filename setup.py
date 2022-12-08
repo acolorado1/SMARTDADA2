@@ -2,8 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name="smartdada2",
+    author="Erik and Sofia"
     version="0.0.1",
+    description="Dada2 Parameter optimization",
     python_requires=">=3.10",
-    packages=["smartdada2"],
-    find_packages=find_packages("./smartdada2"),
+    packages=find_packages(),
 )
