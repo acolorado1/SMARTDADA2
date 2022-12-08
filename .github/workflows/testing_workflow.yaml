@@ -28,7 +28,7 @@ jobs:
           activate-environment: smartdada2
           environment-file: smartdada2.yaml
       - run: |
-          pip install -e .
+          python -m pip install -e .
           cd smartdada2/testing
           python -m unittest fastq_reader_tests
 
