@@ -1,9 +1,9 @@
 name: smartdada2-tests
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 jobs:
   code_style:
