@@ -31,9 +31,9 @@ jobs:
           activate-environment: smartdada2
           environment-file: smartdada2_env.yaml
       - run: |
-          conda info
-          conda list
-          which python
+          pip install -e .
+          cd smartdada2/testing
+          python -m unittest fastq_reader_tests
 
   # fastqreader_tests:
   #   runs-on: ubuntu-latest
