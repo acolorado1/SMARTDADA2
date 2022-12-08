@@ -16,17 +16,20 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: smartdada2
-          environment-file: smartdada2.yaml
+          environment-file: smartdada2_env.yaml
       - run: pycodestyle $(git ls-files "*.py")
 
-  test_fastqreader:
+  fastqreader_test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: smartdada2
-          environment-file: smartdada2.yaml
+          environment-file: smartdada2_env.yaml
       - run: |
           pip install -e .
           cd smartdada2/testing
@@ -34,12 +37,15 @@ jobs:
 
   test_max_expected_error:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: smartdada2
-          environment-file: smartdada2.yaml
+          environment-file: smartdada2_env.yaml
       - run: |
           pip install -e .
           cd smartdada2/testing
@@ -47,12 +53,15 @@ jobs:
 
   test_trim_parameters:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: smartdada2
-          environment-file: smartdada2.yaml
+          environment-file: smartdada2_env.yaml
       - run: |
           pip install -e .
           cd smartdada2/testing

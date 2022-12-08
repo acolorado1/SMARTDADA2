@@ -65,7 +65,7 @@ def toy_sequencer(
 
             # select nucleotide
             sel_nuc = random.choice(DNA)
-            high_scores = ASCII_SCORES[len(NUMERICAL_SCORES) // 2 :]
+            high_scores = ASCII_SCORES[len(NUMERICAL_SCORES) // 2:]  # noqa
             sel_score = random.choice(high_scores)
 
             # 10% chance for ambiguous seq (inherent Q low scores)

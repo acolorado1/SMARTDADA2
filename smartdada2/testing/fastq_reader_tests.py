@@ -5,6 +5,7 @@ may encounter
 import os
 import unittest
 
+import pandas
 from pandas import DataFrame
 
 # smartdada2 imports
@@ -249,11 +250,9 @@ class TestFastqReader(unittest.TestCase):
         """Positive test of using .fastq or .FASTQ as extensions"""
         # creating reader object with ".fastq" , ".FASTQ" ext
         test_reader_1 = FastqReader("./capital_ext_seq.FASTQ")
-        test_reader_2 = FastqReader("./capital_ext_seq.fastq")
 
         # testing
         self.assertIsInstance(test_reader_1, FastqReader)
-        self.assertIsInstance(test_reader_2, FastqReader)
 
     # -- Testing quality scores
     def test_quality_score_type(self) -> None:
