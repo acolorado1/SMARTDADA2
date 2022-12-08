@@ -19,7 +19,7 @@ jobs:
           environment-file: smartdada2.yaml
       - run: pycodestyle $(git ls-files "*.py")
 
-  test_fastqreader: # NOT DONE YET
+  test_fastqreader:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
           cd smartdada2/testing
           python -m unittest fastq_reader_tests
 
-  test_max_expected_error: # NOT DONE YET
+  test_max_expected_error:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
           cd smartdada2/testing
           python -m unittest test_GetMaxEE
 
-  test_trim_parameters: # NOT DONE YET
+  test_trim_parameters:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
