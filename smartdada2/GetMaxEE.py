@@ -17,10 +17,10 @@ def read_size_by_maxEE(FastqEntries, left: int, right: int):
     Returns:
         pd.dataframe: dataframe containing two columns
     """
-    # raise errors for wronog data types 
+    # raise errors for wronog data types
     if not isinstance(FastqEntries, reader.FastqReader):
         raise TypeError("must be of FastqEntry type")
-        
+
     # get list of expected errors per read
     raw_EE = []
 

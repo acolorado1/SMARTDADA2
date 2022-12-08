@@ -11,6 +11,7 @@ dependencies:
   - pip
   - pip:
       - rpy2
+      - pycodestyle
       - myst-parser
       - sphinx-rtd-theme
       - sphinx-autobuild
