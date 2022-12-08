@@ -21,7 +21,7 @@ To install this program:
 1. clone repository 
 2. create environment 
 3. activate environment 
-4. install smartdada2 module intro python environment 
+4. install smartdada2 module into python environment 
 
 For example in the terminal type: 
 
@@ -33,6 +33,8 @@ pip install -e .
 ```
 
 ## Workflow 
+
+### To Run Program
 
 This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing in the input of the create_TSVs rule. Once that is done write in the terminal: 
 
@@ -77,11 +79,11 @@ Three figures and two TSV files are output from these scripts in a directory cal
 
 Figures examples are: 
 
-!(Heatmap)["/example_output/HeatmapIndexValueByAvgEE.png"]
+!(Heatmap)[https://github.com/acolorado1/DADA2ParameterExploration/blob/d4fd1382abd207a2ad6dc1569193ea5f6ba067ba/example_output/HeatmapIndexValueByAvgEE.png]
 
-!(Scatterplot)["/example_output/ScatterReadLengthByAvgEE.png"]
+!(Scatterplot)[https://github.com/acolorado1/DADA2ParameterExploration/blob/d4fd1382abd207a2ad6dc1569193ea5f6ba067ba/example_output/ScatterReadLengthByAvgEE.png]
 
-!(Histogram)["/example_output/HistogramRetainedReadCount.png"]
+!(Histogram)[https://github.com/acolorado1/DADA2ParameterExploration/blob/d4fd1382abd207a2ad6dc1569193ea5f6ba067ba/example_output/HistogramRetainedReadCount.png]
 
 The two TSVs that will be output and that will be used to create the figures look like the following: 
 
