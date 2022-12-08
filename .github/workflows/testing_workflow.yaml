@@ -24,11 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: smartdada2
+          environment-file: smartdada2_env.yaml
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          activate-environment: smartdada2
-          environment-file: smartdada2_env.yaml
       - run: |
           pip install -e .
           cd smartdada2/testing
