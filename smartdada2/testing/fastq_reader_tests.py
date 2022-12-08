@@ -5,6 +5,7 @@ may encounter
 import os
 import unittest
 
+import pandas
 from pandas import DataFrame
 
 # smartdada2 imports
