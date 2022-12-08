@@ -5,14 +5,15 @@ channels:
   - anaconda
 dependencies:
   - python=3.10.*
+  - pip
   - pandas>=1.5.0
   - numpy>=1.23.0
   - scipy>=1.9
-  - pip
   - pip:
-      - rpy2
-      - pycodestyle
-      - myst-parser
-      - sphinx-rtd-theme
-      - sphinx-autobuild
+    - rpy2
+    - pycodestyle
+    - myst-parser
+    - sphinx-rtd-theme
+    - sphinx-autobuild
+
 
