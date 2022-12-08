@@ -125,25 +125,6 @@ class FastqReader:
         all_scores = pd.DataFrame(data=np.array(all_scores))
         return all_scores
 
-    def get_quality_scores(self) -> pd.DataFrame:
-        """Returns scores in a per sequence bases
-
-        Returns
-        -------
-        pd.DataFrame
-            DataFrame containing quality scores per sequence
-        """
-
-        # converting to np.array
-        all_scores = []
-        for entry in self.iter_reads():
-            phred_scores = list(entry.scores)
-            scores = np.array(phred_scores).view(np.int32) - 33
-            all_scores.append(scores)
-
-        all_scores = pd.DataFrame(data=np.array(all_scores))
-        return all_scores
-
     def get_average_score(self) -> pd.Series:
         """Returns average score of all sequences. Returns a a pd.Series object
 
