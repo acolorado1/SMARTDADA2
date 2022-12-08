@@ -11,7 +11,6 @@ from typing import Any
 import pandas as pd
 import numpy as np
 
-from smartdada2.seq_utils.search import binary_search
 from smartdada2.common.errors import FastqFormatError
 
 
@@ -106,25 +105,6 @@ class FastqReader:
         # states
         self.__n_entries: Optional[int] = 0
         self.__counted: bool = False
-
-    def get_quality_scores(self) -> pd.DataFrame:
-        """Returns scores in a per sequence bases
-
-        Returns
-        -------
-        pd.DataFrame
-            DataFrame containing quality scores per sequence
-        """
-
-        # converting to np.array
-        all_scores = []
-        for entry in self.iter_reads():
-            phred_scores = list(entry.scores)
-            scores = np.array(phred_scores).view(np.int32) - 33
-            all_scores.append(scores)
-
-        all_scores = pd.DataFrame(data=np.array(all_scores))
-        return all_scores
 
     def get_quality_scores(self) -> pd.DataFrame:
         """Returns scores in a per sequence bases
@@ -323,86 +303,6 @@ class FastqReader:
         for read in self.__loader():
             if read.rseq is True:
                 yield read
-
-    def sample(
-        self,
-        frac: Optional[float] = 0.3,
-        seed: Optional[int] = None,
-    ) -> Iterable[FastqEntry]:
-        """Sub samples sequences randomly selected. If a seed value is
-        provided, the randomness is controlled and always produces the same
-        output order associated with a specific seed value.
-
-        Parameters
-        ----------
-        frac : Optional[float], optional
-            subsample size, by default 0.3
-        seed : Optional[int], optional
-            Value that retains the state randomness, by default None
-
-        Yields
-        ------
-        Iterator[Iterable[FastqEntry]]
-            Generator object that contains FastqEntry
-
-        Raises
-        ------
-        ValueError
-            Raised when either frac or prob is larger than 1.0
-        """
-        # type checks
-        if not isinstance(frac, float):
-            frac = float(frac)
-
-        # selecting sampling type
-
-        # checking if fraction subsample is larger than the whole dataset
-        if frac > 1.0:
-            raise ValueError("frac cannot be larger than 1.0")
-
-        # checking if reads have been counted
-        # this will update the `self.__n_entries` variable
-        if self.__counted is False:
-            self.total_reads()
-
-        # initializing random seed if Seed is not None
-        # -- setting the seed will have a controlled randomness
-        # -- good for reproducibility (share seed value)
-        if seed is not None:
-            np.random.seed(seed)
-
-        # calculate subsample_size (how many entries we want)
-        subsample_size = int(np.round(self.__n_entries * frac))
-
-        # selecting random indices without replacement
-        # range selection is (0, total_n_reads)
-        # -- done without replacement (no repeated indices selected)
-        random_indices = np.sort(
-            np.random.choice(
-                np.arange(0, self.__n_entries),
-                size=subsample_size,
-                replace=False,
-            )
-        )
-
-        # to stop further computation once all indices are found
-        stop_idx = np.max(random_indices)
-
-        # loading the selected reads
-        for idx, read_entry in enumerate(self.iter_reads()):
-
-            # stop if next read idx is larger than stop idx
-            if idx > stop_idx:
-                break
-
-            # if index exists within randomly selected indices, yield read
-            try:
-                binary_search(idx, random_indices, sorted=True)
-                yield read_entry
-
-            # if it does not exists, go to the next
-            except ValueError:
-                continue
 
     def reservoir_sampling(
         self, n_samples: int, seed: Optional[bool] = None
