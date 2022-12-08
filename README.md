@@ -3,6 +3,7 @@
   - [Repo Directory](#repo-directory)
   - [Installations and Dependencies](#installations-and-dependencies)
   - [Workflow](#workflow)
+    - [To Run Program](#to-run-program)
     - [Input](#input)
     - [Output](#output)
   - [Contact](#contact)
@@ -34,7 +35,7 @@ pip install -e .
 
 ## Workflow 
 
-### To Run Program
+### To Run Program 
 
 This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing in the input of the create_TSVs rule. Once that is done write in the terminal: 
 
