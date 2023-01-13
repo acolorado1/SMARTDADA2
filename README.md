@@ -93,20 +93,20 @@ The two TSVs that will be output and that will be used to create the figures loo
 TrimInfo:
 
 ```
-LeftIndex	RightIndex	ReadLength	AvgEEPerPosition
-0	        201	        201	        0.00025149061996092216
-0	        202	        202	        0.0002525037876296975
-0	        203	        203	        0.0002531623874528494
-0	        204	        204	        0.00025375036528248743
+LeftIndex RightIndex ReadLength AvgEEPerPosition
+0         201         201         0.00025149061996092216
+0         202         202         0.0002525037876296975
+0         203         203         0.0002531623874528494
+0         204         204         0.00025375036528248743
 ```
 
 SumEEInfo:
 
 ```
-NoTrimming	        ObviousTrimming
-1.7478821923032126	1.545527496734793
-0.686050226996564	  0.6824597001220604
-1.6827705639478587	0.9463769578124168
+NoTrimming         ObviousTrimming
+1.7478821923032126 1.545527496734793
+0.686050226996564   0.6824597001220604
+1.6827705639478587 0.9463769578124168
 ```
 
 ## Contact
