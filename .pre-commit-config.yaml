@@ -15,12 +15,6 @@ repos:
       - id: black
         language_version: python3.10
 
-  # formats MD files
-  - repo: https://github.com/executablebooks/mdformat.git
-    rev: 0.7.16
-    hooks:
-      - id: mdformat
-
   # additional pre-commits that supports python formatting
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.4.0
