@@ -17,7 +17,6 @@ ASCII_SCORES = [chr(i) for i in range(33, 70 + 1)]
 NUMERICAL_SCORES = list(range(33, 70 + 1))
 
 
-# @dataclass(slots=True)
 @dataclass
 class FastqEntry:
     """Contains the contents of a single read as a FastqEntry"""
@@ -116,8 +115,7 @@ class FastqReader:
             scores = np.array(phred_scores).view(np.int32) - 33
             all_scores.append(scores)
 
-        all_scores = pd.DataFrame(data=np.array(all_scores))
-        return all_scores
+        return pd.DataFrame(data=all_scores)
 
     def get_average_score(self) -> pd.Series:
         """Returns average score of all sequences. Returns a a pd.Series object
@@ -181,16 +179,17 @@ class FastqReader:
         # creates a base dataframe for calculating expected errors
         expected_error_df = self.__base_max_ee_df()
 
-        # get raw
+        # get raw expected error scores
         raw_scores = self.get_seq_ee_errors()
+
+        # sum of all expected error scores
         expected_error_df["max_ee"] = raw_scores.apply(
             lambda row: np.round(np.sum(row), 2), axis=1
         )
 
         # rearranging columns
         expected_error_df = expected_error_df[
-            # ["length", "direction", "max_ee"]
-            ["length", "max_ee"]
+            ["length", "direction", "max_ee"]
         ]
 
         return expected_error_df
@@ -618,17 +617,17 @@ class FastqReader:
         base_ee_df = pd.DataFrame()
 
         # extract read direction
-        # _dir = []
-        # for read in self.iter_reads():
-        #     if read.rseq is True:
-        #         _dir.append("forward")
-        #     else:
-        #         _dir.append("reverse")
+        _dir = []
+        for read in self.iter_reads():
+            if read.rseq is True:
+                _dir.append("forward")
+            else:
+                _dir.append("reverse")
 
         # add sequence direction
-        # base_ee_df["direction"] = _dir
+        base_ee_df["direction"] = _dir
 
-        # add sequence length informatoin
+        # add sequence length information
         base_ee_df["length"] = [entry.length for entry in self.iter_reads()]
 
         return base_ee_df
