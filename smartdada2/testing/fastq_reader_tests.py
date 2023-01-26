@@ -47,16 +47,16 @@ class TestFastqEntry(unittest.TestCase):
         # set entries
         raw_entries = [
             [
-                "@test_fastq.test.1 1 length=50",
-                "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
-                "@test_fastq.test.1 1 length=50",
-                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
+                "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC",
+                "BBWKNWDRBUBBWBNKYHYMMBYSNDYKHK",
+                "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC",
+                '/1,3*/#+%:"+"3,"&.1%+"$2,10%%&',
             ],
             [
-                "@test_fastq.test.2 1 length=50",
-                "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK",
-                "@test_fastq.test.2 1 length=50",
-                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
+                "@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC",
+                "KAMMWMVNRTSYMKRDMMYNYSDVYMHYGU",
+                "@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC",
+                '"6"2".-\'#B\'&11",3$",2,&/(+"#;?',
             ],
         ]
 
@@ -78,17 +78,19 @@ class TestFastqEntry(unittest.TestCase):
         )
 
         # setting expected variables
-        expected_header_1 = "@test_fastq.test.1 1 length=50"
-        expected_seq_1 = "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG"
-        expected_score_1 = "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
-        expected_length_1 = 50
-        expected_r_seq_1 = False
+        expected_header_1 = "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC"
+        expected_seq_1 = "BBWKNWDRBUBBWBNKYHYMMBYSNDYKHK"
+        expected_score_1 = (
+            '/1,3*/#+%:"+"3,"&.1%+"$2,10%%&'
+        )
+        expected_length_1 = 30
 
-        expected_header_2 = "@test_fastq.test.2 1 length=50"
-        expected_seq_2 = "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK"
-        expected_score_2 = "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
-        expected_length_2 = 50
-        expected_r_seq_2 = True
+        expected_header_2 ="@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC"
+        expected_seq_2 = "KAMMWMVNRTSYMKRDMMYNYSDVYMHYGU"
+        expected_score_2 = (
+            '"6"2".-\'#B\'&11",3$",2,&/(+"#;?'
+        )
+        expected_length_2 = 30
 
         # setting tests
         # -- testing first entry
@@ -96,14 +98,12 @@ class TestFastqEntry(unittest.TestCase):
         self.assertEqual(expected_seq_1, test_entry_1.seq)
         self.assertEqual(expected_score_1, test_entry_1.scores)
         self.assertEqual(expected_length_1, test_entry_1.length)
-        # self.assertEqual(expected_r_seq_1, test_entry_1.rseq)
 
         # -- testing second entry
         self.assertEqual(expected_header_2, test_entry_2.header)
         self.assertEqual(expected_seq_2, test_entry_2.seq)
         self.assertEqual(expected_score_2, test_entry_2.scores)
         self.assertEqual(expected_length_2, test_entry_2.length)
-        # self.assertEqual(expected_r_seq_2, test_entry_2.rseq)
 
     def test_entry_lowercases(self):
         """Tests if fastq files contains lower case sequences"""
@@ -111,16 +111,16 @@ class TestFastqEntry(unittest.TestCase):
         # set entries with lower case sequences
         raw_entries = [
             [
-                "@test_fastq.test.1 1 length=50",
-                "kduhdnksbarksmkvnrbkwyrwdvbdydrcudydvkanaakkgbsbkg",
-                "@test_fastq.test.1 1 length=50",
-                "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
+                "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC",
+                "BBWKNWDRBUBBWBNKYHYMMBYSNDYKHK",
+                "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC",
+                '/1,3*/#+%:"+"3,"&.1%+"$2,10%%&',
             ],
             [
-                "@test_fastq.test.2 1 length=50",
-                "kwtbbnndavhwmyrrsbcrdsngmdyynsktknbvrdmushnrrswdhk",
-                "@test_fastq.test.2 1 length=50",
-                "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1",
+                "@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC",
+                "KAMMWMVNRTSYMKRDMMYNYSDVYMHYGU",
+                "@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC",
+                '"6"2".-\'#B\'&11",3$",2,&/(+"#;?',
             ],
         ]
 
@@ -142,16 +142,16 @@ class TestFastqEntry(unittest.TestCase):
         )
 
         # setting expected variables
-        expected_header_1 = "@test_fastq.test.1 1 length=50"
-        expected_seq_1 = "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG"
-        expected_score_1 = "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E"
-        expected_length_1 = 50
+        expected_header_1 = "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC"
+        expected_seq_1 = "BBWKNWDRBUBBWBNKYHYMMBYSNDYKHK"
+        expected_score_1 = '/1,3*/#+%:"+"3,"&.1%+"$2,10%%&'
+        expected_length_1 = 30
         expected_r_seq_1 = False
 
-        expected_header_2 = "@test_fastq.test.2 1 length=50"
-        expected_seq_2 = "KWTBBNNDAVHWMYRRSBCRDSNGMDYYNSKTKNBVRDMUSHNRRSWDHK"
-        expected_score_2 = "&\"@*%3\"&D((3'*!2#2D%%'#<&!2.,2&A)0,')+&<.'1+*--!+1"
-        expected_length_2 = 50
+        expected_header_2 = "@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC"
+        expected_seq_2 = "KAMMWMVNRTSYMKRDMMYNYSDVYMHYGU"
+        expected_score_2 = '"6"2".-\'#B\'&11",3$",2,&/(+"#;?'
+        expected_length_2 = 30
         expected_r_seq_2 = True
 
         # setting tests
@@ -175,10 +175,10 @@ class TestFastqEntry(unittest.TestCase):
 
         # test entry
         raw_entries = [
-            "test_fastq.test.1 1 length=50",
-            "KDUHDNKSBARKSMKVNRBKWYRWDVBDYDRCUDYDVKANAAKKGBSBKG",
-            "test_fastq.test.1 1 length=50",
-            "(#A!.&+,2@\"$&#&2('-231%-!+!$,!,;6%)',(>#;>20:\"$%#E",
+            "@M00127:332:000000000-KC3PP:1:1101:14740:3219 3:N:0:TAGTCTCC+AGAGTCAC",
+            "BBWKNWDRBUBBWBNKYHYMMBYSNDYKHK",
+            "@M00127:332:000000000-KC3PP:1:1101:14740:3219 3:N:0:TAGTCTCC+AGAGTCAC",
+            '/1,3*/#+%:"+"3,"&.1%+"$2,10%%&',
         ]
 
         header = raw_entries[0]
@@ -186,7 +186,9 @@ class TestFastqEntry(unittest.TestCase):
         scores = raw_entries[2]
         length = len(seq)
 
-        self.assertRaises(FastqFormatError, FastqEntry, header, seq, scores, length)
+        self.assertRaises(
+            FastqFormatError, FastqEntry, header, seq, scores, length
+        )
 
 
 class TestFastqReader(unittest.TestCase):
@@ -233,7 +235,9 @@ class TestFastqReader(unittest.TestCase):
 
     def test_reader_file_not_exist(self) -> None:
         """Tests if exception is raised if the file is not found"""
-        self.assertRaises(FileNotFoundError, FastqReader, "./does_not_exist.fastq")
+        self.assertRaises(
+            FileNotFoundError, FastqReader, "./does_not_exist.fastq"
+        )
 
     def test_reader_via_extension(self) -> None:
         """Positive test of using .fastq or .FASTQ as extensions"""
@@ -267,7 +271,9 @@ class TestFastqReader(unittest.TestCase):
 
         # instantiating reader
         test_reader = FastqReader("./small.fastq")
-        test_quality_score_test = test_reader.get_quality_scores().values.tolist()
+        test_quality_score_test = (
+            test_reader.get_quality_scores().values.tolist()
+        )
 
         # testing
         self.assertEqual(expected_scores, test_quality_score_test)
@@ -335,7 +341,7 @@ class TestFastqReader(unittest.TestCase):
     def test_max_ee_colnames(self) -> None:
         """Checks if the correct column names are generated"""
         # expected answers
-        expected_list = ["length", "max_ee"]
+        expected_list = ["length", "direction", "max_ee"]
 
         # setting up reader
         test_reader = FastqReader("./small.fastq")
@@ -350,11 +356,11 @@ class TestFastqReader(unittest.TestCase):
 
         # expected
         expected_values = [
-            [15.0, 4.96],
-            [15.0, 4.74],
-            [15.0, 1.87],
-            [15.0, 5.29],
-            [15.0, 4.26],
+            [15, "reverse", 4.96],
+            [15, "forward", 4.74],
+            [15, "reverse", 1.87],
+            [15, "forward", 5.29],
+            [15, "reverse", 4.26],
         ]
 
         # setup test
@@ -416,58 +422,6 @@ class TestFastqReader(unittest.TestCase):
         # check
         for entry in unpack_reads:
             self.assertIsInstance(entry, FastqEntry)
-
-    def test_unpack_full_entries(self):
-        """Unpacks reads and returns a python object. This is considered as a
-        full unpacking due to the destructuring of the FastqEntry and only
-        returning python objects."""
-
-        # expected output
-        expected_arr = [
-            [
-                "@test_fastq.test.1 1 length=15",
-                "KDUHDNKSBARKSMK",
-                '(#A!.&+,2@"$&#&',
-                15,
-                "forward",
-            ],
-            [
-                "@test_fastq.test.2 1 length=15",
-                "VNRBKWYRWDVBDYD",
-                "2('-231%-!+!$,!",
-                15,
-                "forward",
-            ],
-            [
-                "@test_fastq.test.1 2 length=15",
-                "RCUDYDVKANAAKKG",
-                ",;6%)',(>#;>20:",
-                15,
-                "forward",
-            ],
-            [
-                "@test_fastq.test.2 2 length=15",
-                "BSBKGKWTBBNNDAV",
-                '"$%#E&"@*%3"&D(',
-                15,
-                "forward",
-            ],
-            [
-                "@test_fastq.test.1 3 length=15",
-                "HWMYRRSBCRDSNGM",
-                "(3'*!2#2D%%'#<&",
-                15,
-                "forward",
-            ],
-        ]
-        # init reader
-        test_reader = FastqReader("./small.fastq")
-
-        # unpack entries
-        fully_unpacked_reads = test_reader.unpack_entries(full=True)
-
-        # testing if all the values inside array are the same
-        self.assertEqual(expected_arr, fully_unpacked_reads)
 
     def test_sequence_df(self) -> None:
         """Builds a pandas dataframe containing a sequence"""
