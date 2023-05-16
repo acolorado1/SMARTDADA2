@@ -1,15 +1,21 @@
-require(readr)
-require(dplyr)
-require(reshape2)
-require(ggplot2)
-require(argparse)
+# Check dependecies 
+packages <- c("readr", "dplyr", "reshape2", "ggplot2", "argparse")
 
+for (package in packages) {
+  if(!require(package, character.only = T)){
+    install.packages(package)
+    library(package)
+  }
+}
+
+# create parser 
 parser <- ArgumentParser()
 parser$add_argument('--trim_file', help = "TSV file containing trim info")
 parser$add_argument('--sumEE_file', help = 'TSV file containing sum of EE info')
 args <- parser$parse_args()
 
 
+# Read in data 
 trim_info <- read_delim(args$trim_file,
                         delim = "\t", escape_double = FALSE,
                         col_types = cols(LeftIndex = col_integer(),
@@ -22,7 +28,10 @@ sumEE_info <- read_delim(args$sumEE_file,
                          delim = "\t", escape_double = FALSE,
                          trim_ws = TRUE)
 
+
+
 # plot read length vs quality
+## Scatter plot
 ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
   geom_point() +
   theme_bw() +
@@ -30,25 +39,29 @@ ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
   ylab('Average Expected Error Per Position') +
   xlab('Read Length (bp)')
 
-ggsave("output/ScatterReadLengthByAvgEE.png",
+ggsave("output/plots/ScatterReadLengthByAvgEE.png",
        width = 10,
        height = 10)
 
 dev.off()
 
+## Heatmap
 ggplot(trim_info, aes(LeftIndex, RightIndex, fill= AvgEEPerPosition)) +
   geom_tile() +
   scale_y_continuous(trans = "reverse", breaks = unique(trim_info$RightIndex)) +
   scale_fill_gradient(low="white", high="blue") +
   theme_bw()
 
-ggsave("output/HeatmapIndexValueByAvgEE.png",
+ggsave("output/plots/HeatmapIndexValueByAvgEE.png",
        width = 10,
        height = 10)
 
 dev.off()
 
+
+
 # read quality by retained reads
+## Histogram
 melt_sumEEInfo <- melt(sumEE_info)
 
 ggplot(melt_sumEEInfo, aes(x = value, fill = variable)) +
@@ -59,8 +72,9 @@ ggplot(melt_sumEEInfo, aes(x = value, fill = variable)) +
   guides(fill=guide_legend(title=" "))+
   xlab('Sum of Expected Error')
 
-ggsave("output/HistogramRetainedReadCount.png",
+ggsave("output/plots/HistogramRetainedReadCount.png",
       width = 10,
       height = 10)
 
 dev.off()
+
