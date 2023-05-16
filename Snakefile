@@ -2,9 +2,10 @@ rule all:
     input:
         "output/TrimInfo.tsv",
         "output/sumEEInfo.tsv",
-        "output/ScatterReadLengthByAvgEE.png",
-        "output/HeatmapIndexValueByAvgEE.png",
-        "output/HistogramRetainedReadCount.png"
+        "output/plots/ScatterReadLengthByAvgEE.png",
+        "output/plots/HeatmapIndexValueByAvgEE.png",
+        "output/plots/HistogramRetainedReadCount.png", 
+        "output/SMARTDADA2_InteractiveOutput.html"
 
 rule create_TSVs:
     input:
@@ -24,8 +25,17 @@ rule get_plots:
         TrimInfo = "output/TrimInfo.tsv",
         sumEEInfo = "output/sumEEInfo.tsv"
     output:
-        "output/ScatterReadLengthByAvgEE.png",
-        "output/HeatmapIndexValueByAvgEE.png",
-        "output/HistogramRetainedReadCount.png"
+        "output/plots/ScatterReadLengthByAvgEE.png",
+        "output/plots/HeatmapIndexValueByAvgEE.png",
+        "output/plots/HistogramRetainedReadCount.png"
     shell:
         "Rscript " + "smartdada2/R_scripts/vizualize.R --trim_file {input.TrimInfo} --sumEE_file {input.sumEEInfo}"
+
+rule get_interactive_plots:
+    input:
+        TrimInfo = "output/TrimInfo.tsv",
+        sumEEInfo = "output/sumEEInfo.tsv"
+    output:
+        "output/SMARTDADA2_InteractiveOutput.html"
+    shell:
+        "Rscript " + "smartdada2/R_scripts/wrapper_RunRender.R --trim_file {input.TrimInfo} --sumEE_file {input.sumEEInfo}"
