@@ -41,7 +41,7 @@ pip install -e .
 
 This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing in the input of the create_TSVs rule. 
 
-![Change FASTQ file](https://olucdenver-my.sharepoint.com/:i:/r/personal/angelasofia_burkhartcolorado_cuanschutz_edu/Documents/DADA2_project/README_images/Snakefile-FilePath.png?csf=1&web=1&e=gwktjw)
+![Change FASTQ file](/../README_images/Snakefile-FilePath.png)
 
 Once that is done write in the terminal:
 
@@ -53,7 +53,7 @@ snakemake -c 1
 
 Further parameters that can be adjusted in the snakemake file include:
 
-![Sakemake params](https://olucdenver-my.sharepoint.com/:i:/g/personal/angelasofia_burkhartcolorado_cuanschutz_edu/EYi6ZmftUdZOvRrAchHXW9cB5ZERyFd4lTOIYjr0ryZuCA?e=EMGMYZ))
+![Sakemake params](/../README_images/Snakefile-Params.png)
 
 ```
 threshold (default = 30.0): Determines when obvious trimming will stop.
@@ -88,7 +88,7 @@ An interactive output containing resulting image and two TSV files are output fr
 
 The interactive output will appear as an html file that will resemble the following: 
 
-![Interactive Output](https://olucdenver-my.sharepoint.com/:v:/g/personal/angelasofia_burkhartcolorado_cuanschutz_edu/EWl00Np2pSRJi2DD8k1UxKUBhm2olxuSB-2bZ8NI6ZPqVQ?e=LfQ2Oo)
+[Interactive Output](/README_images/InteractiveOutputDemo.mp4)
 
 The two TSVs that will be output and that will be used to create the figures look like the following:
 
