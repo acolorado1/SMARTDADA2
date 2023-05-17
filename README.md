@@ -55,11 +55,9 @@ Further parameters that can be adjusted in the snakemake file include:
 
 ![Sakemake params](https://github.com/acolorado1/SMARTDADA2/assets/68305443/d4c3e69e-efb1-4da6-9a07-e22b05631fbc)
 
-```
-threshold (default = 30.0): Determines when obvious trimming will stop.
-o_mtp (default = 0.1): Determines when obvious trimming will throw a warning that the read might be too short. Default warns if trimming is over 10% of the read on either end.
-a_mtp (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.
-```
+- threshold (default = 30.0): Determines when obvious trimming will stop.
+- o_mtp (default = 0.1): Determines when obvious trimming will throw a warning that the read might be too short. Default warns if trimming is over 10% of the read on either end.
+- a_mtp (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.
 
 ### Input
 
