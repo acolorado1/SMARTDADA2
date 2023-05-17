@@ -41,7 +41,7 @@ pip install -e .
 
 This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing in the input of the create_TSVs rule. 
 
-![Change FASTQ file](/../README_images/Snakefile-FilePath.png)
+![Change FASTQ file](https://github.com/acolorado1/SMARTDADA2/assets/68305443/8c008635-ff27-4692-9325-616a66260c9d)
 
 Once that is done write in the terminal:
 
@@ -53,7 +53,7 @@ snakemake -c 1
 
 Further parameters that can be adjusted in the snakemake file include:
 
-![Sakemake params](/../README_images/Snakefile-Params.png)
+![Sakemake params](https://github.com/acolorado1/SMARTDADA2/assets/68305443/d4c3e69e-efb1-4da6-9a07-e22b05631fbc)
 
 ```
 threshold (default = 30.0): Determines when obvious trimming will stop.
@@ -88,7 +88,7 @@ An interactive output containing resulting image and two TSV files are output fr
 
 The interactive output will appear as an html file that will resemble the following: 
 
-[Interactive Output](/README_images/InteractiveOutputDemo.mp4)
+https://github.com/acolorado1/SMARTDADA2/assets/68305443/9f44536e-c4d5-466d-85b6-fca4a6c92a02
 
 The two TSVs that will be output and that will be used to create the figures look like the following:
 
