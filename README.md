@@ -1,6 +1,6 @@
-# DADA2 Parameter Exploration
+# SMARTDADA2
 
-- [DADA2 Parameter Exploration](#dada2-parameter-exploration)
+- [SMARTDADA2](#smartdada2)
   - [Repo Directory](#repo-directory)
   - [Installations and Dependencies](#installations-and-dependencies)
   - [Workflow](#workflow)
@@ -39,15 +39,21 @@ pip install -e .
 
 ### To Run Program
 
-This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing in the input of the create_TSVs rule. Once that is done write in the terminal:
+This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing in the input of the create_TSVs rule. 
+
+![Change FASTQ file](https://olucdenver-my.sharepoint.com/:i:/r/personal/angelasofia_burkhartcolorado_cuanschutz_edu/Documents/DADA2_project/README_images/Snakefile-FilePath.png?csf=1&web=1&e=gwktjw)
+
+Once that is done write in the terminal:
 
 ```
-snakemake -c 1 #1 is the number of cores that will be used
+snakemake -c 1 
 ```
 
-Note: the snakefile has a default FASTQ file (LOZ-CSU-Nano_S1_L001_R1_001.fastq) and if run with this path name an error will occur.
+**Note**: the snakefile has a default FASTQ file (LOZ-CSU-Nano_S1_L001_R1_001.fastq) and if run with this path name an error will occur.
 
 Further parameters that can be adjusted in the snakemake file include:
+
+![Sakemake params](https://olucdenver-my.sharepoint.com/:i:/g/personal/angelasofia_burkhartcolorado_cuanschutz_edu/EYi6ZmftUdZOvRrAchHXW9cB5ZERyFd4lTOIYjr0ryZuCA?e=EMGMYZ))
 
 ```
 threshold (default = 30.0): Determines when obvious trimming will stop.
@@ -78,15 +84,11 @@ Note: if you have multiple FASTQ files we recommend concatenating them in the te
 
 ### Output
 
-Three figures and two TSV files are output from these scripts in a directory called *output*.
+An interactive output containing resulting image and two TSV files are output from these scripts in a directory called *output*. In addition, static formats of the images will also be present in the subdirectory called **plots**. 
 
-Figures examples are:
+The interactive output will appear as an html file that will resemble the following: 
 
-![Heatmap](https://github.com/acolorado1/DADA2ParameterExploration/blob/d4fd1382abd207a2ad6dc1569193ea5f6ba067ba/example_output/HeatmapIndexValueByAvgEE.png)
-
-![Scatterplot](https://github.com/acolorado1/DADA2ParameterExploration/blob/d4fd1382abd207a2ad6dc1569193ea5f6ba067ba/example_output/ScatterReadLengthByAvgEE.png)
-
-![Histogram](https://github.com/acolorado1/DADA2ParameterExploration/blob/d4fd1382abd207a2ad6dc1569193ea5f6ba067ba/example_output/HistogramRetainedReadCount.png)
+![Interactive Output](https://olucdenver-my.sharepoint.com/:v:/g/personal/angelasofia_burkhartcolorado_cuanschutz_edu/EWl00Np2pSRJi2DD8k1UxKUBhm2olxuSB-2bZ8NI6ZPqVQ?e=LfQ2Oo)
 
 The two TSVs that will be output and that will be used to create the figures look like the following:
 
