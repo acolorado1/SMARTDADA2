@@ -35,16 +35,20 @@ trim_info <- read_delim(paste0("../../" ,trim_file),
 ```
 
 ```{r}
+lefttrim <- unique(trim_info$LeftTrim)
+righttrim <- unique(trim_info$RightTrim)
+
 HeatMap <- ggplot(trim_info, aes(LeftIndex, RightIndex, fill= AvgEEPerPosition)) +
             geom_tile() +
+            geom_vline(xintercept = lefttrim) + 
+            geom_hline(yintercept = righttrim)+
             scale_y_continuous(trans = "reverse", breaks = unique(trim_info$RightIndex)) +
             scale_fill_gradient(low="white", high="blue") +
             theme_bw() + 
             theme(plot.title = element_text(hjust = 0.5), 
                   text = element_text(size = 14), 
                   axis.text.x = element_text(size = 10),
-                  axis.text.y = element_text(size = 10)) +
-            ggtitle("With Obvious Trimming")
+                  axis.text.y = element_text(size = 10)) 
 
 ScatterPlot <- ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
                 geom_point() +
@@ -56,22 +60,43 @@ ScatterPlot <- ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
 melt_sumEEInfo <- melt(sumEE_info)
 Histogram <- ggplot(melt_sumEEInfo, aes(x = value, fill = variable)) +
               geom_histogram(position = "dodge") +
+              geom_vline(xintercept = 2) +
               theme_bw() +
               theme(text = element_text(size = 14)) +
               scale_x_continuous(limits = c(0,4)) +
               guides(fill=guide_legend(title=" "))+
               xlab('Sum of Expected Error')
 
-pHeatMap <- ggplotly(HeatMap)
+h_hm <- length(unique(trim_info$RightIndex))*15
+
+pHeatMap <- ggplotly(HeatMap, height = h_hm)
 pScatterPlot <- ggplotly(ScatterPlot)
 pHistogram <- ggplotly(Histogram)
 ```
 
-```{r html widget, include=TRUE}
-#subplot(pHeatMap, pScatterPlot)
+### Understanding the effect of trimming and truncating on quality scores
+- vertical line represents the detected obvious trimming parameter **(e.g, trim-left)**
+- horizontal line represents the detected obvious truncation parameter **(e.g., trunc-len)**
+
+Note: If lines are at zero no obvious trimming or truncating position was found 
+
+```{r, include=TRUE}
 pHeatMap
-pScatterPlot
-pHistogram
 ```
 
+### Understanding the effect of read length on quality scores  
+
+```{r, include=TRUE}
+pScatterPlot
+```
+
+### Understanding the number of reads retained with obvious trimming 
+
+- $\color{blue}{\text{Blue}}$ lines are counts of reads with a certain quality score when obvious trimming has been performed
+- $\color{red}{\text{Red}}$ lines are from reads where no trimming has been performed 
+- Vertical line: DADA2 defaults **max-ee** parameter to 2  
+
+```{r, include=TRUE}
+pHistogram
+```
 

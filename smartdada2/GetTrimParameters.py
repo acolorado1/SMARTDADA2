@@ -112,11 +112,11 @@ def get_trim_length_avgEE(avgEE_list, left, right):
     current_sumEE = sum(avgEE_list[left:right])
 
     # get indexes, read length, and avgEE
-    read_len = current_read_len
-    return [left, right, read_len, current_sumEE / read_len]
+    return [left, right, current_read_len, current_sumEE / current_read_len]
 
 
 def read_size_by_avg_EE(FastqEntries, left: int, right: int, max_trim_perc=0.20):
+    # sourcery skip: remove-zero-from-range, use-itertools-product
     """Creates a dataframe containing average expected error per position
     for each length of read calculated within certain ranges of positions
     (e.g., not taking out more than 20% off of either end)
@@ -157,11 +157,19 @@ def read_size_by_avg_EE(FastqEntries, left: int, right: int, max_trim_perc=0.20)
     right_trunc = []
     read_len_list = []
     avgEE_position = []
+    right_obv_trim = []
+    left_obv_trim = []
 
     trim_bound = round(read_len * max_trim_perc)
 
-    for current_left in range(left, trim_bound):
-        for current_right in range(read_len - trim_bound, right):
+    #for current_left in range(left, trim_bound):
+    #   for current_right in range(read_len - trim_bound, right):
+
+    # for each set of trim & trunc indexes
+    for current_left in range(0, trim_bound):
+        for current_right in range(read_len - trim_bound, read_len):
+
+            # calculate avg EE     
             trim_readLen_avgEE = get_trim_length_avgEE(
                 avg_EE_list, current_left, current_right
             )
@@ -169,10 +177,12 @@ def read_size_by_avg_EE(FastqEntries, left: int, right: int, max_trim_perc=0.20)
             right_trunc.append(trim_readLen_avgEE[1])
             read_len_list.append(trim_readLen_avgEE[2])
             avgEE_position.append(trim_readLen_avgEE[3])
+            right_obv_trim.append(right)
+            left_obv_trim.append(left)
 
     TrimInfo = pd.DataFrame(
-        list(zip(left_trim, right_trunc, read_len_list, avgEE_position)),
-        columns=["LeftIndex", "RightIndex", "ReadLength", "AvgEEPerPosition"],
+        list(zip(left_trim, right_trunc, read_len_list, avgEE_position, right_obv_trim, left_obv_trim)),
+        columns=["LeftIndex", "RightIndex", "ReadLength", "AvgEEPerPosition", "RightTrim", "LeftTrim"],
     )
 
     TrimInfo = TrimInfo.reset_index(drop=True)

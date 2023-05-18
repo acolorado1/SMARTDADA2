@@ -82,7 +82,7 @@ Note: if you have multiple FASTQ files we recommend concatenating them in the te
 
 ### Output
 
-An interactive output containing resulting image and two TSV files are output from these scripts in a directory called *output*. In addition, static formats of the images will also be present in the subdirectory called **plots**. 
+An interactive output containing resulting images and two TSV files are output from these scripts in a directory called *output*. In addition, static formats of the images will also be present in the subdirectory called **plots**. 
 
 The interactive output will appear as an html file that will resemble the following: 
 
@@ -93,11 +93,11 @@ The two TSVs that will be output and that will be used to create the figures loo
 TrimInfo:
 
 ```
-LeftIndex RightIndex ReadLength AvgEEPerPosition
-0         201         201         0.00025149061996092216
-0         202         202         0.0002525037876296975
-0         203         203         0.0002531623874528494
-0         204         204         0.00025375036528248743
+LeftIndex	RightIndex	ReadLength	AvgEEPerPosition	      RightTrim	LeftTrim
+0	        201	        201	        0.00025149061996092216	234	      0
+0	        202	        202	        0.0002525037876296975	  234	      0
+0	        203	        203	        0.0002531623874528494	  234	      0
+0	        204	        204	        0.00025375036528248743	234	      0
 ```
 
 SumEEInfo:
