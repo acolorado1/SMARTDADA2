@@ -41,7 +41,7 @@ pip install -e .
 
 This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing in the input of the create_TSVs rule. 
 
-![Change FASTQ file](https://olucdenver-my.sharepoint.com/:i:/r/personal/angelasofia_burkhartcolorado_cuanschutz_edu/Documents/DADA2_project/README_images/Snakefile-FilePath.png?csf=1&web=1&e=gwktjw)
+![Change FASTQ file](https://github.com/acolorado1/SMARTDADA2/assets/68305443/8c008635-ff27-4692-9325-616a66260c9d)
 
 Once that is done write in the terminal:
 
@@ -53,13 +53,11 @@ snakemake -c 1
 
 Further parameters that can be adjusted in the snakemake file include:
 
-![Sakemake params](https://olucdenver-my.sharepoint.com/:i:/g/personal/angelasofia_burkhartcolorado_cuanschutz_edu/EYi6ZmftUdZOvRrAchHXW9cB5ZERyFd4lTOIYjr0ryZuCA?e=EMGMYZ))
+![Sakemake params](https://github.com/acolorado1/SMARTDADA2/assets/68305443/d4c3e69e-efb1-4da6-9a07-e22b05631fbc)
 
-```
-threshold (default = 30.0): Determines when obvious trimming will stop.
-o_mtp (default = 0.1): Determines when obvious trimming will throw a warning that the read might be too short. Default warns if trimming is over 10% of the read on either end.
-a_mtp (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.
-```
+- threshold (default = 30.0): Determines when obvious trimming will stop.
+- o_mtp (default = 0.1): Determines when obvious trimming will throw a warning that the read might be too short. Default warns if trimming is over 10% of the read on either end.
+- a_mtp (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.
 
 ### Input
 
@@ -84,22 +82,22 @@ Note: if you have multiple FASTQ files we recommend concatenating them in the te
 
 ### Output
 
-An interactive output containing resulting image and two TSV files are output from these scripts in a directory called *output*. In addition, static formats of the images will also be present in the subdirectory called **plots**. 
+An interactive output containing resulting images and two TSV files are output from these scripts in a directory called *output*. In addition, static formats of the images will also be present in the subdirectory called **plots**. 
 
 The interactive output will appear as an html file that will resemble the following: 
 
-![Interactive Output](https://olucdenver-my.sharepoint.com/:v:/g/personal/angelasofia_burkhartcolorado_cuanschutz_edu/EWl00Np2pSRJi2DD8k1UxKUBhm2olxuSB-2bZ8NI6ZPqVQ?e=LfQ2Oo)
+https://github.com/acolorado1/SMARTDADA2/assets/68305443/9f44536e-c4d5-466d-85b6-fca4a6c92a02
 
 The two TSVs that will be output and that will be used to create the figures look like the following:
 
 TrimInfo:
 
 ```
-LeftIndex RightIndex ReadLength AvgEEPerPosition
-0         201         201         0.00025149061996092216
-0         202         202         0.0002525037876296975
-0         203         203         0.0002531623874528494
-0         204         204         0.00025375036528248743
+LeftIndex	RightIndex	ReadLength	AvgEEPerPosition	      RightTrim	LeftTrim
+0	        201	        201	        0.00025149061996092216	234	      0
+0	        202	        202	        0.0002525037876296975	  234	      0
+0	        203	        203	        0.0002531623874528494	  234	      0
+0	        204	        204	        0.00025375036528248743	234	      0
 ```
 
 SumEEInfo:

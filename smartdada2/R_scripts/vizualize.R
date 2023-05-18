@@ -32,7 +32,7 @@ sumEE_info <- read_delim(args$sumEE_file,
 
 # plot read length vs quality
 ## Scatter plot
-ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
+sp <- ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
   geom_point() +
   theme_bw() +
   theme(text = element_text(size = 15)) +
@@ -40,23 +40,26 @@ ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
   xlab('Read Length (bp)')
 
 ggsave("output/plots/ScatterReadLengthByAvgEE.png",
+       plot = sp,
        width = 10,
        height = 10)
 
-dev.off()
-
 ## Heatmap
-ggplot(trim_info, aes(LeftIndex, RightIndex, fill= AvgEEPerPosition)) +
+lefttrim <- unique(trim_info$LeftTrim)
+righttrim <- unique(trim_info$RightTrim)
+hm <- ggplot(trim_info, aes(LeftIndex, RightIndex, fill= AvgEEPerPosition)) +
   geom_tile() +
+  geom_vline(xintercept = lefttrim) + 
+  geom_hline(yintercept = righttrim)+
   scale_y_continuous(trans = "reverse", breaks = unique(trim_info$RightIndex)) +
   scale_fill_gradient(low="white", high="blue") +
   theme_bw()
 
 ggsave("output/plots/HeatmapIndexValueByAvgEE.png",
+       plot = hm,
        width = 10,
        height = 10)
 
-dev.off()
 
 
 
@@ -64,17 +67,20 @@ dev.off()
 ## Histogram
 melt_sumEEInfo <- melt(sumEE_info)
 
-ggplot(melt_sumEEInfo, aes(x = value, fill = variable)) +
+hi <- ggplot(melt_sumEEInfo, aes(x = value, fill = variable)) +
   geom_histogram(position = "dodge") +
+  geom_vline(xintercept = 2) +
   theme_bw() +
   theme(text = element_text(size = 20)) +
   scale_x_continuous(limits = c(0,4)) +
   guides(fill=guide_legend(title=" "))+
   xlab('Sum of Expected Error')
 
+
 ggsave("output/plots/HistogramRetainedReadCount.png",
+       plot = hi,
       width = 10,
       height = 10)
 
-dev.off()
+
 
