@@ -1,18 +1,33 @@
+FASTQ_FILE="smartdada2/testing/test_data/LOZ_Nano_Trunc.fastq"
+PAIRED=True
+SUBSAMPLE=500000
+
+if PAIRED:
+    inputs=["forward", "reverse"]
+else:
+    inputs=["forward"]
+
 rule all:
     input:
-        "output/TrimInfo.tsv",
-        "output/sumEEInfo.tsv",
-        "output/plots/ScatterReadLengthByAvgEE.png",
-        "output/plots/HeatmapIndexValueByAvgEE.png",
-        "output/plots/HistogramRetainedReadCount.png", 
-        "output/SMARTDADA2_InteractiveOutput.html"
+        "forward/output/SMARTDADA2_InteractiveOutput.html",
+        "reverse/output/SMARTDADA2_InteractiveOutput.html"
+
+if PAIRED: 
+    rule get_paried_files:
+        input: 
+            fq=FASTQ_FILE
+        output:
+            forward=inputs[0] + "/forward.fastq",
+            rev=inputs[1] + "/reverse.fastq"
+        shell:
+            "python " + "smartdada2/GetPairedendFiles.py --fq {input.fq} --of_f {output.forward} --of_r {output.rev}"
 
 rule create_TSVs:
     input:
-        "LOZ-CSU-Nano_S1_L001_R1_001.fastq"
+        "{inputs}/{inputs}.fastq"
     output:
-        TrimInfo = "output/TrimInfo.tsv",
-        SumEEInfo = "output/sumEEInfo.tsv"
+        TrimInfo = "{inputs}/output/TrimInfo.tsv",
+        SumEEInfo = "{inputs}/output/sumEEInfo.tsv"
     params:
         threshold = 30,
         o_mtp = 0.1,
@@ -22,20 +37,25 @@ rule create_TSVs:
 
 rule get_plots:
     input:
-        TrimInfo = "output/TrimInfo.tsv",
-        sumEEInfo = "output/sumEEInfo.tsv"
+        TrimInfo = "{inputs}/output/TrimInfo.tsv",
+        sumEEInfo = "{inputs}/output/sumEEInfo.tsv",
+        output_file = "{inputs}"
     output:
-        "output/plots/ScatterReadLengthByAvgEE.png",
-        "output/plots/HeatmapIndexValueByAvgEE.png",
-        "output/plots/HistogramRetainedReadCount.png"
+        "{inputs}/output/plots/ScatterReadLengthByAvgEE.png",
+        "{inputs}/output/plots/HeatmapIndexValueByAvgEE.png",
+        "{inputs}/output/plots/HistogramRetainedReadCount.png"
     shell:
-        "Rscript " + "smartdada2/R_scripts/vizualize.R --trim_file {input.TrimInfo} --sumEE_file {input.sumEEInfo}"
+        "Rscript " + "smartdada2/R_scripts/vizualize.R --trim_file {input.TrimInfo} --sumEE_file {input.sumEEInfo} --output_file {input.output_file}"
 
 rule get_interactive_plots:
     input:
-        TrimInfo = "output/TrimInfo.tsv",
-        sumEEInfo = "output/sumEEInfo.tsv"
+        TrimInfo = "{inputs}/output/TrimInfo.tsv",
+        sumEEInfo = "{inputs}/output/sumEEInfo.tsv",
+        output_file = "{inputs}"
     output:
-        "output/SMARTDADA2_InteractiveOutput.html"
+        "{inputs}/output/SMARTDADA2_InteractiveOutput.html"
     shell:
-        "Rscript " + "smartdada2/R_scripts/wrapper_RunRender.R --trim_file {input.TrimInfo} --sumEE_file {input.sumEEInfo}"
+        "Rscript " + "smartdada2/R_scripts/wrapper_RunRender.R --trim_file {input.TrimInfo} --sumEE_file {input.sumEEInfo} --output_file {input.output_file}"
+
+
+

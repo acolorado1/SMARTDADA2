@@ -10,6 +10,7 @@ for (package in packages) {
 parser <- ArgumentParser()
 parser$add_argument('--trim_file', help = "TSV file containing trim info")
 parser$add_argument('--sumEE_file', help = 'TSV file containing sum of EE info')
+parser$add_argument('--output_file', help = 'output file path')
 args <- parser$parse_args()
 
 render_report <- function(trim_file, sumEE_file) {
@@ -18,7 +19,7 @@ render_report <- function(trim_file, sumEE_file) {
       trim_file = trim_file,
       sumEE_file = sumEE_file
     ),
-    output_file = paste0("../../output/SMARTDADA2_InteractiveOutput.html")
+    output_file = paste0("../../", args$output_file, "/output/SMARTDADA2_InteractiveOutput.html")
   )
 }
 
