@@ -1,6 +1,6 @@
 FASTQ_FILE = "../DADA2ParameterExploration/smartdada2/testing/test_data/LOZ_Nano_Trunc.fastq"
 PAIRED = True
-SUBSAMPLE = 10000
+SUBSAMPLE = 2
 AVG_Q_SCORE = 30
 OBV_TRIMMING_MAX = 0.1
 MAX_TRIMMING = 0.2
@@ -33,9 +33,19 @@ if PAIRED:
         shell:
             "python smartdada2/GetPairedendFiles.py --fq {input.fq} --of_f {output.forward} --of_r {output.rev}"
 
+rule get_subsample: 
+    input: 
+        os.path.abspath(reads)
+    output: 
+        "{dir}/subsample.fastq"
+    params: 
+        n = SUBSAMPLE
+    shell:
+        "python smartdada2/GetSubsamples.py --fq {input}, --n {params.n} --of {output}"
+
 rule create_TSVs:
     input:
-        reads
+        "{dir}/subsample.fastq"
     output:
         TrimInfo = "{dir}/output/TrimInfo.tsv",
         SumEEInfo = "{dir}/output/sumEEInfo.tsv"
