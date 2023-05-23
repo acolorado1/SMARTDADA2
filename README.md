@@ -39,9 +39,14 @@ pip install -e .
 
 ### To Run Program
 
-This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing in the input of the create_TSVs rule. 
+This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing and adjust parameters as needed. Parameters include:  
 
-![Change FASTQ file](https://github.com/acolorado1/SMARTDADA2/assets/68305443/8c008635-ff27-4692-9325-616a66260c9d)
+- PAIRED (bool): Are you using paired or signle end reads?
+- AVG_Q_SCORE (default = 30.0): Determines when obvious trimming will stop.
+- OBV_TRIMMING_MAX (default = 0.1): Determines when obvious trimming will throw a warning that the read might be too short. Default warns if trimming is over 10% of the read on either end.
+- MAX_TRIMMING (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.
+
+<img width="682" alt="Screen Shot 2023-05-23 at 1 58 10 PM" src="https://github.com/acolorado1/SMARTDADA2/assets/68305443/6ca259fb-35d6-4498-9828-65984619aff8">
 
 Once that is done write in the terminal:
 
@@ -49,15 +54,8 @@ Once that is done write in the terminal:
 snakemake -c 1 
 ```
 
-**Note**: the snakefile has a default FASTQ file (LOZ-CSU-Nano_S1_L001_R1_001.fastq) and if run with this path name an error will occur.
+*Note:* ```-c``` specifies the max number of cores you want to use.
 
-Further parameters that can be adjusted in the snakemake file include:
-
-![Sakemake params](https://github.com/acolorado1/SMARTDADA2/assets/68305443/d4c3e69e-efb1-4da6-9a07-e22b05631fbc)
-
-- threshold (default = 30.0): Determines when obvious trimming will stop.
-- o_mtp (default = 0.1): Determines when obvious trimming will throw a warning that the read might be too short. Default warns if trimming is over 10% of the read on either end.
-- a_mtp (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.
 
 ### Input
 
@@ -77,8 +75,6 @@ TNCGATTAACCCAAACTAATAGGCCTACGGCGTAAAGCGTGTTCAAGATACTTTTACACTAAAGTTAAAACTTAACTAAG
 +
 A#>>>AABFFFB2AAEGGGGGGGHCGFHFG?EAEEAFGGGFEGH5AGGHFHHHHHHFFHHHGGHHHHHHGHHHHBDGGFHHHGGGGGGEDHHHHGHHGHHHHHFGEFGGFFFFFEFGGEF?FDEFHHHGHFFHGGHHEFFHHGHHDGEGGHGFHHGHHHHHHHBFGCGHHHHFDGGHFGFGCDGHHHDCGGCCABEGGHHH0CGHGGG/FGGG@FFGGGGFEFFB0CFBB<-;--.////.....//.9//
 ```
-
-Note: if you have multiple FASTQ files we recommend concatenating them in the terminal.
 
 ### Output
 
