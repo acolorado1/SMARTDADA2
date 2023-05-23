@@ -12,6 +12,7 @@ for (package in packages) {
 parser <- ArgumentParser()
 parser$add_argument('--trim_file', help = "TSV file containing trim info")
 parser$add_argument('--sumEE_file', help = 'TSV file containing sum of EE info')
+parser$add_argument('--output_file', help = 'output file path')
 args <- parser$parse_args()
 
 
@@ -39,7 +40,7 @@ sp <- ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
   ylab('Average Expected Error Per Position') +
   xlab('Read Length (bp)')
 
-ggsave("output/plots/ScatterReadLengthByAvgEE.png",
+ggsave(paste0(args$output_file, "/output/plots/ScatterReadLengthByAvgEE.png"),
        plot = sp,
        width = 10,
        height = 10)
@@ -55,7 +56,7 @@ hm <- ggplot(trim_info, aes(LeftIndex, RightIndex, fill= AvgEEPerPosition)) +
   scale_fill_gradient(low="white", high="blue") +
   theme_bw()
 
-ggsave("output/plots/HeatmapIndexValueByAvgEE.png",
+ggsave(paste0(args$output_file, "/output/plots/HeatmapIndexValueByAvgEE.png"),
        plot = hm,
        width = 10,
        height = 10)
@@ -77,7 +78,7 @@ hi <- ggplot(melt_sumEEInfo, aes(x = value, fill = variable)) +
   xlab('Sum of Expected Error')
 
 
-ggsave("output/plots/HistogramRetainedReadCount.png",
+ggsave(paste0(args$output_file, "/output/plots/HistogramRetainedReadCount.png"),
        plot = hi,
       width = 10,
       height = 10)
