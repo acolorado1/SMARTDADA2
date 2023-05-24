@@ -42,6 +42,7 @@ pip install -e .
 This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing and adjust parameters as needed. Parameters include:  
 
 - PAIRED (bool): Are you using paired or signle end reads?
+- SUBSAMPLE (int): Number of reads you want to use when creating visualizations. 
 - AVG_Q_SCORE (default = 30.0): Determines when obvious trimming will stop.
 - OBV_TRIMMING_MAX (default = 0.1): Determines when obvious trimming will throw a warning that the read might be too short. Default warns if trimming is over 10% of the read on either end.
 - MAX_TRIMMING (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.
