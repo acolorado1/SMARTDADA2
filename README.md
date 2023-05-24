@@ -30,7 +30,7 @@ For example in the terminal type:
 
 ```python
 git clone https://github.com/acolorado1/DADA2ParameterExploration.git
-conda env create -f smartdada2.yaml
+conda env create -f smartdada2_env.yaml
 conda activate {environemtnname i.e., smartdada2}
 pip install -e .
 ```
