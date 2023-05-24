@@ -41,7 +41,7 @@ rule get_subsample:
     params: 
         n = SUBSAMPLE
     shell:
-        "python smartdada2/GetSubsamples.py --fq {input}, --n {params.n} --of {output}"
+        "python smartdada2/GetSubsamples.py --fq {input} --n {params.n} --of {output}"
 
 rule create_TSVs:
     input:
