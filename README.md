@@ -79,7 +79,7 @@ A#>>>AABFFFB2AAEGGGGGGGHCGFHFG?EAEEAFGGGFEGH5AGGHFHHHHHHFFHHHGGHHHHHHGHHHHBDGGFH
 
 ### Output
 
-An interactive output containing resulting images and two TSV files are output from these scripts in a directory called *output*. In addition, static formats of the images will also be present in the subdirectory called **plots**. 
+An interactive output containing resulting images and two TSV files are output from these scripts in a directory called *forward/output* and *reverse/output*. In addition, static formats of the images will also be present in the subdirectory called **plots**. 
 
 The interactive output will appear as an html file that will resemble the following: 
 
