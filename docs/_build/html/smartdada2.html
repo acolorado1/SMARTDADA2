@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>smartdada2 package &mdash; SMARTDADA2 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SMARTDADA2
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">smartdada2 package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-smartdada2.GetMaxEE">smartdada2.GetMaxEE module</a><ul>
+<li><a class="reference internal" href="#smartdada2.GetMaxEE.read_size_by_maxEE"><code class="docutils literal notranslate"><span class="pre">read_size_by_maxEE()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-smartdada2.GetPairedendFiles">smartdada2.GetPairedendFiles module</a><ul>
+<li><a class="reference internal" href="#smartdada2.GetPairedendFiles.getPairedFiles"><code class="docutils literal notranslate"><span class="pre">getPairedFiles()</span></code></a></li>
+<li><a class="reference internal" href="#smartdada2.GetPairedendFiles.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-smartdada2.GetSubsamples">smartdada2.GetSubsamples module</a><ul>
+<li><a class="reference internal" href="#smartdada2.GetSubsamples.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#smartdada2.GetSubsamples.subsample"><code class="docutils literal notranslate"><span class="pre">subsample()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-smartdada2.GetTrimParameters">smartdada2.GetTrimParameters module</a><ul>
+<li><a class="reference internal" href="#smartdada2.GetTrimParameters.get_trim_length_avgEE"><code class="docutils literal notranslate"><span class="pre">get_trim_length_avgEE()</span></code></a></li>
+<li><a class="reference internal" href="#smartdada2.GetTrimParameters.read_size_by_avg_EE"><code class="docutils literal notranslate"><span class="pre">read_size_by_avg_EE()</span></code></a></li>
+<li><a class="reference internal" href="#smartdada2.GetTrimParameters.trim_ends_less_than_threshold"><code class="docutils literal notranslate"><span class="pre">trim_ends_less_than_threshold()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#smartdada2-main-module">smartdada2.main module</a></li>
+<li><a class="reference internal" href="#module-smartdada2">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SMARTDADA2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">smartdada2 package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/smartdada2.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="smartdada2-package">
+<h1>smartdada2 package<a class="headerlink" href="#smartdada2-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="smartdada2.common.html">smartdada2.common package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="smartdada2.common.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smartdada2.common.html#module-smartdada2.common.errors">smartdada2.common.errors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="smartdada2.common.html#smartdada2.common.errors.FastqFormatError"><code class="docutils literal notranslate"><span class="pre">FastqFormatError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="smartdada2.common.html#smartdada2.common.errors.SearchExceededError"><code class="docutils literal notranslate"><span class="pre">SearchExceededError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="smartdada2.common.html#module-smartdada2.common">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="smartdada2.reader.html">smartdada2.reader package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="smartdada2.reader.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smartdada2.reader.html#module-smartdada2.reader.reader">smartdada2.reader.reader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry"><code class="docutils literal notranslate"><span class="pre">FastqEntry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry.check_seq_dir"><code class="docutils literal notranslate"><span class="pre">FastqEntry.check_seq_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry.header"><code class="docutils literal notranslate"><span class="pre">FastqEntry.header</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry.length"><code class="docutils literal notranslate"><span class="pre">FastqEntry.length</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry.rseq"><code class="docutils literal notranslate"><span class="pre">FastqEntry.rseq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry.scores"><code class="docutils literal notranslate"><span class="pre">FastqEntry.scores</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry.seq"><code class="docutils literal notranslate"><span class="pre">FastqEntry.seq</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader"><code class="docutils literal notranslate"><span class="pre">FastqReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.ambiguous_nucleotide_counts"><code class="docutils literal notranslate"><span class="pre">FastqReader.ambiguous_nucleotide_counts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.get_average_score"><code class="docutils literal notranslate"><span class="pre">FastqReader.get_average_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.get_avg_seq_ee"><code class="docutils literal notranslate"><span class="pre">FastqReader.get_avg_seq_ee()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.get_expected_error"><code class="docutils literal notranslate"><span class="pre">FastqReader.get_expected_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.get_forward_reads"><code class="docutils literal notranslate"><span class="pre">FastqReader.get_forward_reads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.get_max_seq_ee"><code class="docutils literal notranslate"><span class="pre">FastqReader.get_max_seq_ee()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.get_quality_scores"><code class="docutils literal notranslate"><span class="pre">FastqReader.get_quality_scores()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.get_reverse_reads"><code class="docutils literal notranslate"><span class="pre">FastqReader.get_reverse_reads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.get_seq_ee_errors"><code class="docutils literal notranslate"><span class="pre">FastqReader.get_seq_ee_errors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.iter_reads"><code class="docutils literal notranslate"><span class="pre">FastqReader.iter_reads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.reservoir_sampling"><code class="docutils literal notranslate"><span class="pre">FastqReader.reservoir_sampling()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.sequence_df"><code class="docutils literal notranslate"><span class="pre">FastqReader.sequence_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.slice_reads"><code class="docutils literal notranslate"><span class="pre">FastqReader.slice_reads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.total_reads"><code class="docutils literal notranslate"><span class="pre">FastqReader.total_reads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqReader.unpack_entries"><code class="docutils literal notranslate"><span class="pre">FastqReader.unpack_entries()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.search_ambiguous_nucleotide"><code class="docutils literal notranslate"><span class="pre">search_ambiguous_nucleotide()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="smartdada2.reader.html#module-smartdada2.reader">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-smartdada2.GetMaxEE">
+<span id="smartdada2-getmaxee-module"></span><h2>smartdada2.GetMaxEE module<a class="headerlink" href="#module-smartdada2.GetMaxEE" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="smartdada2.GetMaxEE.read_size_by_maxEE">
+<span class="sig-prename descclassname"><span class="pre">smartdada2.GetMaxEE.</span></span><span class="sig-name descname"><span class="pre">read_size_by_maxEE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FastqEntries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetMaxEE.read_size_by_maxEE" title="Permalink to this definition"></a></dt>
+<dd><p>Takes reads and calculates the sum of the expected
+error for each read before any trimming and after
+obvious trimming.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>FastqEntries</strong> (<a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><em>FastqEntry</em></a>) – reads taken from fastq files</p></li>
+<li><p><strong>left</strong> (<em>int</em>) – trim value output from trim_ends_less_than_threshold</p></li>
+<li><p><strong>right</strong> (<em>int</em>) – trunc value output from trim_ends_less_than_threshold</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe containing two columns</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-smartdada2.GetPairedendFiles">
+<span id="smartdada2-getpairedendfiles-module"></span><h2>smartdada2.GetPairedendFiles module<a class="headerlink" href="#module-smartdada2.GetPairedendFiles" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="smartdada2.GetPairedendFiles.getPairedFiles">
+<span class="sig-prename descclassname"><span class="pre">smartdada2.GetPairedendFiles.</span></span><span class="sig-name descname"><span class="pre">getPairedFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_fastq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetPairedendFiles.getPairedFiles" title="Permalink to this definition"></a></dt>
+<dd><p>If paired end sequencing was performed get
+two files containing reverse and forward sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>main_fastq</strong> (<em>str</em>) – one FASTq formatted file containing all</p></li>
+<li><p><strong>reads</strong> – </p></li>
+<li><p><strong>output_f</strong> (<em>str</em>) – output file path for forward sequences</p></li>
+<li><p><strong>output_r</strong> (<em>str</em>) – output file path for reverse sequences</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>two fastq files will be written containing
+forward and reverse reads separately.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>files</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="smartdada2.GetPairedendFiles.main">
+<span class="sig-prename descclassname"><span class="pre">smartdada2.GetPairedendFiles.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetPairedendFiles.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-smartdada2.GetSubsamples">
+<span id="smartdada2-getsubsamples-module"></span><h2>smartdada2.GetSubsamples module<a class="headerlink" href="#module-smartdada2.GetSubsamples" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="smartdada2.GetSubsamples.main">
+<span class="sig-prename descclassname"><span class="pre">smartdada2.GetSubsamples.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetSubsamples.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="smartdada2.GetSubsamples.subsample">
+<span class="sig-prename descclassname"><span class="pre">smartdada2.GetSubsamples.</span></span><span class="sig-name descname"><span class="pre">subsample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_fp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetSubsamples.subsample" title="Permalink to this definition"></a></dt>
+<dd><p>Takes one FASTQ file and outputs subsets of the reads.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_fp</strong> (<em>str</em>) – FASTQ file path</p></li>
+<li><p><strong>subsample</strong> (<em>int</em>) – number of reads in subset</p></li>
+<li><p><strong>output_fp</strong> (<em>str</em>) – FASTQ file subset output path</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A fastq formatted file containing a subset of the original
+reads.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-smartdada2.GetTrimParameters">
+<span id="smartdada2-gettrimparameters-module"></span><h2>smartdada2.GetTrimParameters module<a class="headerlink" href="#module-smartdada2.GetTrimParameters" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="smartdada2.GetTrimParameters.get_trim_length_avgEE">
+<span class="sig-prename descclassname"><span class="pre">smartdada2.GetTrimParameters.</span></span><span class="sig-name descname"><span class="pre">get_trim_length_avgEE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">avgEE_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetTrimParameters.get_trim_length_avgEE" title="Permalink to this definition"></a></dt>
+<dd><p>This function takes a list of average expected error
+per position and indexing sites to return a list of trim
+sites, read length, and average EE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>avgEE_list</strong> (<em>list</em>) – average expected error per position</p></li>
+<li><p><strong>left</strong> (<em>int</em>) – left index</p></li>
+<li><p><strong>right</strong> (<em>int</em>) – right index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>string of indexes, length of read, average EE per position</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="smartdada2.GetTrimParameters.read_size_by_avg_EE">
+<span class="sig-prename descclassname"><span class="pre">smartdada2.GetTrimParameters.</span></span><span class="sig-name descname"><span class="pre">read_size_by_avg_EE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FastqEntries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_trim_perc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetTrimParameters.read_size_by_avg_EE" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a dataframe containing average expected error per position
+for each length of read calculated within certain ranges of positions
+(e.g., not taking out more than 20% off of either end)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>FastqEntries</strong> (<a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><em>FastqEntry</em></a>) – reads taken from fastq files</p></li>
+<li><p><strong>left</strong> (<em>integer</em>) – left index</p></li>
+<li><p><strong>right</strong> (<em>integer</em>) – right index</p></li>
+<li><p><strong>max_trim_perc</strong> (<em>float</em><em>, </em><em>optional</em>) – max percentage of the read trimmed on</p></li>
+<li><p><strong>0.2.</strong> (<em>either end. Defaults to</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe containing 3 columns: trim positions, read
+length, and average EE per position</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="smartdada2.GetTrimParameters.trim_ends_less_than_threshold">
+<span class="sig-prename descclassname"><span class="pre">smartdada2.GetTrimParameters.</span></span><span class="sig-name descname"><span class="pre">trim_ends_less_than_threshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">avg_qs_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_trim_per</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetTrimParameters.trim_ends_less_than_threshold" title="Permalink to this definition"></a></dt>
+<dd><p>Perform obvious trimming: moving from the middle index to the left
+and then to the right, the first index with a value lower than the
+threshold will be the potential trim index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>avg_qs_list</strong> – list of floats
+list of average quality scores per position</p></li>
+<li><p><strong>threshold</strong> – integer
+quality score between 0 and 42</p></li>
+<li><p><strong>max_trim_per</strong> – float
+maximum percentage of trimming performed at either end</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>return tuple of two integers
+potential left and right trim values</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="smartdada2-main-module">
+<h2>smartdada2.main module<a class="headerlink" href="#smartdada2-main-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-smartdada2">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-smartdada2" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Angela Sofia Burkhart Colorado and Erik Serrano.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
