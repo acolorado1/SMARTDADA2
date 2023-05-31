@@ -1,0 +1,16 @@
+README.md
+setup.py
+smartdada2/GetMaxEE.py
+smartdada2/GetPairedendFiles.py
+smartdada2/GetSubsamples.py
+smartdada2/GetTrimParameters.py
+smartdada2/__init__.py
+smartdada2/main.py
+smartdada2.egg-info/PKG-INFO
+smartdada2.egg-info/SOURCES.txt
+smartdada2.egg-info/dependency_links.txt
+smartdada2.egg-info/top_level.txt
+smartdada2/common/__init__.py
+smartdada2/common/errors.py
+smartdada2/reader/__init__.py
+smartdada2/reader/reader.py
