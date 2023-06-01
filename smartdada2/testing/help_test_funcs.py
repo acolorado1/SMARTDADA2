@@ -20,7 +20,6 @@ def toy_sequencer(
     rev_seq: Optional[bool] = True,
     seed: Optional[Union[None, int]] = None,
 ) -> List[List[str]]:
-
     """Toy sequencer that generates a toy fastq reads.
 
     Parameters
@@ -56,11 +55,9 @@ def toy_sequencer(
     # sequencer is sequencing and is storing the sequenced data
     all_seqs = []
     for _ in range(n_seqs):
-
         gene_seq = []
         score = []
         for _ in range(amp_length):
-
             # select nucleotide
             sel_nuc = random.choice(DNA)
             high_scores = ASCII_SCORES[len(NUMERICAL_SCORES) // 2 :]  # noqa
@@ -92,7 +89,9 @@ def toy_sequencer(
     # -- scores
 
     # create a generator of collected data
-    header = "@M00127:332:000000000-KC3PP:1:1101:14740:3219 :N:0:TAGTCTCC+AGAGTCAC".split()
+    header = (
+        "@M00127:332:000000000-KC3PP:1:1101:14740:3219 :N:0:TAGTCTCC+AGAGTCAC".split()
+    )
     machine_id = header[0]
     read_id = header[1]
     all_seqs = iter(all_seqs)
@@ -101,11 +100,9 @@ def toy_sequencer(
     read_count = 0
     collected_read_data = []
     while True:
-
         # formatting forward read as fastq entries
         read_count += 1
         try:
-
             # get next data and extract
             data = next(all_seqs)
             f_read, f_score = data[0], data[1]

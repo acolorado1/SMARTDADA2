@@ -103,13 +103,10 @@ class MyTestCase(unittest.TestCase):
         self.assertRaises(TypeError, GTP.read_size_by_avg_EE, not_fastq, 0, 2)
 
         # test df output, this ensures reads are of equal length
-        test_data_fp = reader.FastqReader("./test_data/SRR1591840_tunc.fastq")
+        test_data_fp = reader.FastqReader("./test_data/LOZ_Nano_Trunc.fastq")
         df = GTP.read_size_by_avg_EE(test_data_fp, 0, 150)
-        self.assertEqual(len(df), 840)
+        self.assertEqual(len(df), 2500)
 
 
 if __name__ == "__main__":
     unittest.main()
-
-
-

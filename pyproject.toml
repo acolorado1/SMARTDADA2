@@ -1,0 +1,4 @@
+# this is used for pycln configs since it does not have --args in pre-commits
+# source: https://hadialqattan.github.io/pycln/#/?id=integrations
+[tool.pycln]
+all = true

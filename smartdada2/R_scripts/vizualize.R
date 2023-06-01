@@ -1,4 +1,4 @@
-# Check dependecies 
+# Check dependecies
 packages <- c("readr", "dplyr", "reshape2", "ggplot2", "argparse")
 
 for (package in packages) {
@@ -8,7 +8,7 @@ for (package in packages) {
   }
 }
 
-# create parser 
+# create parser
 parser <- ArgumentParser()
 parser$add_argument('--trim_file', help = "TSV file containing trim info")
 parser$add_argument('--sumEE_file', help = 'TSV file containing sum of EE info')
@@ -16,7 +16,7 @@ parser$add_argument('--output_file', help = 'output file path')
 args <- parser$parse_args()
 
 
-# Read in data 
+# Read in data
 trim_info <- read_delim(args$trim_file,
                         delim = "\t", escape_double = FALSE,
                         col_types = cols(LeftIndex = col_integer(),
@@ -50,7 +50,7 @@ lefttrim <- unique(trim_info$LeftTrim)
 righttrim <- unique(trim_info$RightTrim)
 hm <- ggplot(trim_info, aes(LeftIndex, RightIndex, fill= AvgEEPerPosition)) +
   geom_tile() +
-  geom_vline(xintercept = lefttrim) + 
+  geom_vline(xintercept = lefttrim) +
   geom_hline(yintercept = righttrim)+
   scale_y_continuous(trans = "reverse", breaks = unique(trim_info$RightIndex)) +
   scale_fill_gradient(low="white", high="blue") +
