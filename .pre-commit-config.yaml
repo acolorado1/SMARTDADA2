@@ -29,7 +29,7 @@ repos:
     rev: "v0.0.265"
     hooks:
       - id: ruff
-        args: [--config=pyproject.toml, --fix, --exit-non-zero-on-fix]
+        args: [--fix, --exit-non-zero-on-fix]
 
   # additional pre-commits that supports python formatting
   - repo: https://github.com/pre-commit/pre-commit-hooks
