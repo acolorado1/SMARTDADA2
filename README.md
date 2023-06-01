@@ -29,7 +29,7 @@ To install this program:
 For example in the terminal type:
 
 ```python
-git clone https://github.com/acolorado1/DADA2ParameterExploration.git
+git clone https://github.com/acolorado1/SMARTDADA2.git
 conda env create -f smartdada2_env.yaml
 conda activate {environemtnname i.e., smartdada2}
 pip install -e .
