@@ -1,4 +1,5 @@
 import argparse as arg
+
 from smartdada2.reader import reader
 
 
@@ -10,7 +11,7 @@ def getPairedFiles(main_fastq: str, output_f: str, output_r: str):
         main_fastq (str): one FASTq formatted file containing all
         reads
         output_f (str): output file path for forward sequences
-        output_r (str): output file path for reverse sequences 
+        output_r (str): output file path for reverse sequences
 
     Returns:
         files: two fastq files will be written containing
@@ -68,27 +69,27 @@ def main():
     )
 
     parser.add_argument(
-        "--of_f", 
+        "--of_f",
         "-output_file_forward",
-        type=str, 
-        required=True, 
-        help="output file path for forward sequences"
+        type=str,
+        required=True,
+        help="output file path for forward sequences",
     )
 
     parser.add_argument(
-        "--of_r", 
+        "--of_r",
         "-output_file_reverse",
-        type=str, 
-        required=True, 
-        help="output file path for reverse sequences"
+        type=str,
+        required=True,
+        help="output file path for reverse sequences",
     )
-
 
     args = parser.parse_args()
 
     getPairedFiles(args.fq, args.of_f, args.of_r)
 
     exit()
+
 
 if __name__ == "__main__":
     main()

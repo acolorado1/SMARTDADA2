@@ -8,7 +8,6 @@ from smartdada2.reader import reader
 
 
 def main():
-
     parser = arg.ArgumentParser(
         description="This script will output a dataframe containing"
         + "trimming information read length, average expected error by"

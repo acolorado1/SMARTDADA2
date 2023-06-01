@@ -77,18 +77,18 @@ class TestFastqEntry(unittest.TestCase):
         )
 
         # setting expected variables
-        expected_header_1 = "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC"
-        expected_seq_1 = "BBWKNWDRBUBBWBNKYHYMMBYSNDYKHK"
-        expected_score_1 = (
-            '/1,3*/#+%:"+"3,"&.1%+"$2,10%%&'
+        expected_header_1 = (
+            "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC"
         )
+        expected_seq_1 = "BBWKNWDRBUBBWBNKYHYMMBYSNDYKHK"
+        expected_score_1 = '/1,3*/#+%:"+"3,"&.1%+"$2,10%%&'
         expected_length_1 = 30
 
-        expected_header_2 ="@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC"
-        expected_seq_2 = "KAMMWMVNRTSYMKRDMMYNYSDVYMHYGU"
-        expected_score_2 = (
-            '"6"2".-\'#B\'&11",3$",2,&/(+"#;?'
+        expected_header_2 = (
+            "@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC"
         )
+        expected_seq_2 = "KAMMWMVNRTSYMKRDMMYNYSDVYMHYGU"
+        expected_score_2 = '"6"2".-\'#B\'&11",3$",2,&/(+"#;?'
         expected_length_2 = 30
 
         # setting tests
@@ -141,17 +141,19 @@ class TestFastqEntry(unittest.TestCase):
         )
 
         # setting expected variables
-        expected_header_1 = "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC"
+        expected_header_1 = (
+            "@M00127:332:000000000-KC3PP:1:1101:14740:3219 1:N:0:TAGTCTCC+AGAGTCAC"
+        )
         expected_seq_1 = "BBWKNWDRBUBBWBNKYHYMMBYSNDYKHK"
         expected_score_1 = '/1,3*/#+%:"+"3,"&.1%+"$2,10%%&'
         expected_length_1 = 30
-        expected_r_seq_1 = False
 
-        expected_header_2 = "@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC"
+        expected_header_2 = (
+            "@M00127:332:000000000-KC3PP:1:1101:14740:3219 2:N:0:TAGTCTCC+AGAGTCAC"
+        )
         expected_seq_2 = "KAMMWMVNRTSYMKRDMMYNYSDVYMHYGU"
         expected_score_2 = '"6"2".-\'#B\'&11",3$",2,&/(+"#;?'
         expected_length_2 = 30
-        expected_r_seq_2 = True
 
         # setting tests
         # -- testing first entry
@@ -185,9 +187,7 @@ class TestFastqEntry(unittest.TestCase):
         scores = raw_entries[2]
         length = len(seq)
 
-        self.assertRaises(
-            FastqFormatError, FastqEntry, header, seq, scores, length
-        )
+        self.assertRaises(FastqFormatError, FastqEntry, header, seq, scores, length)
 
 
 class TestFastqReader(unittest.TestCase):
@@ -234,9 +234,7 @@ class TestFastqReader(unittest.TestCase):
 
     def test_reader_file_not_exist(self) -> None:
         """Tests if exception is raised if the file is not found"""
-        self.assertRaises(
-            FileNotFoundError, FastqReader, "./does_not_exist.fastq"
-        )
+        self.assertRaises(FileNotFoundError, FastqReader, "./does_not_exist.fastq")
 
     def test_reader_via_extension(self) -> None:
         """Positive test of using .fastq or .FASTQ as extensions"""
@@ -270,9 +268,7 @@ class TestFastqReader(unittest.TestCase):
 
         # instantiating reader
         test_reader = FastqReader("./small.fastq")
-        test_quality_score_test = (
-            test_reader.get_quality_scores().values.tolist()
-        )
+        test_quality_score_test = test_reader.get_quality_scores().values.tolist()
 
         # testing
         self.assertEqual(expected_scores, test_quality_score_test)
@@ -301,7 +297,6 @@ class TestFastqReader(unittest.TestCase):
         self.assertEqual(expected_list, test_colnames)
 
     def test_average_quality_score_values(self) -> None:
-
         # expected avg scores
         expected_avg_scores = [
             [0.0, 8.6],
@@ -533,5 +528,4 @@ class TestFastqReader(unittest.TestCase):
 
 
 if __name__ == "__main__":
-
     unittest.main()

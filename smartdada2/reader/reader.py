@@ -29,7 +29,6 @@ class FastqEntry:
     rseq: Union[None, bool] = None
 
     def __post_init__(self):
-
         # checking header (1 == forward, 2 == rev)
         self.check_seq_dir()
 
@@ -81,7 +80,6 @@ class FastqReader:
         technology: Optional[str] = "illumina",
         scale: Optional[str | None] = None,
     ):
-
         # FastqReader accessible parameters
         self.fpath: Path = Path(fpath)
         if not self.fpath.is_file():
@@ -145,9 +143,9 @@ class FastqReader:
         scores_df = self.get_average_score()
 
         # convert quality score values into expected errors values
-        scores_df["AverageExpectedError"] = scores_df[
-            "AverageQualityScore"
-        ].apply(lambda score: 10 ** (-score / 10))
+        scores_df["AverageExpectedError"] = scores_df["AverageQualityScore"].apply(
+            lambda score: 10 ** (-score / 10)
+        )
         return scores_df.drop(columns="AverageQualityScore")
 
     def get_seq_ee_errors(self) -> pd.DataFrame:
@@ -188,9 +186,7 @@ class FastqReader:
         )
 
         # rearranging columns
-        expected_error_df = expected_error_df[
-            ["length", "direction", "max_ee"]
-        ]
+        expected_error_df = expected_error_df[["length", "direction", "max_ee"]]
 
         return expected_error_df
 
@@ -209,9 +205,7 @@ class FastqReader:
 
         # get raw ee scores
         raw_scores = self.get_average_score()
-        expected_error_df["avg_ee"] = raw_scores.apply(
-            lambda row: np.mean(row), axis=1
-        )
+        expected_error_df["avg_ee"] = raw_scores.apply(lambda row: np.mean(row), axis=1)
 
         # return expected_error_df[["length", "direction", "avg_ee"]]
         return expected_error_df[["length", "avg_ee"]]
@@ -221,9 +215,7 @@ class FastqReader:
         Returns a Dataframe structure of sequence reads. Row represents a
         sequence and the columns represents the individual nucleotides
         """
-        return pd.DataFrame(
-            data=(list(entry.seq) for entry in self.iter_reads())
-        )
+        return pd.DataFrame(data=(list(entry.seq) for entry in self.iter_reads()))
 
     def ambiguous_nucleotide_counts(self) -> pd.DataFrame:
         """Counts all ambiguous nucleotides in all reads.
@@ -337,9 +329,7 @@ class FastqReader:
                     "requested sample size is larger than number of entries"
                 )
             else:
-                subset_reads = list(
-                    itertools.islice(self.iter_reads(), n_samples)
-                )
+                subset_reads = list(itertools.islice(self.iter_reads(), n_samples))
 
         else:
             try:
@@ -357,7 +347,6 @@ class FastqReader:
 
         # -- now replacing placeholders by randomly selecting values as ind
         for entry in self.iter_reads():
-
             # select random int
             seen += 1
             rand_int = np.random.randint(0, seen - 1)
@@ -399,10 +388,8 @@ class FastqReader:
             return list(self.iter_reads())
 
         elif full is True:
-
             all_unpacked_entries = []
             for entry in self.iter_reads():
-
                 # unpack all reads
                 # -- unpacking
                 unpacked_entries = [
@@ -432,7 +419,6 @@ class FastqReader:
             Generator object containing FastqEntries
         """
         for entry in self.__loader():
-
             # scaling information
             if self.scale is not None:
                 entry.seq = entry.seq[: self.scale]
@@ -478,22 +464,16 @@ class FastqReader:
             raised if starting position value is larger than the ending
             position
         """
-        if not isinstance(range_idx, tuple) and not isinstance(
-            range_idx, list
-        ):
+        if not isinstance(range_idx, tuple) and not isinstance(range_idx, list):
             raise TypeError(
                 "Please provide a tuple or lists with starting and ending idx"
             )
         elif len(range_idx) != 2:
             raise ValueError("'range_idx' only takes two value (start, end)")
         elif not all(isinstance(value, int) for value in range_idx):
-            raise TypeError(
-                "Values must be integers. Not floats, strings or booleans"
-            )
+            raise TypeError("Values must be integers. Not floats, strings or booleans")
         elif range_idx[0] > range_idx[1]:
-            raise ValueError(
-                "starting position cannot be larger than ending position"
-            )
+            raise ValueError("starting position cannot be larger than ending position")
 
         if to_list is True:
             return list(self.__slice(range_idx))
@@ -516,19 +496,15 @@ class FastqReader:
         """
 
         if self.fpath.suffix.lower() != ".fastq":
-            raise ValueError(
-                "FastqReader only takes files '.fastq' or '.FASTQ' files"
-            )
+            raise ValueError("FastqReader only takes files '.fastq' or '.FASTQ' files")
         elif self.fpath.stat().st_size == 0:
             raise FastqFormatError("Fastq file contains no contents")
 
         # iterate all row contents in fastq file and collect entries
         entry_count = 0
         with open(self.fpath, "r") as fastq_file:
-
             contents_chunk = []
             for row_entry in fastq_file:
-
                 # cleaning entries
                 if row_entry == "":
                     continue
@@ -539,7 +515,6 @@ class FastqReader:
                 # checking if there are 4 elements in the list
                 # -- 4 lines = 1 entry
                 if len(contents_chunk) == 4:
-
                     # check for valid sequences
                     seq_check = set(contents_chunk[1]) - set(ALL_DNA)
                     if len(seq_check) > 0:
@@ -602,7 +577,6 @@ class FastqReader:
 
         # iterating reads
         for idx, read in enumerate(self.iter_reads()):
-
             # break the iteration if the current idx == ending idx
             if idx == end:
                 break
@@ -652,9 +626,7 @@ def search_ambiguous_nucleotide(nucleotides: pd.Series) -> int:
 
     # searching for  nucleotides
     found_ambiguous_nucleotide = [
-        ambi_nuc
-        for ambi_nuc in AMB_DNA
-        if ambi_nuc in count_series.index.tolist()
+        ambi_nuc for ambi_nuc in AMB_DNA if ambi_nuc in count_series.index.tolist()
     ]
 
     return count_series[found_ambiguous_nucleotide].sum()

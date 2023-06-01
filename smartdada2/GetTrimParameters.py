@@ -162,14 +162,13 @@ def read_size_by_avg_EE(FastqEntries, left: int, right: int, max_trim_perc=0.20)
 
     trim_bound = round(read_len * max_trim_perc)
 
-    #for current_left in range(left, trim_bound):
+    # for current_left in range(left, trim_bound):
     #   for current_right in range(read_len - trim_bound, right):
 
     # for each set of trim & trunc indexes
     for current_left in range(0, trim_bound):
         for current_right in range(read_len - trim_bound, read_len):
-
-            # calculate avg EE     
+            # calculate avg EE
             trim_readLen_avgEE = get_trim_length_avgEE(
                 avg_EE_list, current_left, current_right
             )
@@ -181,8 +180,24 @@ def read_size_by_avg_EE(FastqEntries, left: int, right: int, max_trim_perc=0.20)
             left_obv_trim.append(left)
 
     TrimInfo = pd.DataFrame(
-        list(zip(left_trim, right_trunc, read_len_list, avgEE_position, right_obv_trim, left_obv_trim)),
-        columns=["LeftIndex", "RightIndex", "ReadLength", "AvgEEPerPosition", "RightTrim", "LeftTrim"],
+        list(
+            zip(
+                left_trim,
+                right_trunc,
+                read_len_list,
+                avgEE_position,
+                right_obv_trim,
+                left_obv_trim,
+            )
+        ),
+        columns=[
+            "LeftIndex",
+            "RightIndex",
+            "ReadLength",
+            "AvgEEPerPosition",
+            "RightTrim",
+            "LeftTrim",
+        ],
     )
 
     TrimInfo = TrimInfo.reset_index(drop=True)

@@ -1,7 +1,7 @@
 ---
 title: 'SMARTDADA2: Interactive Output'
 output: html_document
-params: 
+params:
   trim_file: "file_path"
   sumEE_file: "file_path"
 ---
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(include = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 
-# Check dependecies 
+# Check dependecies
 packages <- c("readr", "dplyr", "reshape2", "ggplot2", "argparse", "plotly", "cowplot", "rmarkdown")
 
 for (package in packages) {
@@ -23,13 +23,13 @@ for (package in packages) {
 ```
 
 ```{r}
-sumEE_info <- read_delim(paste0("../../" ,sumEE_file), 
-                         delim = "\t", escape_double = FALSE, 
+sumEE_info <- read_delim(paste0("../../" ,sumEE_file),
+                         delim = "\t", escape_double = FALSE,
                          trim_ws = TRUE)
-trim_info <- read_delim(paste0("../../" ,trim_file), 
-                        delim = "\t", escape_double = FALSE, 
+trim_info <- read_delim(paste0("../../" ,trim_file),
+                        delim = "\t", escape_double = FALSE,
                         col_types = cols(LeftIndex = col_integer(),
-                                         RightIndex = col_integer(), 
+                                         RightIndex = col_integer(),
                                          ReadLength = col_integer()),
                         trim_ws = TRUE)
 ```
@@ -40,15 +40,15 @@ righttrim <- unique(trim_info$RightTrim)
 
 HeatMap <- ggplot(trim_info, aes(LeftIndex, RightIndex, fill= AvgEEPerPosition)) +
             geom_tile() +
-            geom_vline(xintercept = lefttrim) + 
+            geom_vline(xintercept = lefttrim) +
             geom_hline(yintercept = righttrim)+
             scale_y_continuous(trans = "reverse", breaks = unique(trim_info$RightIndex)) +
             scale_fill_gradient(low="white", high="blue") +
-            theme_bw() + 
-            theme(plot.title = element_text(hjust = 0.5), 
-                  text = element_text(size = 14), 
+            theme_bw() +
+            theme(plot.title = element_text(hjust = 0.5),
+                  text = element_text(size = 14),
                   axis.text.x = element_text(size = 10),
-                  axis.text.y = element_text(size = 10)) 
+                  axis.text.y = element_text(size = 10))
 
 ScatterPlot <- ggplot(trim_info, aes(ReadLength, AvgEEPerPosition)) +
                 geom_point() +
@@ -78,23 +78,23 @@ pHistogram <- ggplotly(Histogram)
 - vertical line represents the detected obvious trimming parameter **(e.g, trim-left)**
 - horizontal line represents the detected obvious truncation parameter **(e.g., trunc-len)**
 
-Note: If lines are at zero no obvious trimming or truncating position was found 
+Note: If lines are at zero no obvious trimming or truncating position was found
 
 ```{r, include=TRUE}
 pHeatMap
 ```
 
-### Understanding the effect of read length on quality scores  
+### Understanding the effect of read length on quality scores
 
 ```{r, include=TRUE}
 pScatterPlot
 ```
 
-### Understanding the number of reads retained with obvious trimming 
+### Understanding the number of reads retained with obvious trimming
 
 - $\color{blue}{\text{Blue}}$ lines are counts of reads with a certain quality score when obvious trimming has been performed
-- $\color{red}{\text{Red}}$ lines are from reads where no trimming has been performed 
-- Vertical line: DADA2 defaults **max-ee** parameter to 2  
+- $\color{red}{\text{Red}}$ lines are from reads where no trimming has been performed
+- Vertical line: DADA2 defaults **max-ee** parameter to 2
 
 ```{r, include=TRUE}
 pHistogram
