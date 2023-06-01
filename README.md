@@ -39,10 +39,10 @@ pip install -e .
 
 ### To Run Program
 
-This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing and adjust parameters as needed. Parameters include:  
+This program can be run using snakemake. In the Snakefile you must put the file path of the FASTQ file of your choosing and adjust parameters as needed. Parameters include:
 
 - PAIRED (bool): Are you using paired or signle end reads?
-- SUBSAMPLE (int): Number of reads you want to use when creating visualizations. 
+- SUBSAMPLE (int): Number of reads you want to use when creating visualizations.
 - AVG_Q_SCORE (default = 30.0): Determines when obvious trimming will stop.
 - OBV_TRIMMING_MAX (default = 0.1): Determines when obvious trimming will throw a warning that the read might be too short. Default warns if trimming is over 10% of the read on either end.
 - MAX_TRIMMING (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.
@@ -52,7 +52,7 @@ This program can be run using snakemake. In the Snakefile you must put the file 
 Once that is done write in the terminal:
 
 ```
-snakemake -c 1 
+snakemake -c 1
 ```
 
 *Note:* ```-c``` specifies the max number of cores you want to use.
@@ -79,9 +79,9 @@ A#>>>AABFFFB2AAEGGGGGGGHCGFHFG?EAEEAFGGGFEGH5AGGHFHHHHHHFFHHHGGHHHHHHGHHHHBDGGFH
 
 ### Output
 
-An interactive output containing resulting images and two TSV files are output from these scripts in a directory called *forward/output* and *reverse/output*. In addition, static formats of the images will also be present in the subdirectory called **plots**. 
+An interactive output containing resulting images and two TSV files are output from these scripts in a directory called *forward/output* and *reverse/output*. In addition, static formats of the images will also be present in the subdirectory called **plots**.
 
-The interactive output will appear as an html file that will resemble the following: 
+The interactive output will appear as an html file that will resemble the following:
 
 https://github.com/acolorado1/SMARTDADA2/assets/68305443/9f44536e-c4d5-466d-85b6-fca4a6c92a02
 

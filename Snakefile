@@ -14,7 +14,7 @@ else:
     INPUTS = ["forward"]
     os.makedirs("forward", exist_ok=True)
     reads=FASTQ_FILE
- 
+
 
 rule all:
     input:
@@ -23,9 +23,9 @@ rule all:
         expand("{dir}/output/plots/HistogramRetainedReadCount.png", dir=INPUTS),
         expand("{dir}/output/SMARTDADA2_InteractiveOutput.html", dir=INPUTS)
 
-if PAIRED: 
+if PAIRED:
     rule get_paired_files:
-        input: 
+        input:
             fq = FASTQ_FILE
         output:
             forward = INPUTS[0]+"/reads.fastq",
@@ -33,12 +33,12 @@ if PAIRED:
         shell:
             "python smartdada2/GetPairedendFiles.py --fq {input.fq} --of_f {output.forward} --of_r {output.rev}"
 
-rule get_subsample: 
-    input: 
+rule get_subsample:
+    input:
         os.path.abspath(reads)
-    output: 
+    output:
         "{dir}/subsample.fastq"
-    params: 
+    params:
         n = SUBSAMPLE
     shell:
         "python smartdada2/GetSubsamples.py --fq {input} --n {params.n} --of {output}"

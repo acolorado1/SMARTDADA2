@@ -2,5 +2,3 @@
 # source: https://hadialqattan.github.io/pycln/#/?id=integrations
 [tool.pycln]
 all = true
-
-
