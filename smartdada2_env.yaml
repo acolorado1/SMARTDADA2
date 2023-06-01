@@ -11,10 +11,10 @@ dependencies:
   - r-base=4.0
   - pandoc=2.19.2
   - pip:
-    - myst-parser=1.0.0
-    - pre-commit=3.3.2
-    - sphinx-rtd-theme=1.2.1
-    - sphinx-autobuild=2021.3.14
-    - snakemake=7.26.0
+    - myst-parser==1.0.0
+    - pre-commit==3.3.2
+    - sphinx-rtd-theme==1.2.1
+    - sphinx-autobuild==2021.3.14
+    - snakemake==7.26.0
 
 
