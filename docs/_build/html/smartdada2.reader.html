@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>smartdada2.reader package &mdash; SMARTDADA2 1.0.0 documentation</title>
@@ -10,23 +10,26 @@
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-
+  
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-
-
+          
+          
           <a href="index.html" class="icon icon-home">
             SMARTDADA2
           </a>
@@ -94,14 +97,14 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">smartdada2.reader package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/smartdada2.reader.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/smartdada2.reader.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-
+             
   <section id="smartdada2-reader-package">
 <h1>smartdada2.reader package<a class="headerlink" href="#smartdada2-reader-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
@@ -111,7 +114,7 @@
 <span id="smartdada2-reader-reader-module"></span><h2>smartdada2.reader.reader module<a class="headerlink" href="#module-smartdada2.reader.reader" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="smartdada2.reader.reader.FastqEntry">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smartdada2.reader.reader.</span></span><span class="sig-name descname"><span class="pre">FastqEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rseq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.reader.reader.FastqEntry" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smartdada2.reader.reader.</span></span><span class="sig-name descname"><span class="pre">FastqEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rseq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.reader.reader.FastqEntry" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Contains the contents of a single read as a FastqEntry</p>
 <dl class="py method">
@@ -132,7 +135,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="smartdada2.reader.reader.FastqEntry.rseq">
-<span class="sig-name descname"><span class="pre">rseq</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#smartdada2.reader.reader.FastqEntry.rseq" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">rseq</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#smartdada2.reader.reader.FastqEntry.rseq" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -149,7 +152,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="smartdada2.reader.reader.FastqReader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smartdada2.reader.reader.</span></span><span class="sig-name descname"><span class="pre">FastqReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse_seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">technology</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'illumina'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smartdada2.reader.reader.</span></span><span class="sig-name descname"><span class="pre">FastqReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse_seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">technology</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'illumina'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>FastqReader is an efficient Fastq file reader that optimizes for memory
 usage and speed.</p>
@@ -163,11 +166,11 @@ within fastq files.</p>
 <span class="sig-name descname"><span class="pre">ambiguous_nucleotide_counts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.ambiguous_nucleotide_counts" title="Permalink to this definition"></a></dt>
 <dd><p>Counts all ambiguous nucleotides in all reads.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>DataFrame that contains the nucleotide position and the number
 of ambiguous nucleotides</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
@@ -178,10 +181,10 @@ of ambiguous nucleotides</p>
 <span class="sig-name descname"><span class="pre">get_average_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.get_average_score" title="Permalink to this definition"></a></dt>
 <dd><p>Returns average score of all sequences. Returns a a pd.Series object</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>average score of all sequences</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>pd.Series</p>
 </dd>
 </dl>
@@ -194,10 +197,10 @@ of ambiguous nucleotides</p>
 dataframe that contains sequence length, direction, and average error
 score</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>average expected error per sequence dataframe</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
@@ -208,10 +211,10 @@ score</p>
 <span class="sig-name descname"><span class="pre">get_expected_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.get_expected_error" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates average expected error per nucleotide</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>position and expected error in a dataframe</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
@@ -222,15 +225,15 @@ score</p>
 <span class="sig-name descname"><span class="pre">get_forward_reads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">FastqEntry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.get_forward_reads" title="Permalink to this definition"></a></dt>
 <dd><p>Obtains all forward reads within fastq files</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>tolist</strong> (<em>bool</em><em>, </em><em>optional</em>) – Saves the forward reads in memory (list), by default False</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>returns a generator if tolist is False. if tolist is True, then the
 reads will be saved into memory and will return a python list
 object.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Iterable[<a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry">FastqEntry</a>]</p>
 </dd>
 </dl>
@@ -243,10 +246,10 @@ object.</p>
 error of all sequences. The index will represent the sequence. The two
 columns “direction” and “total_error”</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A two column dataframe that contains “direction” and “total_error”</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
@@ -257,10 +260,10 @@ columns “direction” and “total_error”</p>
 <span class="sig-name descname"><span class="pre">get_quality_scores</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.get_quality_scores" title="Permalink to this definition"></a></dt>
 <dd><p>Returns scores in a per sequence bases</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>DataFrame containing quality scores per sequence</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
@@ -271,10 +274,10 @@ columns “direction” and “total_error”</p>
 <span class="sig-name descname"><span class="pre">get_reverse_reads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tolist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">FastqEntry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.get_reverse_reads" title="Permalink to this definition"></a></dt>
 <dd><p>Obtains all reverse reads within fastq files</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>tolist</strong> (<em>bool</em><em>, </em><em>optional</em>) – Saves the reverse reads in memory (list), by default False</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>Iterable[<a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry">FastqEntry</a>]</p>
 </dd>
 </dl>
@@ -285,13 +288,13 @@ columns “direction” and “total_error”</p>
 <span class="sig-name descname"><span class="pre">get_seq_ee_errors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.get_seq_ee_errors" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates expected error in all sequences</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A dataframe that each row contains the expected error per
 nucleotide in each sequence. This is different from
 <cite>get_expected_error()</cite> as it does not take the average of all
 scores in within each sequence.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
@@ -302,10 +305,10 @@ scores in within each sequence.</p>
 <span class="sig-name descname"><span class="pre">iter_reads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">FastqEntry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.iter_reads" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a python generator containing FastqEntries</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Generator object containing FastqEntries</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>Sequence[<a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry">FastqEntry</a>]</p>
 </dd>
 </dl>
@@ -313,19 +316,19 @@ scores in within each sequence.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="smartdada2.reader.reader.FastqReader.reservoir_sampling">
-<span class="sig-name descname"><span class="pre">reservoir_sampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">smartdada2.reader.reader.FastqEntry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.reservoir_sampling" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reservoir_sampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">smartdada2.reader.reader.FastqEntry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.reservoir_sampling" title="Permalink to this definition"></a></dt>
 <dd><p>Generates a uniform random subset sample of FastqEntry.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_samples</strong> (<em>int</em>) – size of sub sample</p></li>
 <li><p><strong>seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – Value that retains the state randomness, by default None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>subset of FastqEntry objects</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>list[<a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry">FastqEntry</a>]</p>
 </dd>
 </dl>
@@ -340,29 +343,29 @@ sequence and the columns represents the individual nucleotides</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="smartdada2.reader.reader.FastqReader.slice_reads">
-<span class="sig-name descname"><span class="pre">slice_reads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">range_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">smartdada2.reader.reader.FastqEntry</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">FastqEntry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.slice_reads" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">slice_reads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">range_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">smartdada2.reader.reader.FastqEntry</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">FastqEntry</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.slice_reads" title="Permalink to this definition"></a></dt>
 <dd><p>Allows index slicing for reads. If to_list is True, the method will
 return a list else it will return a generator</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>range_idx</strong> (<em>tuple</em>) – start and ending position (exclusive), to which reads to select.</p></li>
 <li><p><strong>to_list</strong> (<em>bool</em><em>, </em><em>optional</em>) – convert to list object, If False, returns a generator.
 by default False</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><em>Union[list[FastqEntry], Iterable[FastqEntry]]</em></p></li>
 <li><p><em>return a list or iterator of FastqEntry objects</em></p></li>
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Yields<span class="colon">:</span></dt>
+<dt class="field-odd">Yields</dt>
 <dd class="field-odd"><p><em>Iterator[Union[list[FastqEntry], Iterable[FastqEntry]]]</em> – if to_list is false, returns a generator of reads, else it will
 return a list of reads</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>TypeError</strong> – Raised when a tuple or list is not provided</p></li>
 <li><p><strong>ValueError</strong> – Raised if range_idx does not contains 2 values</p></li>
@@ -380,10 +383,10 @@ return a list of reads</p>
 <dd><p>Returns total number of reads. Changes the value of self.n_entries
 to prevent any recalculation</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>total number of reads</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>int</p>
 </dd>
 </dl>
@@ -391,17 +394,17 @@ to prevent any recalculation</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="smartdada2.reader.reader.FastqReader.unpack_entries">
-<span class="sig-name descname"><span class="pre">unpack_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">FastqEntry</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.unpack_entries" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">unpack_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><span class="pre">FastqEntry</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#smartdada2.reader.reader.FastqReader.unpack_entries" title="Permalink to this definition"></a></dt>
 <dd><p>Takes the iterator object produced from FastqReader and saves them
 into memory as a python list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>full</strong> (<em>bool</em><em>, </em><em>optional</em>) – indicates if the user wants a full unpacking of the dataset. If
 False, the returning object will be python list of FastqEntries. If
 set to True, the return object is a list of list containing
 entry information. by default False</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><p>list of FastqEntry object will be returned if full is set to False.
 If full is set to True, then the FastqEntry object will be fully
 unpacked and returns unstructured entry.</p>
@@ -409,7 +412,7 @@ unpacked and returns unstructured entry.</p>
 [header id, sequence, scores, sequence length and direction]</p>
 </p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>List[<a class="reference internal" href="#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry">FastqEntry</a>]</p>
 </dd>
 </dl>
@@ -421,13 +424,13 @@ unpacked and returns unstructured entry.</p>
 <dt class="sig sig-object py" id="smartdada2.reader.reader.search_ambiguous_nucleotide">
 <span class="sig-prename descclassname"><span class="pre">smartdada2.reader.reader.</span></span><span class="sig-name descname"><span class="pre">search_ambiguous_nucleotide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nucleotides</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#smartdada2.reader.reader.search_ambiguous_nucleotide" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>nucleotides</strong> (<em>pd.Series</em>) – Series of nucleotides characters.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>total number of all ambiguous nucleotides found.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -453,7 +456,7 @@ unpacked and returns unstructured entry.</p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
+   
 
 </footer>
         </div>
@@ -464,7 +467,7 @@ unpacked and returns unstructured entry.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
 
 </body>
 </html>

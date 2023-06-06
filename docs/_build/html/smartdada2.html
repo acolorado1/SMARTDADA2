@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>smartdada2 package &mdash; SMARTDADA2 1.0.0 documentation</title>
@@ -10,23 +10,26 @@
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-
+  
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-
-
+          
+          
           <a href="index.html" class="icon icon-home">
             SMARTDADA2
           </a>
@@ -85,14 +88,14 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">smartdada2 package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/smartdada2.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/smartdada2.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-
+             
   <section id="smartdada2-package">
 <h1>smartdada2 package<a class="headerlink" href="#smartdada2-package" title="Permalink to this heading"></a></h1>
 <section id="subpackages">
@@ -160,17 +163,17 @@
 error for each read before any trimming and after
 obvious trimming.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>FastqEntries</strong> (<a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><em>FastqEntry</em></a>) – reads taken from fastq files</p></li>
 <li><p><strong>left</strong> (<em>int</em>) – trim value output from trim_ends_less_than_threshold</p></li>
 <li><p><strong>right</strong> (<em>int</em>) – trunc value output from trim_ends_less_than_threshold</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>dataframe containing two columns</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>pd.dataframe</p>
 </dd>
 </dl>
@@ -185,7 +188,7 @@ obvious trimming.</p>
 <dd><p>If paired end sequencing was performed get
 two files containing reverse and forward sequences.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>main_fastq</strong> (<em>str</em>) – one FASTq formatted file containing all</p></li>
 <li><p><strong>reads</strong> – </p></li>
@@ -193,11 +196,11 @@ two files containing reverse and forward sequences.</p>
 <li><p><strong>output_r</strong> (<em>str</em>) – output file path for reverse sequences</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>two fastq files will be written containing
 forward and reverse reads separately.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>files</p>
 </dd>
 </dl>
@@ -221,14 +224,14 @@ forward and reverse reads separately.</p>
 <span class="sig-prename descclassname"><span class="pre">smartdada2.GetSubsamples.</span></span><span class="sig-name descname"><span class="pre">subsample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_fp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smartdada2.GetSubsamples.subsample" title="Permalink to this definition"></a></dt>
 <dd><p>Takes one FASTQ file and outputs subsets of the reads.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>input_fp</strong> (<em>str</em>) – FASTQ file path</p></li>
 <li><p><strong>subsample</strong> (<em>int</em>) – number of reads in subset</p></li>
 <li><p><strong>output_fp</strong> (<em>str</em>) – FASTQ file subset output path</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A fastq formatted file containing a subset of the original
 reads.</p>
 </dd>
@@ -245,17 +248,17 @@ reads.</p>
 per position and indexing sites to return a list of trim
 sites, read length, and average EE</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>avgEE_list</strong> (<em>list</em>) – average expected error per position</p></li>
 <li><p><strong>left</strong> (<em>int</em>) – left index</p></li>
 <li><p><strong>right</strong> (<em>int</em>) – right index</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>string of indexes, length of read, average EE per position</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -268,7 +271,7 @@ sites, read length, and average EE</p>
 for each length of read calculated within certain ranges of positions
 (e.g., not taking out more than 20% off of either end)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>FastqEntries</strong> (<a class="reference internal" href="smartdada2.reader.html#smartdada2.reader.reader.FastqEntry" title="smartdada2.reader.reader.FastqEntry"><em>FastqEntry</em></a>) – reads taken from fastq files</p></li>
 <li><p><strong>left</strong> (<em>integer</em>) – left index</p></li>
@@ -277,11 +280,11 @@ for each length of read calculated within certain ranges of positions
 <li><p><strong>0.2.</strong> (<em>either end. Defaults to</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>dataframe containing 3 columns: trim positions, read
 length, and average EE per position</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>pandas dataframe</p>
 </dd>
 </dl>
@@ -294,7 +297,7 @@ length, and average EE per position</p>
 and then to the right, the first index with a value lower than the
 threshold will be the potential trim index</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>avg_qs_list</strong> – list of floats
 list of average quality scores per position</p></li>
@@ -304,7 +307,7 @@ quality score between 0 and 42</p></li>
 maximum percentage of trimming performed at either end</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>return tuple of two integers
 potential left and right trim values</p>
 </dd>
@@ -334,7 +337,7 @@ potential left and right trim values</p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
+   
 
 </footer>
         </div>
@@ -345,7 +348,7 @@ potential left and right trim values</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
 
 </body>
 </html>

@@ -1,62 +1,66 @@
-smartdada2 package
-==================
+# smartdada2 package
 
-Subpackages
------------
+## Subpackages
 
-.. toctree::
-   :maxdepth: 4
+```{toctree}
+:maxdepth: 4
 
-   smartdada2.common
-   smartdada2.reader
+smartdada2.common
+smartdada2.reader
+```
 
-Submodules
-----------
+## Submodules
 
-smartdada2.GetMaxEE module
---------------------------
+## smartdada2.GetMaxEE module
 
+```{eval-rst}
 .. automodule:: smartdada2.GetMaxEE
    :members:
    :undoc-members:
    :show-inheritance:
+```
 
-smartdada2.GetPairedendFiles module
------------------------------------
+## smartdada2.GetPairedendFiles module
 
+```{eval-rst}
 .. automodule:: smartdada2.GetPairedendFiles
    :members:
    :undoc-members:
    :show-inheritance:
+```
 
-smartdada2.GetSubsamples module
--------------------------------
+## smartdada2.GetSubsamples module
 
+```{eval-rst}
 .. automodule:: smartdada2.GetSubsamples
    :members:
    :undoc-members:
    :show-inheritance:
+```
 
-smartdada2.GetTrimParameters module
------------------------------------
+## smartdada2.GetTrimParameters module
 
+```{eval-rst}
 .. automodule:: smartdada2.GetTrimParameters
    :members:
    :undoc-members:
    :show-inheritance:
+```
 
-smartdada2.main module
-----------------------
+## smartdada2.main module
 
+```{eval-rst}
 .. automodule:: smartdada2.main
    :members:
    :undoc-members:
    :show-inheritance:
+```
 
-Module contents
----------------
+## Module contents
 
+```{eval-rst}
 .. automodule:: smartdada2
    :members:
    :undoc-members:
    :show-inheritance:
+```
