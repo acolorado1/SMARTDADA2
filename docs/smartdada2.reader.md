@@ -1,21 +1,21 @@
-smartdada2.reader package
-=========================
+# smartdada2.reader package
 
-Submodules
-----------
+## Submodules
 
-smartdada2.reader.reader module
--------------------------------
+## smartdada2.reader.reader module
 
+```{eval-rst}
 .. automodule:: smartdada2.reader.reader
    :members:
    :undoc-members:
    :show-inheritance:
+```
 
-Module contents
----------------
+## Module contents
 
+```{eval-rst}
 .. automodule:: smartdada2.reader
    :members:
    :undoc-members:
    :show-inheritance:
+```

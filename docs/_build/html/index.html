@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to SMARTDADA2’s documentation! &mdash; SMARTDADA2 1.0.0 documentation</title>
+  <title>Welcome to SMARTDADA2’s Page &mdash; SMARTDADA2 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-
+  
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-
-
+          
+          
           <a href="#" class="icon icon-home">
             SMARTDADA2
           </a>
@@ -40,8 +43,23 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Welcome to SMARTDADA2’s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#">Welcome to SMARTDADA2’s Page</a><ul>
+<li><a class="reference internal" href="#current-state-of-the-problem">Current State of the Problem</a></li>
+<li><a class="reference internal" href="#out-approach-to-solve-the-problem">Out Approach to Solve the Problem</a></li>
+<li><a class="reference internal" href="#goals-for-the-implementations">Goals For the Implementations</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#installing-smartdada2">Installing SMARTDADA2</a></li>
+<li><a class="reference internal" href="#executing-smartdada2-s-snakemake-workflow">Executing SMARTDADA2’s Snakemake Workflow</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#in-depth-understanding-of-method">In Depth understanding of method</a><ul>
+<li><a class="reference internal" href="#understanding-fastqreader">Understanding <code class="docutils literal notranslate"><span class="pre">FastqReader</span></code></a></li>
+<li><a class="reference internal" href="#smartdada2-s-snakemake-workflow">SMARTDADA2’s Snakemake workflow</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#citations">Citations</a></li>
+</ul>
+</li>
 </ul>
 </div>
         </div>
@@ -58,28 +76,170 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to SMARTDADA2’s documentation!</li>
+      <li class="breadcrumb-item active">Welcome to SMARTDADA2’s Page</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-
-  <section id="welcome-to-smartdada2-s-documentation">
-<h1>Welcome to SMARTDADA2’s documentation!<a class="headerlink" href="#welcome-to-smartdada2-s-documentation" title="Permalink to this heading"></a></h1>
+             
+  <section id="welcome-to-smartdada2-s-page">
+<h1>Welcome to SMARTDADA2’s Page<a class="headerlink" href="#welcome-to-smartdada2-s-page" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#welcome-to-smartdada2s-page"><span class="xref myst">Welcome to SMARTDADA2’s Page</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#current-state-of-the-problem"><span class="xref myst">Current State of the Problem</span></a></p></li>
+<li><p><a class="reference internal" href="#out-approach-to-solve-the-problem"><span class="xref myst">Out Approach to Solve the Problem</span></a></p></li>
+<li><p><a class="reference internal" href="#goals-for-the-implementations"><span class="xref myst">Goals For the Implementations</span></a></p></li>
+<li><p><a class="reference internal" href="#usage"><span class="xref myst">Usage</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#installing-smartdada2"><span class="xref myst">Installing SMARTDADA2</span></a></p></li>
+<li><p><a class="reference internal" href="#executing-smartdada2s-snakemake-workflow"><span class="xref myst">Executing SMARTDADA2’s Snakemake Workflow</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#in-depth-understanding-of-method"><span class="xref myst">In Depth understanding of method</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#understanding-fastqreader"><span class="xref myst">Understanding <code class="docutils literal notranslate"><span class="pre">FastqReader</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="#smartdada2s-snakemake-workflow"><span class="xref myst">SMARTDADA2’s Snakemake workflow</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#citations"><span class="xref myst">Citations</span></a></p></li>
+</ul>
+</li>
+</ul>
+<section id="current-state-of-the-problem">
+<h2>Current State of the Problem<a class="headerlink" href="#current-state-of-the-problem" title="Permalink to this heading"></a></h2>
+<p>While much effort has been put into microbiome focused 16S rRNA sequencing data processing pipelines, they are certainly nowhere near automated (Eetemadi et al.).
+A crucial step in these processes is quality control (e.g., the removal of low-quality reads from downstream analyses), and one commonly used method is DADA2 (Callahan et al.).
+Unfortunately, DADA2 parametrization (see all possible parameters <a class="reference external" href="https://docs.qiime2.org/2023.5/plugins/available/dada2/denoise-paired/">here</a>) remains a topic of confusion. A quick google search reveals forums where people title their posts “<a class="reference external" href="https://github.com/benjjneb/dada2/issues/236">intuition for appropriate filtering parameters</a>” and no empirical way of determining parameter values is given.
+Thus, for those beginning their use of DADA2 and microbiome pipelines it becomes a guessing game.</p>
+</section>
+<section id="out-approach-to-solve-the-problem">
+<h2>Out Approach to Solve the Problem<a class="headerlink" href="#out-approach-to-solve-the-problem" title="Permalink to this heading"></a></h2>
+<p>To help a user understand how to pick DADA2 parameter values we chose to focus on three specific parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--p-trunc-len</span></code>: index/position on the read where you want to truncate (end)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--p-trim-left</span></code>: index/position on the read where you want to trim (start)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--p-max-ee</span></code>: max expected error, a threshold wherein if the sum of the error of the read is higher than this, the read will be automatically discarded.</p></li>
+</ul>
+<p>These three parameters can also be different for forward and reverse reads if the user is conducting a paired-end study.</p>
+<p>Furthermore, when performing quality control there are three things a user will wish to optimize:</p>
+<ul class="simple">
+<li><p>Quality: the higher the quality scores the higher your assurance that the base call is correct</p></li>
+<li><p>Read length: the longer the read the higher the taxonomic resolution</p></li>
+<li><p>Read retention: the more reads that can be retained the more accurate the results will be (e.g., microbes that are present in lower concentrations will be more easily seen)</p></li>
+</ul>
+</section>
+<section id="goals-for-the-implementations">
+<h2>Goals For the Implementations<a class="headerlink" href="#goals-for-the-implementations" title="Permalink to this heading"></a></h2>
+<p>Here we present SMARTDADA2, a software designed to provide the user with more information about the quality of the reads and how changes in the three parameters we focused on may influence the three things we’re hoping to optimize.
+This program was built to be accessible, efficient and provide an informative set of outputs that a user can use to make DADA2 parameter value choices.</p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<section id="installing-smartdada2">
+<h3>Installing SMARTDADA2<a class="headerlink" href="#installing-smartdada2" title="Permalink to this heading"></a></h3>
+<p>clone repository</p>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/acolorado1/SMARTDADA2.git</span></code></p>
+<p>create environment</p>
+<p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">-f</span> <span class="pre">smartdada2_env.yaml</span></code></p>
+<p>activate environment</p>
+<p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">smartdada2</span></code></p>
+<p>install <code class="docutils literal notranslate"><span class="pre">SMARTDADA2</span></code> into local environment</p>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code></p>
+</section>
+<section id="executing-smartdada2-s-snakemake-workflow">
+<h3>Executing SMARTDADA2’s Snakemake Workflow<a class="headerlink" href="#executing-smartdada2-s-snakemake-workflow" title="Permalink to this heading"></a></h3>
+<p>There are several adjustable parameters that a user may want to change when running this program.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FASTQ_FILE</span></code>: File path to a FASTQ formatted file using Illumina formatting conventions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PAIRED</span></code> (bool): True or False. If True then you are using paired-end reads.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SUBSAMPLE</span></code> (int): Number of reads you want to use when creating visualizations. Standard QIIME2 (Bolyen et al.) visualizations take a subsample of 10,000 reads.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AVG_Q_SCORE</span></code> (default = 30.0): This threshold will denote the position where the average quality score in the reads drops below this number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OBV_TRIMMING_MAX</span></code> (default = 0.1): If the position where the average quality score is below the chosen threshold is further than this percentage on either end of the read a warning is shown. The default warns if position where average quality is poor, is over 10% of the read on either end.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MAX_TRIMMING</span></code> (default = 0.2): Calculates max index trimming on either end when finding average expected error for position. Default will only calculate up to 20% trim/truncating on each end.</p></li>
+</ul>
+<p>To change these parameters values, open the Snakefile in the directory created by cloning the repository using any text editors and adjust as needed.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>FASTQ_FILE = &quot;../DADA2ParameterExploration/smartdada2/testing/test_data/LOZ_Nano_Trunc.fastq&quot;
+PAIRED = True
+SUBSAMPLE = 2
+AVG_Q_SCORE = 30
+OBV_TRIMMING_MAX = 0.1
+MAX_TRIMMING = 0.2
+</pre></div>
+</div>
+<p>Then in the terminal (make sure you are in the cloned repo directory) run the following command:</p>
+<ul class="simple">
+<li><p>snakemake –c 1</p></li>
+</ul>
+<p>The number 1 denotes the number of cores used to run the workflow. If you are using paired end reads it is highly recommended that you use 2 or more cores.</p>
+</section>
+</section>
+<section id="in-depth-understanding-of-method">
+<h2>In Depth understanding of method<a class="headerlink" href="#in-depth-understanding-of-method" title="Permalink to this heading"></a></h2>
+<section id="understanding-fastqreader">
+<h3>Understanding <code class="docutils literal notranslate"><span class="pre">FastqReader</span></code><a class="headerlink" href="#understanding-fastqreader" title="Permalink to this heading"></a></h3>
+<p>FastqReader is a memory efficient class that takes in FASTQ files and starts collecting information from the input sequences in order to find characteristics of the reads. The extracted characteristics play an essential role in determining DADA2 parameterization.</p>
+<p>To see the full list of please refer to the <code class="docutils literal notranslate"><span class="pre">smartdada2</span></code> <code class="docutils literal notranslate"><span class="pre">FastqReader</span></code> <a class="reference internal" href="modules.html"><span class="std std-doc">API</span></a>, where each method within the <code class="docutils literal notranslate"><span class="pre">FastqReader</span></code> extracts specific characteristics.</p>
+<p>The majority of these methods are used within the <code class="docutils literal notranslate"><span class="pre">Snakemake</span></code> workflow where users can provide specific parameters on how characteristics help objectively determine trimming parameters.</p>
+</section>
+<section id="smartdada2-s-snakemake-workflow">
+<h3>SMARTDADA2’s Snakemake workflow<a class="headerlink" href="#smartdada2-s-snakemake-workflow" title="Permalink to this heading"></a></h3>
+<p>[ImageMissing]</p>
+<ul class="simple">
+<li><p>Generate paired-end files</p>
+<ul>
+<li><p>We used standard Illumina file formatting to detect whether a read belonged to the forward or reverse primer and created output directories named forward or reverse with files containing the reads. Should single-end reads be used only a forward directory will be created.</p></li>
+</ul>
+</li>
+<li><p>Generate subsample</p>
+<ul>
+<li><p>Subsampling was done using reservoir sampling wherein the first n samples were picked (n being the number of samples specified) and then replaced “randomly” (a default seed was indicated) with other reads.</p></li>
+</ul>
+</li>
+<li><p>Create TSVs used for imaging</p></li>
+</ul>
+<p>[IMAGE MISSING]</p>
+<ul class="simple">
+<li><p>Reads whose quality scores are taken and averaged by position are used to obtain which at which position does the quality drop below the specified threshold (see AVG_Q_SCORE parameter in demo). This is done by starting in the middle of the read and traveling over the list of average quality scores heading either left or right to find the first instance below the threshold (this is referred to as obvious trimming/truncating).</p></li>
+<li><p>The average expected error of the reads is then calculated for different combinations of trim and truncation values. MAX_TRIMMING will determine how much of the read is trimmed/truncated for this calculation. TrimInfo.tsv is then output.</p></li>
+<li><p>The sum of the expected error for each read is then calculated should no trimming/truncating be performed and when obvious trimming/truncating is used. SumEEInfo.tsv is output.</p></li>
+<li><p>Creating plots</p>
+<ul>
+<li><p>Static images (found in the plots folder of the output) as well as an html file containing interactive versions of the images are then generated using R scripts. Three plots are generated to visualize:</p>
+<ul>
+<li><p>Trimming and truncating combinations and the effect that will have on quality scores.</p></li>
+<li><p>Read length and its effect on quality.</p></li>
+<li><p>The number of reads retained with no trimming and obvious trimming by plotting sum of expected error as a histogram. There is a vertical line at 2 as it is a DADA2 default wherein any reads over 2 will be discarded.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="citations">
+<h2>Citations<a class="headerlink" href="#citations" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Bolyen E, Rideout JR, Dillon MR, Bokulich NA, Abnet CC, Al-Ghalith GA, Alexander H, Alm EJ, Arumugam M, Asnicar F, Bai Y, Bisanz JE, Bittinger K, Brejnrod A, Brislawn CJ, Brown CT, Callahan BJ, Caraballo-Rodríguez AM, Chase J, Cope EK, Da Silva R, Diener C, Dorrestein PC, Douglas GM, Durall DM, Duvallet C, Edwardson CF, Ernst M, Estaki M, Fouquier J, Gauglitz JM, Gibbons SM, Gibson DL, Gonzalez A, Gorlick K, Guo J, Hillmann B, Holmes S, Holste H, Huttenhower C, Huttley GA, Janssen S, Jarmusch AK, Jiang L, Kaehler BD, Kang KB, Keefe CR, Keim P, Kelley ST, Knights D, Koester I, Kosciolek T, Kreps J, Langille MGI, Lee J, Ley R, Liu YX, Loftfield E, Lozupone C, Maher M, Marotz C, Martin BD, McDonald D, McIver LJ, Melnik AV, Metcalf JL, Morgan SC, Morton JT, Naimey AT, Navas-Molina JA, Nothias LF, Orchanian SB, Pearson T, Peoples SL, Petras D, Preuss ML, Pruesse E, Rasmussen LB, Rivers A, Robeson MS, Rosenthal P, Segata N, Shaffer M, Shiffer A, Sinha R, Song SJ, Spear JR, Swafford AD, Thompson LR, Torres PJ, Trinh P, Tripathi A, Turnbaugh PJ, Ul-Hasan S, van der Hooft JJJ, Vargas F, Vázquez-Baeza Y, Vogtmann E, von Hippel M, Walters W, Wan Y, Wang M, Warren J, Weber KC, Williamson CHD, Willis AD, Xu ZZ, Zaneveld JR, Zhang Y, Zhu Q, Knight R, and Caporaso JG. 2019. Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2. Nature Biotechnology 37: 852–857. <a class="reference external" href="https://doi.org/10.1038/s41587-019-0209-9">https://doi.org/10.1038/s41587-019-0209-9</a></p></li>
+<li><p>Callahan, B. J., McMurdie, P. J., Rosen, M. J., Han, A. W., Johnson, A. J. A., &amp; Holmes, S. P. (2016). DADA2: High-resolution sample inference from Illumina amplicon data. Nature methods, 13(7), 581-583.</p></li>
+<li><p>Eetemadi, A., Rai, N., Pereira, B. M. P., Kim, M., Schmitz, H., &amp; Tagkopoulos, I. (2020). The computational diet: a review of computational methods across diet, microbiome, and health. Frontiers in microbiology, 11, 393.</p></li>
+</ol>
 <div class="toctree-wrapper compound">
 </div>
+<!-- % Indices and tables
+
+% ==================
+
+% * :ref:`genindex`
+
+% * :ref:`modindex`
+
+% * :ref:`search` -->
 </section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
 </section>
 
 
@@ -96,7 +256,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
+   
 
 </footer>
         </div>
@@ -107,7 +267,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
 
 </body>
 </html>
