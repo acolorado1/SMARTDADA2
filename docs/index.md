@@ -106,7 +106,7 @@ The majority of these methods are used within the `Snakemake` workflow where use
 
 ### SMARTDADA2's Snakemake workflow
 
-[ImageMissing]
+![Workflow](./imgs/snakemake_flowchart.png)
 
 - Generate paired-end files
   - We used standard Illumina file formatting to detect whether a read belonged to the forward or reverse primer and created output directories named forward or reverse with files containing the reads. Should single-end reads be used only a forward directory will be created.
@@ -114,7 +114,7 @@ The majority of these methods are used within the `Snakemake` workflow where use
   - Subsampling was done using reservoir sampling wherein the first n samples were picked (n being the number of samples specified) and then replaced “randomly” (a default seed was indicated) with other reads.
 - Create TSVs used for imaging
 
-[IMAGE MISSING]
+![Creating TSV](./imgs/CreatingTSVs_flowchart.png)
 
 - Reads whose quality scores are taken and averaged by position are used to obtain which at which position does the quality drop below the specified threshold (see AVG_Q_SCORE parameter in demo). This is done by starting in the middle of the read and traveling over the list of average quality scores heading either left or right to find the first instance below the threshold (this is referred to as obvious trimming/truncating).
 - The average expected error of the reads is then calculated for different combinations of trim and truncation values. MAX_TRIMMING will determine how much of the read is trimmed/truncated for this calculation. TrimInfo.tsv is then output.
