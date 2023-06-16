@@ -1,0 +1,7 @@
+sphinx
+sphinx-autobuild
+sphinx-autoapi
+sphinx_rtd_theme
+autodoc
+myst-parser
+rst-to-myst
