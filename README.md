@@ -9,6 +9,8 @@
     - [Output](#output)
   - [Contact](#contact)
 
+For more information here is the SMARTDADA2 website: https://smartdada2.readthedocs.io/en/latest/#
+
 ## Repo Directory
 
 |Directory Name|Description|
